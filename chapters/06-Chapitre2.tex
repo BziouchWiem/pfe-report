@@ -1,0 +1,76 @@
+\chapter{Étude et conception}
+
+\section{Introduction}
+La conception d'InvisiThreat a été guidée par la nécessité de corréler des résultats
+SAST/DAST et de produire des rapports directement exploitables par les équipes techniques.
+
+\section{Spécification des besoins}
+\subsection{Identification des acteurs}
+\begin{itemize}
+	\item \textbf{Analyste sécurité} : paramètre les profils de scan et valide les alertes.
+	\item \textbf{Développeur} : consulte les vulnérabilités et applique les corrections.
+	\item \textbf{Chef de projet} : suit le niveau de risque par application.
+	\item \textbf{Pipeline CI/CD} : déclenche automatiquement des scans après un déploiement.
+\end{itemize}
+
+\section{Besoins du système}
+\subsection{Besoins fonctionnels}
+\begin{itemize}
+	\item Gérer les projets, URLs cibles et dépôts Git.
+	\item Lancer des scans SAST (Semgrep, Bandit) et DAST (OWASP ZAP).
+	\item Stocker les résultats avec preuves techniques et recommandations.
+	\item Visualiser les vulnérabilités par sévérité et composant impacté.
+	\item Exporter des rapports PDF et JSON.
+	\item Notifier en temps réel la fin d'un scan et les failles critiques.
+\end{itemize}
+
+\subsection{Besoins non fonctionnels}
+\begin{itemize}
+	\item Temps de réponse API inférieur à 300 ms pour les opérations de consultation.
+	\item Authentification sécurisée (JWT, OTP) et journalisation des actions sensibles.
+	\item Disponibilité assurée par conteneurs Docker et redémarrage automatique.
+	\item Scalabilité horizontale du backend et séparation des scans lourds.
+	\item Protection contre les abus via limitation de débit.
+\end{itemize}
+
+\section{Analyse des besoins}
+\subsection{Diagramme de cas d'utilisation}
+Le diagramme regroupe la création de projet, l'exécution des scans, la consultation des
+résultats et l'export de rapports.
+\begin{figure}[h]
+\centering
+\fbox{\rule{0pt}{2in}\rule{0.9\linewidth}{0pt}}
+\caption{Diagramme de cas d'utilisation d'InvisiThreat (placeholder).}
+\label{fig:use-case}
+\end{figure}
+
+\subsection{Diagramme de classes}
+Les entités principales sont \texttt{User}, \texttt{Project}, \texttt{Scan},
+\texttt{Vulnerability} et \texttt{Report}. Un \texttt{Project} possède plusieurs
+\texttt{Scan}, et chaque \texttt{Scan} produit des \texttt{Vulnerability} associées
+à un outil de scan.
+\begin{figure}[h]
+\centering
+\fbox{\rule{0pt}{2in}\rule{0.9\linewidth}{0pt}}
+\caption{Diagramme de classes simplifié (placeholder).}
+\label{fig:class-diagram}
+\end{figure}
+
+\subsection{Diagrammes de séquence}
+Deux séquences sont critiques :
+\begin{itemize}
+	\item \textbf{Lancement de scan} : création d'un scan, exécution SAST/DAST, stockage,
+	notification.
+	\item \textbf{Consultation} : récupération des résultats filtrés par sévérité et projet.
+\end{itemize}
+\begin{figure}[h]
+\centering
+\fbox{\rule{0pt}{2in}\rule{0.9\linewidth}{0pt}}
+\caption{Diagrammes de séquence (placeholder).}
+\label{fig:sequence-diagrams}
+\end{figure}
+
+\section{Conclusion}
+Les besoins définis ont conduit à un modèle de données centré sur la traçabilité, avec
+des interactions orientées scan et reporting, garantissant une exploitation rapide des
+résultats.

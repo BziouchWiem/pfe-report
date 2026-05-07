@@ -1,0 +1,63 @@
+\chapter*{Introduction Générale}
+\addcontentsline{toc}{chapter}{Introduction Générale}
+
+\noindent La transformation numérique des organisations s'est accompagnée d'une
+accélération notable des cycles de développement logiciel. L'adoption généralisée des
+méthodologies Agile et des pratiques d'intégration et de déploiement continus
+(\textit{CI/CD}) a considérablement réduit le temps séparant l'écriture du code de
+sa mise en production. Si cette évolution représente un gain compétitif indéniable,
+elle expose simultanément les applications à un risque accru : les vulnérabilités
+de sécurité, autrefois détectées lors d'audits ponctuels et planifiés, se propagent
+désormais à une vitesse qui dépasse la capacité des équipes à les identifier manuellement.
+
+\medskip
+\noindent Dans ce contexte, le paradigme \textbf{DevSecOps} s'est imposé comme une
+réponse structurelle à cette problématique. Plutôt que de traiter la sécurité comme
+une étape finale du cycle de vie logiciel, le DevSecOps l'intègre dès la conception,
+à chaque étape du pipeline de livraison. Cette approche repose sur deux familles
+d'analyses complémentaires : l'analyse statique du code source (\textit{SAST — Static
+Application Security Testing}), qui identifie les défauts logiques et les
+anti-patterns dangereux sans exécuter l'application, et l'analyse dynamique
+(\textit{DAST — Dynamic Application Security Testing}), qui teste l'application en
+cours d'exécution afin de révéler les failles d'exposition réelles, celles que le
+code source seul ne permet pas de détecter.
+
+\medskip
+\noindent C'est dans cette perspective qu'a été conçu \textbf{InvisiThreat}, une
+plateforme DevSecOps dédiée à la détection automatisée de vulnérabilités sur des
+applications web et des services internes. Le projet répond à un besoin concret
+observé au sein de l'entreprise Mobelite : l'absence d'un point d'entrée unifié pour
+orchestrer les analyses de sécurité, consolider leurs résultats et fournir aux équipes
+techniques une vision priorisée et exploitable du risque applicatif.
+
+\medskip
+\noindent La solution repose sur une architecture conteneurisée réunissant plusieurs
+composants spécialisés. L'analyse statique est assurée par \textbf{Semgrep} et
+\textbf{Bandit} pour les sources Python, tandis que les tests dynamiques sont
+orchestrés via \textbf{OWASP ZAP} opérant en mode daemon. Les résultats des deux
+familles d'analyse sont normalisés, qualifiés selon leur sévérité, puis persistés dans
+une base \textbf{PostgreSQL}. Une \textbf{API REST FastAPI} centralise l'ensemble des
+opérations et alimente un frontend \textbf{React} offrant tableaux de bord et
+fonctionnalités d'export. Une couche de notification temps réel, implémentée via
+\textbf{Socket.IO}, informe les utilisateurs dès la finalisation d'un scan ou la
+détection d'une vulnérabilité critique.
+
+\medskip
+\noindent Au-delà de la détection, InvisiThreat vise la \textbf{traçabilité} : chaque
+exécution est rattachée à un projet, une version applicative, un outil de scan et un
+horodatage précis. Cette structuration permet de comparer les résultats entre scans
+successifs et de mesurer objectivement la réduction du risque au fil des correctifs
+appliqués — répondant ainsi à un besoin fondamental des organisations souhaitant
+démontrer leur maturité sécurité.
+
+\medskip
+\noindent \textbf{Ce rapport s'organise en trois chapitres.} Le premier chapitre
+présente le cadre général du projet : contexte organisationnel, problématique de
+sécurité, étude des solutions existantes et méthodologie de développement adoptée.
+Le deuxième chapitre est consacré à l'étude et la conception du système : spécification
+des besoins, identification des acteurs, modélisation UML et description des scénarios
+critiques. Le troisième et dernier chapitre détaille l'architecture technique retenue,
+les choix d'implémentation des modules clés — pipeline SAST, pipeline DAST,
+notifications temps réel, reporting — ainsi que les interfaces réalisées.
+
+\clearpage

@@ -1,0 +1,154 @@
+\begin{titlepage}
+\newgeometry{left=0cm,right=0cm,top=0cm,bottom=0cm}
+\definecolor{reportType}{HTML}{1B3F5E}
+\begin{tikzpicture}[remember picture,overlay]
+	\fill[reportType] (current page.north west) rectangle ([xshift=3.1cm]current page.south west);
+\end{tikzpicture}
+\begin{tikzpicture}[remember picture,overlay]
+\node[anchor=north west, xshift=4.2cm, yshift=-0.4cm] at (current page.north west) {
+\begin{minipage}{15cm}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% EN-TETE AVEC LIGNES DECORATIVES
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{minipage}{0.4\textwidth}
+\begin{center}
+\fontsize{9pt}{11pt}\selectfont
+République Tunisienne\\
+Ministère de l'Enseignement Supérieur\\ 
+et de la Recherche Scientifique\\[1mm]
+\vspace{-2mm}
+\rule{50pt}{0.6pt}\\[-3.3mm]
+\rule{50pt}{0.6pt}\\[1mm]
+Université de Sfax\\[1mm]
+\vspace{-2mm}
+\rule{50pt}{0.6pt}\\[-3.3mm]
+\rule{50pt}{0.6pt}\\[1mm]
+Institut Supérieur d'Informatique\\
+et de Multimédia de Sfax\\[4mm]
+\end{center}
+\end{minipage}
+\hfill
+\begin{minipage}{0.3\textwidth}
+\begin{center}
+\IfFileExists{images/logo_isims.jpeg}{%
+\includegraphics[width=5cm, height=3.5cm]{images/logo_isims.jpeg}%
+}{%
+\IfFileExists{images/logo_isims.png}{%
+\includegraphics[width=5cm, height=3.5cm]{images/logo_isims.png}%
+}{%
+\fbox{\rule{0pt}{3.5cm}\rule{5cm}{0pt}}%
+}%
+}
+\end{center}
+\end{minipage}
+\hfill
+\begin{minipage}{0.25\textwidth}
+\begin{center}
+\fontsize{10pt}{11pt}\selectfont
+\textbf{Ingénieur en :}\\
+\vspace{2mm}
+Informatique\\[3mm]
+\textbf{Spécialité :}\\
+\vspace{2mm}
+Génie Logiciel
+\end{center}
+\end{minipage}
+\vspace{3mm}
+\noindent\textcolor{reportType}{\rule{\textwidth}{2pt}}
+\vspace{-2mm}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% TITRE PRINCIPAL
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{center}
+{\fontsize{28pt}{32pt}\selectfont\textbf{Rapport de Projet\\[3mm]de Fin d'Études}}
+\vspace{10mm}
+
+\fontsize{12pt}{14pt}\selectfont 
+Présenté à :
+\vspace{3mm}
+
+{\fontsize{14pt}{16pt}\selectfont\textbf{L'Institut Supérieur d'Informatique\\[2mm]et de Multimédia de Sfax}}
+\vspace{7mm}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% ELABORE PAR
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\fontsize{12pt}{14pt}\selectfont 
+Élaboré par :
+\vspace{3mm}
+
+{\fontsize{16pt}{19pt}\selectfont
+\textbf{Nouha BOUGHNIM}\\[3mm]
+\textbf{Wiem BZIOUICH}}
+
+\vspace{10mm}
+\noindent\rule{0.88\textwidth}{0.8pt}
+\vspace{4mm}
+
+{\fontsize{14pt}{17pt}\selectfont\textbf{%
+InvisiThreat : Plateforme DevSecOps de détection\\[2mm]
+automatisée de vulnérabilités par analyses SAST et DAST}}
+
+\vspace{3mm}
+\noindent\rule{0.88\textwidth}{0.8pt}
+\vspace{10mm}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% JURY
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\end{center}
+\begin{center}
+\begin{minipage}{0.88\textwidth}
+\begin{minipage}[t]{0.45\linewidth}
+\fontsize{11pt}{14pt}\selectfont
+Présenté devant le Jury :\\[2mm]
+\textbf{Président :} M./Mme \textit{Prénom NOM}\\[1mm]
+\textbf{Rapporteur :} M./Mme \textit{Prénom NOM}\\[1mm]
+\textbf{Examinateur :} M./Mme \textit{Prénom NOM}
+\end{minipage}
+\hfill
+\begin{minipage}[t]{0.45\linewidth}
+\fontsize{11pt}{14pt}\selectfont
+\textbf{Encadrant académique :}\\[1mm]
+Mme \textit{Najiba TAGOUGUI}\\[2mm]
+\textbf{Encadrant professionnel :}\\[1mm]
+Mr \textit{HoussemEddine HASSAYOUNE}
+\end{minipage}
+\end{minipage}
+\end{center}
+\vspace{8mm}
+\begin{center}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% ORGANISME D'ACCUEIL
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\fontsize{12pt}{14pt}\selectfont 
+Organisme d'accueil : \textbf{Mobelite}
+\vspace{3mm}
+
+\IfFileExists{images/logo_mobelite.jpeg}{%
+\includegraphics[width=5cm]{images/logo_mobelite.jpeg}%
+}{%
+\IfFileExists{images/logo_mobelite.png}{%
+\includegraphics[width=5cm]{images/logo_mobelite.png}%
+}{%
+\fbox{\rule{0pt}{3.5cm}\rule{5cm}{0pt}}%
+}%
+}
+\vspace{4mm}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% ANNEE UNIVERSITAIRE
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\fontsize{13pt}{15pt}\selectfont 
+Année Universitaire : \textbf{2025 - 2026}
+\vspace{2mm}
+\end{center}
+
+\end{minipage}
+};
+\end{tikzpicture}
+\restoregeometry
+\end{titlepage}

@@ -1,0 +1,59 @@
+\chapter{Architecture et réalisation}
+
+\section{Introduction}
+L'architecture d'InvisiThreat a été pensée pour séparer l'orchestration des scans, la
+persistance des résultats et la visualisation, tout en restant simple à déployer.
+
+\section{Architecture technique}
+Le système s'appuie sur Docker Compose avec quatre services : frontend React, backend
+FastAPI, PostgreSQL et OWASP ZAP. Le backend expose l'API REST, orchestre les scans et
+centralise les résultats, tandis que ZAP exécute les analyses dynamiques.
+\begin{figure}[h]
+\centering
+\fbox{\rule{0pt}{2in}\rule{0.9\linewidth}{0pt}}
+\caption{Architecture technique d'InvisiThreat (placeholder).}
+\label{fig:architecture}
+\end{figure}
+
+\section{Environnement logiciel}
+\subsection{Technologies et Frameworks}
+\subsubsection{Backend}
+FastAPI sert d'API centrale avec validation Pydantic. SQLAlchemy gère les accès à
+PostgreSQL et Alembic assure les migrations. La sécurité utilise JWT
+(\texttt{python-jose}) et le hachage bcrypt. Les scans SAST s'appuient sur Semgrep et
+Bandit, tandis que le DAST est orchestré via l'API OWASP ZAP. Les notifications temps
+réel reposent sur python-socketio et Redis.
+
+\subsubsection{Frontend}
+Le frontend React (Vite) fournit le dashboard, la gestion des projets et la visualisation
+des vulnérabilités. TailwindCSS assure la cohérence graphique, Axios gère les requêtes
+HTTP et Socket.IO affiche l'état des scans en temps réel.
+
+\subsubsection{Base de données}
+PostgreSQL stocke les projets, scans, vulnérabilités, rapports et notifications. Des
+index sont appliqués sur la date de scan et la sévérité pour accélérer les filtres.
+
+\subsection{Outils de développement}
+VS Code, Postman, Docker Desktop, pgAdmin et GitHub Actions ont été utilisés pour le
+développement, les tests et l'intégration continue.
+
+\section{Environnement matériel}
+Le développement a été réalisé sur un PC Windows 11, Intel i7, 16 Go de RAM et SSD
+512 Go. Les scans lourds DAST ont été isolés dans le conteneur ZAP.
+
+\section{Réalisation de l'application}
+Les modules réalisés sont :
+\begin{itemize}
+	\item \textbf{Authentification} : inscription, login JWT, OTP via QR code.
+	\item \textbf{Gestion des projets} : création d'un projet, configuration de l'URL cible.
+	\item \textbf{Scans SAST} : exécution Semgrep/Bandit, parsing JSON, insertion en base.
+	\item \textbf{Scans DAST} : orchestration ZAP, récupération des alertes et preuves HTTP.
+	\item \textbf{Reporting} : synthèse par sévérité, export PDF/JSON.
+	\item \textbf{Notifications} : Socket.IO et email transactionnel.
+\end{itemize}
+Exemple d'API : \texttt{POST /api/scans} déclenche un scan et retourne un identifiant
+permettant de suivre l'état en temps réel.
+
+\section{Conclusion}
+L'implémentation fournit un socle stable pour la détection automatisée et l'évolution
+vers des scans additionnels (SCA, conteneurs, cloud).
