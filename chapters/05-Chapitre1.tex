@@ -1,372 +1,245 @@
+% ═══════════════════════════════════════════════════════════════════
 \chapter{Cadre général du projet}
+% ═══════════════════════════════════════════════════════════════════
 
 \section{Introduction}
 
-La sécurité applicative constitue aujourd'hui l'un des enjeux majeurs du développement
-logiciel moderne. L'accélération des cycles de livraison, portée par l'adoption massive
-des pratiques DevOps et des architectures microservices, a profondément modifié le
-rapport des équipes techniques à la sécurité : celle-ci ne peut plus être traitée comme
-une phase terminale du cycle de vie logiciel, mais doit être intégrée dès la conception
-et automatisée à chaque étape du pipeline de déploiement.
+La sécurité applicative s'impose aujourd'hui comme une préoccupation centrale pour toute organisation reposant sur des systèmes informatiques. L'essor des architectures orientées services et l'adoption des pratiques DevOps ont profondément reconfiguré le paysage des menaces numériques : la sécurité doit désormais être intégrée de manière continue et automatisée à chaque stade du pipeline de livraison.
 
-C'est dans cette perspective que s'inscrit \textbf{InvisiThreat}, une plateforme
-DevSecOps dédiée à la détection automatisée de vulnérabilités. Le projet vise à rendre
-la sécurité applicative \textit{continue}, \textit{traçable} et \textit{actionnable},
-en offrant aux équipes techniques un point d'entrée unique pour orchestrer des analyses
-statiques et dynamiques, consolider les résultats et produire des rapports exploitables.
+Ce chapitre pose le cadre général du projet \textbf{InvisiThreat} : présentation de l'organisme d'accueil, problématique de sécurité, étude critique de l'existant, solution proposée et méthodologie de développement retenue.
 
-La détection repose sur deux familles d'analyses complémentaires. La
-\textbf{SAST} (\textit{Static Application Security Testing}) inspecte le code source
-afin d'identifier des patterns dangereux, des appels non sécurisés ou des configurations
-à risque, sans nécessiter l'exécution de l'application. La
-\textbf{DAST} (\textit{Dynamic Application Security Testing}), quant à elle, teste
-l'application en cours d'exécution pour détecter les failles d'exposition réelles :
-injections, mauvaises configurations HTTP, contournements d'authentification. Ces deux
-approches sont complémentaires : la SAST couvre les défauts logiques en amont, tandis
-que la DAST valide l'impact réel sur l'application déployée.
-
-InvisiThreat unifie ces deux dimensions dans une architecture cohérente : backend
-\textbf{FastAPI} avec \textbf{SQLAlchemy}, base de données \textbf{PostgreSQL}, moteurs
-SAST via \textbf{Semgrep} et \textbf{Bandit}, moteur DAST via \textbf{OWASP ZAP} en
-mode daemon, et frontend \textbf{React} enrichi de notifications temps réel via
-\textbf{Socket.IO}.
-
-Ce premier chapitre présente le cadre général du projet : organisme d'accueil, contexte
-et problématique de sécurité, étude critique des solutions existantes, solution proposée
-et méthodologie de développement adoptée.
-
-% ─────────────────────────────────────────────────────────────────
+% ───────────────────────────────────────────────────────────────────
 \section{Présentation de l'organisme d'accueil}
 
-\textbf{Mobelite} est une entreprise spécialisée dans la conception et le développement
-d'applications web et mobiles à forte valeur ajoutée. Opérant dans un environnement
-multi-projets à livraison rapide, Mobelite accompagne ses clients dans la transformation
-numérique de leurs processus métiers, en délivrant des solutions sur mesure reposant sur
-des technologies modernes et des architectures orientées services.
+\textbf{Mobelite} est une entreprise spécialisée dans la conception et le développement d'applications web et mobiles à forte valeur ajoutée. Elle accompagne ses clients dans la transformation numérique en proposant des solutions sur mesure fondées sur des architectures orientées services.
 
-L'environnement technique de l'entreprise se caractérise par une adoption significative
-des outils DevOps : gestion de versions sous \textbf{Git}, conteneurisation via
-\textbf{Docker}, déploiements automatisés par pipelines CI/CD, et développement
-d'applications exposant des \textbf{APIs REST} consommées par des frontends React ou
-des clients mobiles. Cette stack technologique moderne, bien qu'efficace, génère une
-surface d'attaque étendue : endpoints publics, gestion des tokens d'authentification,
-intégration de bibliothèques tierces et exposition de services.
+Son environnement technique repose sur Git, Docker, des pipelines CI/CD et des API REST consommées par des frontends React ou des clients mobiles — une stack efficace qui génère néanmoins une surface d'attaque étendue. Avant InvisiThreat, les audits de sécurité étaient conduits de manière ponctuelle et hétérogène, sans outillage unifié ni traçabilité structurée, ce qui rendait difficile la mesure de l'évolution du risque. Ce constat a motivé la création d'un outil interne capable de \textbf{standardiser, automatiser et centraliser} la détection des failles à l'échelle du portefeuille applicatif.
 
-Avant la mise en place d'InvisiThreat, les audits de sécurité étaient réalisés de
-manière ponctuelle et hétérogène, sans outillage unifié ni traçabilité structurée des
-résultats. L'absence d'un historique centralisé des vulnérabilités par projet rendait
-difficile la mesure de l'évolution du risque et la justification des efforts de
-remédiation. Ce constat a motivé la création d'un outil interne capable de
-\textbf{standardiser}, \textbf{automatiser} et \textbf{centraliser} la détection des
-failles de sécurité à l'échelle de l'ensemble du portefeuille applicatif.
+% ───────────────────────────────────────────────────────────────────
+\section{Présentation du projet InvisiThreat}
 
-InvisiThreat a ainsi été conçu comme une réponse opérationnelle directe à ces besoins,
-s'intégrant naturellement dans l'écosystème technique existant tout en apportant une
-couche de sécurité continue, mesurable et actionnable.
+\subsection{Contexte général}
 
-% ─────────────────────────────────────────────────────────────────
-\section{Présentation du sujet}
+L'accélération des cycles de livraison logicielle impose une approche radicalement différente des audits périodiques traditionnels. C'est dans ce contexte qu'a émergé le paradigme \textbf{DevSecOps}, qui intègre la sécurité dès la conception et à chaque étape du pipeline. Deux familles d'analyses en constituent le socle :
 
-Le sujet de ce projet de fin d'études porte sur la conception, le développement et le
-déploiement d'une plateforme DevSecOps unifiée, baptisée \textbf{InvisiThreat}, capable
-d'orchestrer des analyses de sécurité SAST et DAST, de normaliser et consolider les
-résultats issus de moteurs hétérogènes, et de produire des rapports exploitables par
-les équipes techniques et managériales.
+\begin{itemize}
+  \item \textbf{SAST} (\textit{Static Application Security Testing}) : inspection du code source pour identifier des patterns dangereux, sans exécuter l'application.
+  \item \textbf{DAST} (\textit{Dynamic Application Security Testing}) : test de l'application en cours d'exécution pour détecter les failles d'exposition réelles.
+\end{itemize}
 
-La plateforme s'appuie exclusivement sur des outils open source reconnus dans l'industrie
-de la sécurité applicative. L'analyse statique est assurée par \textbf{Semgrep}, moteur
-de règles polyglotte à haute précision, et \textbf{Bandit}, analyseur dédié aux sources
-Python. L'analyse dynamique est orchestrée via l'\textbf{API REST d'OWASP ZAP} opérant
-en mode daemon, permettant l'automatisation complète des phases de spider et de scan
-actif sans intervention manuelle.
-
-L'ambition centrale est de proposer un \textbf{point d'entrée unique} pour le lancement,
-le suivi et la priorisation des vulnérabilités, en supprimant la fragmentation des
-rapports entre outils et en fournissant une vue consolidée du risque par projet, par
-version et dans le temps.
-
-\subsection{Contexte du projet}
-
-La croissance du nombre de vulnérabilités publiées illustre l'ampleur du défi auquel
-font face les équipes de sécurité. En 2023, la base nationale de vulnérabilités NVD
-(\textit{National Vulnerability Database}) a enregistré \textbf{29\,065 CVE} publiées,
-un record historique à cette date \cite{nvd2023}. Cette tendance se confirme en 2024,
-avec plus de \textbf{40\,000 CVE} anticipées selon les projections du NIST, traduisant
-une augmentation d'environ 38\,\% par rapport à l'année précédente \cite{nvd2024}.
-
-Face à cette pression, les organisations adoptant des pratiques CI/CD sont
-particulièrement exposées : chaque déploiement peut introduire de nouvelles dépendances
-vulnérables ou modifier la surface d'attaque d'une API. L'\textbf{OWASP API Security
-Top 10} (édition 2023) identifie les risques les plus critiques pesant sur les APIs
-REST modernes, parmi lesquels les défauts d'autorisation au niveau des objets
-(\textit{BOLA}), les mauvaises configurations d'authentification et l'exposition
-excessive de données \cite{owaspApi2023}. Ces catégories sont directement applicables
-aux applications développées dans l'environnement Mobelite.
-
-Le contexte applicatif d'InvisiThreat combine des stacks variées : APIs REST FastAPI,
-frontends React, services tiers intégrés via webhooks et tokens. Cette diversité
-technologique augmente la surface d'attaque et rend indispensable une automatisation
-des audits capable de couvrir à la fois la qualité du code source et le comportement
-de l'application déployée.
+À ces deux dimensions s'ajoute, dans le cadre d'InvisiThreat, un \textbf{modèle de langage de grande taille (LLM)} chargé de contextualiser les alertes, de formuler des recommandations exploitables et de prioriser les efforts de remédiation — constituant ainsi la valeur ajoutée distinctive de la plateforme.
 
 \subsection{Problématique}
 
-Les pratiques de sécurité traditionnelles reposent sur des audits manuels périodiques,
-réalisés par des équipes spécialisées intervenant ponctuellement sur le périmètre
-applicatif. Cette approche, bien qu'efficace dans un contexte de livraisons peu
-fréquentes, devient structurellement inadaptée face aux cadences imposées par les
-pipelines CI/CD modernes, où plusieurs déploiements peuvent intervenir quotidiennement.
+Les pratiques de sécurité traditionnelles reposent sur des audits manuels périodiques, structurellement inadaptés aux cadences des pipelines CI/CD modernes. Chaque déploiement peut introduire de nouvelles vulnérabilités sans que les mécanismes de contrôle classiques ne les interceptent à temps.
 
-La multiplication des outils de scan isolés aggrave ce problème. Chaque moteur génère
-ses propres rapports, dans ses propres formats, avec ses propres nomenclatures de
-sévérité. L'analyste sécurité doit alors \textbf{corréler manuellement} des résultats
-hétérogènes, sans garantie d'exhaustivité ni de cohérence entre les versions analysées.
+La multiplication des outils de scan isolés aggrave la situation : formats hétérogènes (SARIF, JSON propriétaire, HTML), nomenclatures de sévérité incompatibles, corrélation manuelle laborieuse. L'absence d'historique centralisé par projet empêche par ailleurs toute mesure objective de la maturité sécurité dans le temps.
 
-Les limitations intrinsèques de chaque approche renforcent cette problématique :
+La problématique centrale est donc : \textbf{comment orchestrer de manière cohérente et automatisée des analyses SAST et DAST, enrichir leurs résultats par intelligence artificielle, normaliser les alertes selon une nomenclature unifiée et fournir aux équipes une vision priorisée, contextualisée et historisée du risque applicatif, intégrable dans un pipeline DevOps existant~?}
+
+\subsection{Objectifs du projet}
+
+InvisiThreat poursuit cinq objectifs complémentaires :
+
+\begin{enumerate}
+  \item \textbf{Centraliser} l'orchestration des analyses au sein d'un point d'entrée unique.
+  \item \textbf{Normaliser} les résultats vers un modèle interne commun avec une sévérité unifiée sur cinq niveaux.
+  \item \textbf{Enrichir} les vulnérabilités détectées via un LLM fournissant des recommandations de remédiation contextualisées.
+  \item \textbf{Tracer} l'historique des scans par projet et par version pour mesurer objectivement la réduction du risque.
+  \item \textbf{Notifier} les équipes en temps réel et exposer une API documentée intégrable dans les pipelines CI/CD.
+\end{enumerate}
+
+\subsection{Périmètre du projet}
+
+InvisiThreat couvre les dimensions suivantes :
 
 \begin{itemize}
-    \item La \textbf{SAST seule} est insuffisante : elle identifie des vulnérabilités
-    potentielles au niveau du code source, mais ne peut pas confirmer leur exploitabilité
-    réelle en production, ni détecter les failles de configuration de l'environnement
-    d'exécution.
-
-    \item La \textbf{DAST seule} ne détecte pas les vulnérabilités logiques enfouies
-    dans le code, notamment les injections de second ordre, les défauts de contrôle
-    d'accès ou les mauvaises pratiques cryptographiques. Sa couverture dépend fortement
-    de la qualité de la navigation et des règles d'attaque paramétrées.
-
-    \item L'absence de \textbf{traçabilité historique} par projet empêche de mesurer
-    objectivement la réduction du risque au fil des correctifs appliqués, rendant
-    difficile la démonstration de la maturité sécurité à des parties prenantes externes.
+  \item \textbf{SAST} : moteurs \textbf{Semgrep} (analyse polyglotte par règles) et \textbf{Bandit} (inspection Python).
+  \item \textbf{DAST} : orchestration via l'\textbf{API REST d'OWASP ZAP} en mode daemon.
+  \item \textbf{Intelligence artificielle} : enrichissement sémantique des alertes par LLM.
+  \item \textbf{Stack technique} : backend FastAPI, persistance PostgreSQL, frontend React, notifications temps réel via Socket.IO, conteneurisation Docker Compose.
 \end{itemize}
 
-La problématique centrale du projet est donc la suivante : \textbf{comment orchestrer
-de manière cohérente et automatisée des analyses SAST et DAST, normaliser leurs
-résultats selon une nomenclature unifiée et fournir aux équipes techniques une vision
-priorisée et historisée du risque applicatif, intégrable dans un pipeline DevOps
-existant~?}
+Le projet se concentre exclusivement sur la sécurité applicative web et ne couvre pas les infrastructures réseau ni les composants matériels.
 
-\subsection{Étude de l'existant}
+% ───────────────────────────────────────────────────────────────────
+\section{Étude et critique de l'existant}
 
-Afin de positionner InvisiThreat par rapport à l'écosystème existant, une analyse
-comparative des outils de sécurité applicative les plus répandus a été conduite.
-Ces outils se répartissent en trois catégories : SAST, DAST et SCA
-(\textit{Software Composition Analysis}). Le tableau~\ref{tab:tool-comparison} en
-présente une synthèse selon plusieurs critères d'évaluation.
+\subsection{Panorama des solutions existantes}
+
+Une analyse des principaux outils du marché a été conduite selon trois catégories : SAST, DAST et plateformes intégrées.
+
+% ------ SonarQube ------
+\begin{minipage}[t]{0.08\textwidth}
+  \vspace{0pt}
+  \includegraphics[width=\linewidth]{images/logos/sonarqube.png}
+\end{minipage}
+\hspace{0.02\textwidth}
+\begin{minipage}[t]{0.88\textwidth}
+  \vspace{0pt}
+  \subsubsection{SonarQube}
+  Plateforme d'inspection continue de la qualité et de la sécurité du code, largement adoptée en CI/CD. La version Community offre une couverture des règles de sécurité réduite, sans capacités DAST ni enrichissement intelligent. Les éditions Enterprise restent coûteuses pour les structures intermédiaires.
+\end{minipage}
+
+\vspace{0.8em}
+
+% ------ Burp Suite ------
+\begin{minipage}[t]{0.08\textwidth}
+  \vspace{0pt}
+  \includegraphics[width=\linewidth]{images/logos/burpsuite.png}
+\end{minipage}
+\hspace{0.02\textwidth}
+\begin{minipage}[t]{0.88\textwidth}
+  \vspace{0pt}
+  \subsubsection{Burp Suite Professional}
+  Référence de l'industrie en analyse dynamique web. Son moteur de scan actif est reconnu pour sa précision. Cependant, les licences annuelles sont élevées, l'automatisation complète est réservée à l'édition Pro et l'outil ne dispose d'aucune capacité SAST ni d'historique de scans exploitable.
+\end{minipage}
+
+\vspace{0.8em}
+
+% ------ Checkmarx ------
+\begin{minipage}[t]{0.08\textwidth}
+  \vspace{0pt}
+  \includegraphics[width=\linewidth]{images/logos/checkmarx.png}
+\end{minipage}
+\hspace{0.02\textwidth}
+\begin{minipage}[t]{0.88\textwidth}
+  \vspace{0pt}
+  \subsubsection{Checkmarx}
+  Solution SAST enterprise offrant une analyse approfondie du code source multi-langages. Son coût prohibitif, son fonctionnement en boîte noire et l'absence native de DAST et d'intelligence artificielle limitent son adéquation au contexte du projet.
+\end{minipage}
+
+\vspace{0.8em}
+
+% ------ Snyk ------
+\begin{minipage}[t]{0.08\textwidth}
+  \vspace{0pt}
+  \includegraphics[width=\linewidth]{images/logos/snyk.png}
+\end{minipage}
+\hspace{0.02\textwidth}
+\begin{minipage}[t]{0.88\textwidth}
+  \vspace{0pt}
+  \subsubsection{Snyk}
+  Plateforme SaaS combinant SCA et SAST avec une forte orientation vers la sécurité des dépendances. Sa nature cloud impose une transmission du code vers des serveurs externes (contrainte de confidentialité), et elle ne propose ni DAST ni enrichissement par IA.
+
+\end{minipage}
+
+\vspace{0.8em}
+
+% ------ OWASP ZAP ------
+\begin{minipage}[t]{0.08\textwidth}
+  \vspace{0pt}
+  \includegraphics[width=\linewidth]{images/logos/owaspzap.png}
+\end{minipage}
+\hspace{0.02\textwidth}
+\begin{minipage}[t]{0.88\textwidth}
+  \vspace{0pt}
+  \subsubsection{OWASP ZAP}
+  Outil open source de référence pour l'analyse dynamique. Puissant et extensible via API REST, il ne couvre néanmoins pas l'analyse statique et ne propose aucun historique centralisé ni enrichissement intelligent des alertes.
+\end{minipage}
+
+\vspace{1em}
+
+\subsubsection{Synthèse comparative}
+
+Le tableau~\ref{tab:comparatif-outils} présente une comparaison des solutions selon les critères clés du projet.
 
 \begin{table}[H]
 \centering
-\caption{Comparatif des outils de scan de sécurité applicative}
-\label{tab:tool-comparison}
+\caption{Comparatif des solutions de sécurité applicative}
+\label{tab:comparatif-outils}
 \renewcommand{\arraystretch}{1.4}
-\begin{tabularx}{\textwidth}{>{\bfseries}l l c l l X}
+\begin{tabularx}{\textwidth}{>{\bfseries}l c c c c c}
 \hline
 \rowcolor{gray!15}
-Outil & Type & Open Source & Intégration & Reporting & Limitations principales \\
+Outil & SAST & DAST & Open Source & Enrichissement IA & Historique \\
 \hline
-SonarQube   & SAST       & Partiel & CI/CD, API  & HTML, JSON        & Absence de DAST ; version Community limitée ; coûts Enterprise élevés \\
-Semgrep     & SAST       & Oui     & CLI, CI/CD  & SARIF, JSON       & Faux positifs si les règles ne sont pas adaptées au contexte \\
-Bandit      & SAST       & Oui     & CLI         & JSON, TXT         & Limité aux sources Python ; pas de support multi-langages \\
-OWASP ZAP   & DAST       & Oui     & API, CLI    & HTML, JSON, XML   & Paramétrage complexe ; faux négatifs sur SPAs ou authentifications avancées \\
-Burp Suite  & DAST       & Partiel & GUI, API    & HTML, XML         & Licences élevées ; automatisation complète réservée à l'édition Pro \\
-Snyk        & SCA / SAST & Partiel & CI/CD, API  & HTML, JSON        & Couverture SAST tributaire du plan tarifaire \\
-Checkmarx   & SAST       & Non     & CI/CD, API  & PDF, HTML         & Coût prohibitif ; modèle boîte noire ; déploiement complexe \\
+SonarQube        & \cmark & \xmark  & Partiel & \xmark & Partiel \\
+Burp Suite       & \xmark & \cmark  & \xmark  & \xmark & Limité  \\
+Checkmarx        & \cmark & \xmark  & \xmark  & \xmark & \cmark  \\
+Snyk             & Partiel & \xmark & Partiel & \xmark & \cmark  \\
+OWASP ZAP        & \xmark & \cmark  & \cmark  & \xmark & \xmark  \\
+\textbf{InvisiThreat} & \cmark & \cmark & \cmark & \cmark & \cmark \\
 \hline
 \end{tabularx}
 \end{table}
 
-L'analyse de ce panorama met en évidence une lacune commune à l'ensemble de ces
-solutions : aucune ne couvre simultanément l'analyse statique, l'analyse dynamique
-et la restitution unifiée dans une interface unique accessible sans infrastructure
-dédiée coûteuse.
+\subsection{Critique de l'existant et solution proposée}
 
-\subsection{Critique de l'existant}
+L'analyse met en évidence une lacune commune à l'ensemble de l'écosystème : aucune solution ne couvre simultanément l'analyse statique, l'analyse dynamique, la restitution unifiée des résultats et leur enrichissement par intelligence artificielle, au sein d'une interface accessible sans infrastructure dédiée coûteuse.
 
-Au-delà des limitations individuelles de chaque outil, c'est leur utilisation conjointe
-qui révèle les principales faiblesses des approches actuelles. Les rapports générés par
-des moteurs différents utilisent des formats hétérogènes — SARIF, JSON propriétaire,
-HTML — et des nomenclatures de sévérité incompatibles, rendant toute comparaison
-directe laborieuse et sujette à interprétation.
+Face à ces lacunes, \textbf{InvisiThreat} propose une approche intégrée reposant sur cinq principes fondateurs :
 
-La corrélation entre une vulnérabilité détectée par SAST et sa confirmation en DAST
-n'est pratiquement jamais automatisée dans les outils du marché. Cette absence de
-corrélation oblige les analystes à traiter les résultats en silos, ce qui allonge
-les délais de remédiation et introduit un risque de doublons ou d'omissions.
+\begin{itemize}
+  \item \textbf{Pipeline unifié} : un point d'entrée unique pour déclencher les scans SAST (Semgrep, Bandit) et DAST (OWASP ZAP).
+  \item \textbf{Normalisation} : toutes les alertes converties vers un modèle commun avec une sévérité sur cinq niveaux (\textit{Critical}, \textit{High}, \textit{Medium}, \textit{Low}, \textit{Informational}).
+  \item \textbf{Enrichissement IA} : contextualisation des alertes et recommandations de remédiation via LLM.
+  \item \textbf{Traçabilité historique} : chaque exécution rattachée à un projet, une version et un horodatage précis.
+  \item \textbf{Accessibilité opérationnelle} : notifications temps réel, exports PDF/JSON et API REST documentée pour l'intégration CI/CD.
+\end{itemize}
 
-Par ailleurs, l'absence d'un \textbf{historique centralisé} par projet constitue un
-frein à la mesure de la maturité sécurité dans le temps. Les solutions SaaS comme
-Snyk ou Checkmarx proposent certes des tableaux de bord, mais au prix d'une dépendance
-à des infrastructures cloud externes et de coûts de licence significatifs, incompatibles
-avec une politique de maîtrise des données et des budgets opérationnels contraints.
-
-Enfin, la complexité de paramétrage des outils DAST — en particulier pour les
-applications à authentification avancée ou les \textit{Single Page Applications} — est
-rarement documentée de façon opérationnelle, ce qui limite leur adoption et leur
-efficacité en environnement de production.
-
-\subsection{Solution proposée}
-
-Face aux lacunes identifiées, \textbf{InvisiThreat} propose une approche intégrée
-reposant sur quatre principes fondateurs :
-
-\begin{enumerate}
-    \item \textbf{Pipeline unifié} : un point d'entrée unique pour déclencher des scans
-    SAST (Semgrep, Bandit) et DAST (OWASP ZAP), sans multiplier les interfaces ni les
-    configurations manuelles.
-
-    \item \textbf{Normalisation des résultats} : toutes les alertes, quelle que soit
-    leur origine, sont converties vers un modèle interne commun avec une sévérité
-    normalisée sur cinq niveaux (\textit{Critical}, \textit{High}, \textit{Medium},
-    \textit{Low}, \textit{Informational}), accompagnées de preuves techniques
-    (extraits de code, requêtes/réponses HTTP).
-
-    \item \textbf{Traçabilité historique} : chaque exécution est rattachée à un projet,
-    une version applicative, un outil et un horodatage précis, permettant des
-    comparaisons entre scans successifs et la mesure objective de la réduction du risque.
-
-    \item \textbf{Accessibilité opérationnelle} : notifications temps réel via
-    Socket.IO, export PDF et JSON des rapports, et exposition d'une API REST documentée
-    permettant l'intégration dans des pipelines CI/CD existants.
-\end{enumerate}
-
-Ce positionnement vise à rendre la sécurité applicative actionnable pour les
-développeurs et les chefs de projet, sans dépendance à des solutions propriétaires
-ou à des infrastructures cloud tierces.
-
-% ─────────────────────────────────────────────────────────────────
+% ───────────────────────────────────────────────────────────────────
 \section{Méthodologie de développement}
 
-\subsection{Introduction}
+\subsection{Choix méthodologique : Scrum}
 
-Le développement d'InvisiThreat implique l'orchestration de composants techniques
-hétérogènes — moteurs de scan, API, base de données, frontend réactif — dont les
-dépendances et les comportements ne sont pas entièrement prévisibles dès le départ.
-Une méthodologie capable d'absorber les incertitudes techniques et d'intégrer
-progressivement les retours des utilisateurs s'est naturellement imposée.
+La nature d'InvisiThreat — intégration de moteurs tiers, ajustement itératif des règles de détection, incorporation d'un LLM — impose une approche capable d'absorber les incertitudes techniques et d'intégrer progressivement les retours utilisateurs. Une méthodologie \textbf{Agile Scrum} s'est naturellement imposée.
 
-\subsection{Méthodologie Agile}
+Scrum organise le développement en \textit{sprints} de durée fixe, à l'issue desquels un incrément livrable est produit. Il repose sur trois piliers : \textbf{transparence}, \textbf{inspection} et \textbf{adaptation} — particulièrement pertinents pour un projet où l'efficacité des moteurs de détection doit être évaluée et ajustée en continu.
 
-La méthode \textbf{Agile} a été retenue pour sa capacité à structurer le développement
-de manière incrémentale, en validant chaque fonctionnalité avant de progresser vers la
-suivante. Elle offre une réponse adaptée à la nature exploratoire d'un projet comme
-InvisiThreat, où les paramètres de scan, les règles de détection et les besoins métiers
-évoluent au fil des itérations.
+\subsection{Rôles et cérémonies}
 
-Le \textbf{backlog produit} a été structuré en cinq épics principaux :
-\textit{authentification et gestion des accès}, \textit{gestion des projets et cibles},
-\textit{orchestration des scans SAST}, \textit{orchestration des scans DAST}, et
-\textit{reporting et notifications}. Chaque \textit{user story} est associée à des
-critères d'acceptation mesurables, par exemple : \og lancer un scan DAST sur une URL
-cible et obtenir un rapport complet en moins de cinq minutes \fg{}, ou \og recevoir
-une notification Socket.IO en temps réel à la détection d'une vulnérabilité critique \fg{}.
+Scrum définit trois rôles : le \textbf{Product Owner} (priorisation du backlog selon la valeur et le risque technique), le \textbf{Scrum Master} (garant du cadre et facilitateur) et l'\textbf{équipe de développement} (auto-organisée, responsable de la qualité des livrables).
 
-\subsection{L'approche Scrum}
+Les cérémonies structurantes sont le \textit{Sprint Planning}, le \textit{Daily Scrum}, la \textit{Sprint Review} et la \textit{Sprint Retrospective}, assurant une visibilité continue sur l'avancement et les obstacles.
 
-Parmi les cadres Agile disponibles, \textbf{Scrum} a été choisi pour sa structure
-itérative claire et la visibilité qu'il offre sur les livrables à chaque incrément.
-Sa cadence régulière de \textit{sprints} a permis de prioriser les fonctionnalités
-à fort risque technique — notamment l'intégration de l'API ZAP en mode daemon et la
-normalisation des vulnérabilités issues de moteurs hétérogènes — avant d'aborder les
-couches de présentation et d'export.
+\subsection{Planification des sprints}
 
-Le processus Scrum adopté s'articule autour des cérémonies standard : planification de
-sprint, réunions quotidiennes (\textit{daily stand-up}), revue de sprint et
-rétrospective. Les rôles sont distribués entre le \textit{Product Owner} — responsable
-de la priorisation du backlog selon la valeur métier et le risque —, le
-\textit{Scrum Master} — garant du respect du cadre et de la levée des obstacles — et
-l'\textit{équipe de développement}, en charge de la réalisation des incréments.
-
-La figure~\ref{fig:scrum-diagram} illustre le cycle Scrum tel qu'il a été appliqué
-au projet InvisiThreat, depuis la construction du \textit{Product Backlog} jusqu'à
-la livraison des incréments lors des revues de sprint.
+Le projet a été structuré en \textbf{cinq sprints de deux semaines}, illustrés par le cycle Scrum en figure~\ref{fig:scrum-cycle}.
 
 \begin{figure}[H]
 \centering
 \fbox{\rule{0pt}{2.5in}\rule{0.9\linewidth}{0pt}}
 \caption{Cycle Scrum appliqué au projet InvisiThreat.}
-\label{fig:scrum-diagram}
+\label{fig:scrum-cycle}
 \end{figure}
-
-\noindent Le code PlantUML correspondant au diagramme Scrum est fourni ci-dessous
-à titre de référence pour la génération du schéma :
-
-\begin{verbatim}
-@startuml
-skinparam backgroundColor #FAFAFA
-skinparam rectangleBorderColor #2C3E50
-skinparam arrowColor #2980B9
-
-actor "Product Owner" as PO
-actor "Scrum Master"  as SM
-actor "Équipe Dev"    as DEV
-
-rectangle "Product Backlog\n(Épics + User Stories)" as PB #LightBlue
-rectangle "Sprint Backlog\n(Tâches du sprint)"      as SB #LightGreen
-rectangle "Incrément livrable\n(Fonctionnalité testée)" as INC #LightYellow
-
-PO  --> PB  : Prioriser et affiner
-SM  --> SB  : Planifier le sprint (2 semaines)
-DEV --> SB  : Réaliser et tester
-SB  --> INC : Livrer l'incrément
-INC --> PO  : Revue et validation
-INC --> PB  : Rétroaction et ajustements
-@enduml
-\end{verbatim}
-
-\subsection{Planification des sprints}
-
-Le projet a été structuré en \textbf{cinq sprints} de deux semaines chacun, couvrant
-l'ensemble du périmètre fonctionnel d'InvisiThreat. Le tableau~\ref{tab:sprints}
-détaille les objectifs, le contenu et les livrables concrets de chaque itération.
 
 \begin{table}[H]
 \centering
 \caption{Planification et livrables des sprints InvisiThreat}
 \label{tab:sprints}
-\renewcommand{\arraystretch}{1.5}
+\renewcommand{\arraystretch}{1.4}
 \begin{tabularx}{\textwidth}{c >{\bfseries}l X X}
 \hline
 \rowcolor{gray!15}
-\textbf{Sprint} & \textbf{Objectif principal} & \textbf{Contenu} & \textbf{Livrables} \\
+\textbf{Sprint} & \textbf{Objectif} & \textbf{Contenu} & \textbf{Livrables} \\
 \hline
-1 &
-Socle technique &
-Configuration Docker Compose (4 services), modèle de données initial, migrations Alembic, structure des répertoires backend et frontend. &
-Environnement conteneurisé opérationnel, schéma PostgreSQL initial, pipeline CI vide GitHub Actions. \\
-
+1 & Socle technique &
+  Docker Compose, modèle de données, migrations Alembic, structure backend/frontend. &
+  Environnement conteneurisé, schéma PostgreSQL, pipeline CI GitHub Actions. \\
 \hline
-2 &
-Authentification et gestion des projets &
-Inscription, connexion JWT, OTP via QR code (TOTP), gestion des rôles RBAC, CRUD projets et URLs cibles. &
-Module d'authentification sécurisé, API projets fonctionnelle, interface de connexion React. \\
-
+2 & Authentification et projets &
+  Inscription, JWT, OTP/TOTP, RBAC, CRUD projets et URLs cibles. &
+  Module d'authentification sécurisé, API projets, interface React. \\
 \hline
-3 &
-Intégration SAST &
-Exécution Semgrep et Bandit via sous-processus Python, parsing JSON des résultats, normalisation et insertion des vulnérabilités en base. &
-Pipeline SAST opérationnel, modèle \texttt{Vulnerability} peuplé, endpoint \texttt{POST /api/scans/sast}. \\
-
+3 & Intégration SAST &
+  Exécution Semgrep/Bandit, parsing JSON, normalisation et persistance. &
+  Pipeline SAST opérationnel, endpoint \texttt{POST /api/scans/sast}. \\
 \hline
-4 &
-Intégration DAST &
-Connexion à l'API OWASP ZAP en mode daemon, spider automatique, scan actif, récupération des alertes, stockage des preuves HTTP. &
-Pipeline DAST opérationnel, alertes ZAP normalisées, endpoint \texttt{POST /api/scans/dast}. \\
-
+4 & Intégration DAST \& LLM &
+  Connexion OWASP ZAP daemon, scan actif, enrichissement LLM. &
+  Pipeline DAST, alertes normalisées avec recommandations IA, endpoint \texttt{POST /api/scans/dast}. \\
 \hline
-5 &
-Dashboard, reporting et notifications &
-Tableau de bord React par sévérité, export PDF/JSON, notifications Socket.IO (fin de scan, vulnérabilité critique), emails transactionnels. &
-Interface complète, export rapport fonctionnel, notifications temps réel validées. \\
+5 & Dashboard et notifications &
+  Tableau de bord React, export PDF/JSON, Socket.IO, emails transactionnels. &
+  Interface complète, exports fonctionnels, notifications temps réel. \\
 \hline
 \end{tabularx}
 \end{table}
 
-\subsection{Conclusion}
+% ───────────────────────────────────────────────────────────────────
+\section{Conclusion}
 
-L'organisation en cinq sprints progressifs a permis de construire InvisiThreat de
-manière maîtrisée, en sécurisant d'abord les fondations techniques avant d'intégrer
-les modules de scan puis les couches de présentation et de notification. La cadence
-Scrum a favorisé une validation régulière des fonctionnalités critiques et une
-réactivité face aux ajustements techniques imposés par l'intégration des moteurs de
-scan. Ce cadre méthodologique a directement contribué à la qualité et à la robustesse
-de la solution livrée.
+Ce chapitre a posé le cadre général du projet InvisiThreat : identification des lacunes des pratiques de sécurité existantes chez Mobelite, analyse critique des solutions du marché et présentation de la plateforme proposée combinant SAST, DAST et enrichissement par LLM au sein d'un environnement unifié, traçable et intégrable dans les workflows DevOps. La méthodologie Scrum, structurée en cinq sprints itératifs, garantit une progression maîtrisée et une validation régulière des modules critiques.
+
+Le chapitre suivant est consacré à l'analyse et à la conception détaillée du système : spécification des besoins fonctionnels et non fonctionnels, identification des acteurs et modélisation UML.
