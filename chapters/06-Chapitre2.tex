@@ -1,76 +1,819 @@
-\chapter{Étude et conception}
+% ═══════════════════════════════════════════════════════════════════
+\chapter{Sprint 0 -- Initialisation et étude technique}
+% ═══════════════════════════════════════════════════════════════════
 
 \section{Introduction}
-La conception d'InvisiThreat a été guidée par la nécessité de corréler des résultats
-SAST/DAST et de produire des rapports directement exploitables par les équipes techniques.
 
-\section{Spécification des besoins}
-\subsection{Identification des acteurs}
-\begin{itemize}
-	\item \textbf{Analyste sécurité} : paramètre les profils de scan et valide les alertes.
-	\item \textbf{Développeur} : consulte les vulnérabilités et applique les corrections.
-	\item \textbf{Chef de projet} : suit le niveau de risque par application.
-	\item \textbf{Pipeline CI/CD} : déclenche automatiquement des scans après un déploiement.
-\end{itemize}
+Dans la continuité du chapitre précédent, le \textbf{Sprint 0} constitue la phase de
+fondation du projet InvisiThreat. Il a pour objectif de formaliser les bases nécessaires
+à un développement maîtrisé : identification des acteurs, spécification des besoins
+fonctionnels et non fonctionnels, structuration du Product Backlog, planification des
+sprints et étude technique initiale portant sur les environnements, les technologies
+retenues et l'architecture du système.
 
-\section{Besoins du système}
-\subsection{Besoins fonctionnels}
-\begin{itemize}
-	\item Gérer les projets, URLs cibles et dépôts Git.
-	\item Lancer des scans SAST (Semgrep, Bandit) et DAST (OWASP ZAP).
-	\item Stocker les résultats avec preuves techniques et recommandations.
-	\item Visualiser les vulnérabilités par sévérité et composant impacté.
-	\item Exporter des rapports PDF et JSON.
-	\item Notifier en temps réel la fin d'un scan et les failles critiques.
-\end{itemize}
+% ───────────────────────────────────────────────────────────────────
+\section{Identification des acteurs}
 
-\subsection{Besoins non fonctionnels}
-\begin{itemize}
-	\item Temps de réponse API inférieur à 300 ms pour les opérations de consultation.
-	\item Authentification sécurisée (JWT, OTP) et journalisation des actions sensibles.
-	\item Disponibilité assurée par conteneurs Docker et redémarrage automatique.
-	\item Scalabilité horizontale du backend et séparation des scans lourds.
-	\item Protection contre les abus via limitation de débit.
-\end{itemize}
+Avant d'entamer la présentation des diagrammes, il convient d'identifier les acteurs
+en interaction avec le système. En modélisation UML, un acteur désigne un rôle joué
+par une entité externe — utilisateur humain, dispositif matériel ou système tiers —
+qui communique directement avec le système étudié. Il peut consulter ou modifier
+l'état du système en échangeant des messages porteurs de données.
 
+L'identification préalable des acteurs permet de structurer les responsabilités,
+de délimiter les périmètres d'accès et de justifier les mécanismes d'autorisation
+et de traçabilité qui seront mis en place. InvisiThreat implique cinq acteurs
+distincts, dont les rôles sont synthétisés dans le tableau~\ref{tab:acteurs}.
+
+\begin{table}[H]
+\centering
+\caption{Acteurs du système InvisiThreat et leurs responsabilités}
+\label{tab:acteurs}
+\renewcommand{\arraystretch}{1.3}
+\begin{tabularx}{\textwidth}{p{3cm} X}
+\hline
+\rowcolor{gray!15}
+\textbf{Acteur} & \textbf{Rôle principal} \\
+\hline
+\textbf{Admin}
+  & Gouvernance globale de la plateforme, gestion des comptes utilisateurs,
+    configuration des intégrations CI/CD et supervision des politiques de sécurité. \\
+\textbf{Développeur}
+  & Déclenchement des scans sur ses projets rattachés, consultation des résultats
+    et application des correctifs identifiés. \\
+\textbf{Security Manager}
+  & Pilotage de la posture sécurité, priorisation des alertes selon le risque,
+    production et diffusion de rapports de sécurité. \\
+\textbf{Viewer}
+  & Accès en lecture seule aux tableaux de bord et aux rapports, sans pouvoir
+    intervenir sur les configurations ou les états des vulnérabilités. \\
+\textbf{Systèmes externes}
+  & Pipelines CI/CD, dépôts Git et moteur OWASP~ZAP interagissant avec la
+    plateforme via l'API REST pour déclencher des scans ou récupérer des résultats. \\
+\hline
+\end{tabularx}
+\end{table}
+
+% ───────────────────────────────────────────────────────────────────
 \section{Analyse des besoins}
-\subsection{Diagramme de cas d'utilisation}
-Le diagramme regroupe la création de projet, l'exécution des scans, la consultation des
-résultats et l'export de rapports.
-\begin{figure}[h]
-\centering
-\fbox{\rule{0pt}{2in}\rule{0.9\linewidth}{0pt}}
-\caption{Diagramme de cas d'utilisation d'InvisiThreat (placeholder).}
-\label{fig:use-case}
-\end{figure}
 
-\subsection{Diagramme de classes}
-Les entités principales sont \texttt{User}, \texttt{Project}, \texttt{Scan},
-\texttt{Vulnerability} et \texttt{Report}. Un \texttt{Project} possède plusieurs
-\texttt{Scan}, et chaque \texttt{Scan} produit des \texttt{Vulnerability} associées
-à un outil de scan.
-\begin{figure}[h]
-\centering
-\fbox{\rule{0pt}{2in}\rule{0.9\linewidth}{0pt}}
-\caption{Diagramme de classes simplifié (placeholder).}
-\label{fig:class-diagram}
-\end{figure}
+L'analyse des besoins d'InvisiThreat se situe à l'intersection de contraintes métier,
+techniques et sécuritaires. Sur le plan métier, l'enjeu central est de garantir
+une continuité de livraison logicielle sans compromettre la sécurité, tout en offrant
+aux équipes une visibilité claire et exploitable sur le niveau de risque par projet.
+Sur le plan technique, la solution doit s'intégrer à l'écosystème DevOps existant
+(pipelines CI/CD, dépôts Git, environnements conteneurisés) et traiter des volumes
+d'alertes croissants sans dégrader les temps de réponse.
 
-\subsection{Diagrammes de séquence}
-Deux séquences sont critiques :
+Les besoins des équipes sécurité et développement convergent vers une même exigence :
+disposer d'un processus structuré de gestion des vulnérabilités, fondé sur la
+traçabilité, la priorisation et l'automatisation. Cela suppose un modèle de données
+commun pour les alertes, une historisation par version applicative, et des mécanismes
+d'orchestration découpant les analyses lourdes en tâches asynchrones. L'efficacité
+de la plateforme dépend également de sa capacité à réduire le bruit (faux positifs)
+et à transformer les résultats bruts en décisions de remédiation pilotables —
+d'où l'importance d'une couche d'enrichissement par intelligence artificielle.
+
+% ─────────────────────────────────────────────────────
+\subsection{Besoins fonctionnels}
+
+Les besoins fonctionnels décrivent les capacités que la plateforme doit offrir pour
+couvrir l'ensemble du cycle de gestion des vulnérabilités. Chaque fonctionnalité est
+motivée par un objectif métier précis, un mécanisme technique sous-jacent et un apport
+explicite en termes de sécurité ou de gouvernance.
+
 \begin{itemize}
-	\item \textbf{Lancement de scan} : création d'un scan, exécution SAST/DAST, stockage,
-	notification.
-	\item \textbf{Consultation} : récupération des résultats filtrés par sévérité et projet.
+  \item \textbf{Authentification JWT} : authentification stateless reposant sur des
+  jetons d'accès à courte durée de vie et des mécanismes de rafraîchissement, afin
+  d'équilibrer sécurité et performance. La contrainte principale porte sur la gestion
+  des sessions révoquées et la synchronisation temporelle des services.
+
+  \item \textbf{Authentification forte (2FA TOTP)} : second facteur d'authentification
+  basé sur des codes temporels pour les comptes à privilèges, réduisant l'exposition
+  aux compromissions par vol d'identifiants.
+
+  \item \textbf{Contrôle d'accès par rôles (RBAC)} : séparation des responsabilités
+  via une matrice de droits évaluée à chaque requête, limitant l'accès excessif et
+  facilitant l'audit des permissions.
+
+  \item \textbf{Journalisation des actions sensibles (Audit logs)} : enregistrement
+  horodaté des opérations critiques — connexion, lancement de scan, changement d'état
+  de vulnérabilité — afin de satisfaire aux exigences de conformité et d'investigation.
+
+  \item \textbf{Gestion des projets et des dépôts} : centralisation des projets, dépôts
+  Git et URLs cibles, avec paramètres de scan configurables et stockage sécurisé des
+  secrets (tokens, clés).
+
+  \item \textbf{Intégration GitHub OAuth} : rattachement des dépôts et branches aux
+  projets pour automatiser la collecte de métadonnées et simplifier l'authentification
+  des équipes de développement.
+
+  \item \textbf{Clés API} : authentification technique des appels provenant de pipelines
+  CI/CD ou d'un CLI, sans exposition d'identifiants utilisateur.
+
+  \item \textbf{Orchestration asynchrone des scans} : planification, exécution en file
+  d'attente, suivi de progression et arrêt des analyses, avec gestion de la concurrence
+  pour garantir la stabilité opérationnelle en charge élevée.
+
+  \item \textbf{Analyse statique SAST} : détection de patterns de code vulnérables via
+  Semgrep et Bandit, avec normalisation des sorties hétérogènes vers un modèle commun.
+  La maîtrise des faux positifs constitue l'enjeu principal.
+
+  \item \textbf{Analyse des dépendances (SCA)} : identification des composants tiers
+  vulnérables par interrogation de la base OSV, alignée sur les identifiants CVE.
+
+  \item \textbf{Analyse dynamique DAST} : pilotage du moteur OWASP ZAP par API REST,
+  avec gestion du contexte applicatif et de l'authentification. La durée d'exécution
+  et la disponibilité des environnements cibles constituent les contraintes majeures.
+
+  \item \textbf{Normalisation des vulnérabilités} : harmonisation des sévérités,
+  classifications (CWE/OWASP), preuves et localisations issus de sources hétérogènes,
+  afin de produire une vision cohérente du risque.
+
+  \item \textbf{Scoring de risque} : calcul d'un score agrégé par projet et par version,
+  permettant de prioriser les efforts de remédiation selon des critères objectifs.
+
+  \item \textbf{Workflow de gestion des vulnérabilités} : gestion des états (ouvert,
+  confirmé, corrigé, faux positif), assignation à des responsables et suivi par
+  commentaires, pour structurer et tracer la remédiation.
+
+  \item \textbf{Enrichissement par IA locale (LLM)} : contextualisation des alertes,
+  proposition de correctifs et assistance à la priorisation via l'action
+  \textit{Assist with AI}, exécutée sur un modèle local garantissant la confidentialité
+  du code.
+
+  \item \textbf{Génération de rapports et exports} : production de livrables PDF et JSON
+  filtrables par période, projet et niveau de sévérité, à destination des équipes de
+  direction et d'audit.
+
+  \item \textbf{Tableau de bord et visualisation} : consolidation des métriques de
+  sécurité, des tendances et des taux de remédiation, avec agrégations optimisées pour
+  maintenir la fluidité de l'interface.
+
+  \item \textbf{API REST et intégration CI/CD} : déclenchement et suivi des scans depuis
+  les pipelines de livraison, avec contrats d'API stables, gestion des quotas et
+  authentification robuste.
+
+  \item \textbf{Notifications et alerting} : diffusion par email, webhooks ou canal
+  temps réel lors de la détection de vulnérabilités critiques, avec mécanismes
+  anti-saturation configurables.
+
+  \item \textbf{Historisation et traçabilité des scans} : conservation de l'historique
+  par projet et par version pour permettre les comparaisons longitudinales, les audits
+  et le suivi de la maturité sécurité dans le temps.
 \end{itemize}
-\begin{figure}[h]
+
+% ─────────────────────────────────────────────────────
+\subsection{Besoins non fonctionnels}
+
+Un besoin non fonctionnel est une condition qui spécifie les critères permettant
+de juger le fonctionnement d'un système, plutôt que ses comportements spécifiques.
+À la différence des besoins fonctionnels qui définissent \textit{ce que} le système
+fait, les besoins non fonctionnels définissent \textit{comment} il le fait, en termes
+de performance, de fiabilité, de sécurité et de maintenabilité.
+
+\begin{itemize}
+  \item \textbf{Performance et latence} : les opérations de consultation doivent rester
+  fluides ; les traitements intensifs (scans, normalisation, IA) sont systématiquement
+  déportés vers des workers asynchrones afin de ne pas impacter la réactivité de l'API.
+
+  \item \textbf{Scalabilité} : la montée en charge est assurée par une multiplication
+  horizontale des workers d'orchestration, sans dégradation de la qualité de service
+  pour les utilisateurs actifs.
+
+  \item \textbf{Disponibilité et continuité de service} : supervision des conteneurs
+  et politique de redémarrage automatique pour maintenir la disponibilité dans les
+  pipelines CI/CD, même en cas de panne d'un service secondaire.
+
+  \item \textbf{Sécurité et confidentialité} : chiffrement des échanges (TLS),
+  protection des secrets (tokens, clés API), cloisonnement des données par projet
+  et journalisation exhaustive des accès aux ressources sensibles.
+
+  \item \textbf{Maintenabilité} : architecture modulaire, code documenté et couverture
+  de tests suffisante pour faciliter l'évolution des moteurs de scan et des règles
+  métier sans régressions.
+
+  \item \textbf{Extensibilité} : intégration de nouveaux scanners ou formats d'alertes
+  via une architecture par connecteurs et un modèle de données ouvert, sans remaniement
+  du cœur applicatif.
+
+  \item \textbf{Ergonomie et adoption} : parcours utilisateurs cohérents, statuts
+  explicites et interface claire, afin de minimiser la friction opérationnelle et
+  favoriser l'adoption par les équipes.
+
+  \item \textbf{Traçabilité et auditabilité} : journaux complets incluant l'identité
+  de l'acteur, le contexte de l'action et l'horodatage, pour répondre aux exigences
+  de conformité et d'investigations post-incident.
+
+  \item \textbf{Portabilité} : déploiement entièrement conteneurisé (Docker Compose),
+  garantissant la reproductibilité des environnements et la compatibilité avec les
+  principaux gestionnaires de dépôts et systèmes CI/CD du marché.
+
+  \item \textbf{Résilience et fiabilité} : traitement idempotent des tâches et
+  mécanismes de reprise automatique, assurant la continuité fonctionnelle en cas
+  de pannes partielles (indisponibilité d'un scanner ou du module IA).
+\end{itemize}
+
+% ─────────────────────────────────────────────────────
+\subsection{Diagramme global des cas d'utilisation}
+
+Les cas d'utilisation représentent les séquences d'actions réalisées par le système
+qui produisent un résultat observable pour un acteur donné. Ils permettent de modéliser
+les attentes des utilisateurs, de délimiter le périmètre fonctionnel du système et
+d'améliorer la compréhension de ses interactions avec l'environnement extérieur.
+
+Le diagramme~\ref{fig:use-case-global} présente les interactions entre les cinq acteurs
+identifiés et les principales fonctionnalités d'InvisiThreat. Les relations
+\textit{include} matérialisent des étapes systématiquement nécessaires — par exemple,
+l'authentification est incluse dans tout déclenchement de scan — tandis que les
+relations \textit{extend} représentent des comportements conditionnels, comme
+l'export PDF qui étend la consultation des résultats selon le rôle et le contexte.
+
+\begin{figure}[H]
 \centering
 \fbox{\rule{0pt}{2in}\rule{0.9\linewidth}{0pt}}
-\caption{Diagrammes de séquence (placeholder).}
-\label{fig:sequence-diagrams}
+\caption{Diagramme de cas d'utilisation global d'InvisiThreat.}
+\label{fig:use-case-global}
 \end{figure}
 
+% ───────────────────────────────────────────────────────────────────
+\section{Gestion du projet avec Scrum}
+
+Le Sprint 0 structure le Product Backlog et prépare la planification des sprints
+à venir. La priorisation s'appuie sur la criticité sécurité, les dépendances
+techniques et la valeur métier de chaque fonctionnalité.
+
+% ─────────────────────────────────────────────────────
+\subsection{Product Backlog}
+
+Le Product Backlog formalise la traduction des besoins en unités de valeur livrables.
+Dans une logique Scrum, il organise le périmètre autour d'epics, de features et de
+user stories, tout en respectant une priorisation fondée sur le risque et la valeur
+attendue.
+
+\subsubsection{Structuration en epics}
+
+Les epics regroupent le backlog par grands domaines fonctionnels. L'epic
+\textit{Authentification et gouvernance} couvre la sécurité des accès et la gestion
+des rôles. L'epic \textit{Gestion des projets} englobe la configuration des cibles
+et des dépôts. L'epic \textit{Scans SAST/DAST/SCA} porte sur l'orchestration
+technique des analyses, tandis que l'epic \textit{Résultats, workflow et IA} regroupe
+la normalisation, le scoring, la remédiation assistée et les exports. Cette
+structuration favorise la lisibilité du backlog et facilite la planification
+incrémentale.
+
+\subsubsection{Technique de priorisation du Product Backlog}
+
+La priorisation du Product Backlog conditionne directement la valeur livrée à chaque
+sprint. Trois critères complémentaires ont été retenus :
+
+\begin{itemize}
+  \item \textbf{Business Value} : priorité aux fonctionnalités apportant le maximum
+  de valeur à l'utilisateur final (détection précoce des vulnérabilités, visibilité
+  du risque par projet).
+
+  \item \textbf{Risk Minimizing} : traitement anticipé des éléments les plus complexes
+  ou les plus incertains sur le plan technique (orchestration asynchrone, intégration
+  du module LLM local, pilotage de ZAP par API).
+
+  \item \textbf{MoSCoW} : classification des items selon quatre niveaux —
+  \textbf{M} (\textit{Must have}, obligatoire pour la livraison),
+  \textbf{S} (\textit{Should have}, fortement souhaitable),
+  \textbf{C} (\textit{Could have}, optionnel à valeur ajoutée),
+  \textbf{W} (\textit{Would have}, reporté aux versions futures).
+\end{itemize}
+
+\subsubsection{Synthèse du Product Backlog}
+
+Les tableaux suivants présentent l'ensemble des user stories issues du cahier des
+charges, organisées par domaine fonctionnel et ordonnées selon leur niveau de priorité
+MoSCoW.
+
+\begin{table}[H]
+\centering
+\caption{Product Backlog -- Gouvernance et gestion des accès}
+\label{tab:backlog-gouvernance}
+\small
+\renewcommand{\arraystretch}{1.2}
+\begin{tabularx}{\textwidth}{c X c X c}
+\hline
+\rowcolor{gray!15}
+\textbf{ID} & \textbf{Feature} & \textbf{US} & \textbf{User Story} & \textbf{Priorité} \\
+\hline
+\rowcolor{gray!10}
+\multicolumn{5}{c}{\textbf{Module Gouvernance et Accès}} \\
+\hline
+1 & Authentification & 1.1
+  & En tant qu'administrateur, je veux m'authentifier afin d'accéder à la plateforme
+    et à l'ensemble des fonctionnalités de gouvernance. & M \\
+1 & Authentification & 1.2
+  & En tant que développeur, je veux m'authentifier afin d'accéder uniquement à
+    mes projets rattachés. & M \\
+2 & 2FA TOTP & 2.1
+  & En tant qu'administrateur, je veux activer l'authentification à deux facteurs
+    afin de renforcer la protection de mon compte. & M \\
+3 & RBAC & 3.1
+  & En tant qu'administrateur, je veux définir des rôles et des matrices de
+    permissions afin de cloisonner les accès selon les responsabilités. & M \\
+4 & Audit logs & 4.1
+  & En tant que Security Manager, je veux consulter le journal des actions sensibles
+    afin d'assurer la traçabilité et la conformité. & M \\
+\hline
+\rowcolor{gray!10}
+\multicolumn{5}{c}{\textbf{Module Projets et Intégrations}} \\
+\hline
+5 & Gestion des projets & 5.1
+  & En tant qu'administrateur, je veux créer un projet et définir ses URLs cibles
+    afin de centraliser la configuration des analyses. & M \\
+5 & Gestion des projets & 5.2
+  & En tant qu'administrateur, je veux configurer les paramètres de scan par projet
+    afin d'adapter les analyses au contexte applicatif. & S \\
+6 & Gestion des membres & 6.1
+  & En tant qu'administrateur, je veux inviter des membres et leur attribuer des rôles
+    afin de structurer la collaboration sur la plateforme. & S \\
+7 & GitHub OAuth & 7.1
+  & En tant que développeur, je veux connecter un dépôt GitHub via OAuth afin
+    d'automatiser la collecte des métadonnées de branches. & S \\
+8 & Clés API & 8.1
+  & En tant que système CI/CD, je veux m'authentifier via une clé API afin de
+    déclencher des scans sans exposer d'identifiants utilisateur. & S \\
+\hline
+\end{tabularx}
+\end{table}
+
+\begin{table}[H]
+\centering
+\caption{Product Backlog -- Scans et orchestration}
+\label{tab:backlog-scans}
+\small
+\renewcommand{\arraystretch}{1.2}
+\begin{tabularx}{\textwidth}{c X c X c}
+\hline
+\rowcolor{gray!15}
+\textbf{ID} & \textbf{Feature} & \textbf{US} & \textbf{User Story} & \textbf{Priorité} \\
+\hline
+\rowcolor{gray!10}
+\multicolumn{5}{c}{\textbf{Module Scans SAST / SCA / DAST et Orchestration}} \\
+\hline
+9 & SAST Semgrep/Bandit & 9.1
+  & En tant que développeur, je veux lancer une analyse statique afin de détecter
+    les patterns de code vulnérables avant tout déploiement. & M \\
+10 & Règles internes & 10.1
+  & En tant que Security Manager, je veux appliquer des règles regex personnalisées
+    afin d'adapter la détection aux spécificités du code interne. & S \\
+11 & SCA OSV & 11.1
+  & En tant que développeur, je veux analyser les dépendances via OSV afin
+    d'identifier les composants tiers présentant des vulnérabilités connues. & M \\
+12 & CLI scanner & 12.1
+  & En tant que système CI/CD, je veux déclencher une analyse via la ligne de commande
+    afin de l'intégrer directement dans la chaîne de livraison. & S \\
+13 & Orchestration asynchrone & 13.1
+  & En tant que système, je veux que les scans soient mis en file d'attente via
+    Celery/Redis afin de garantir la stabilité sous charge élevée. & M \\
+14 & DAST OWASP ZAP & 14.1
+  & En tant que développeur, je veux lancer une analyse dynamique via OWASP ZAP
+    afin de détecter les failles d'exposition réelles de l'application. & M \\
+15 & Normalisation & 15.1
+  & En tant que Security Manager, je veux consulter des alertes normalisées selon
+    une sévérité unifiée afin de prioriser la remédiation efficacement. & M \\
+\hline
+\end{tabularx}
+\end{table}
+
+\begin{table}[H]
+\centering
+\caption{Product Backlog -- Workflow, IA, reporting et CI/CD}
+\label{tab:backlog-ia-notifications}
+\small
+\renewcommand{\arraystretch}{1.2}
+\begin{tabularx}{\textwidth}{c X c X c}
+\hline
+\rowcolor{gray!15}
+\textbf{ID} & \textbf{Feature} & \textbf{US} & \textbf{User Story} & \textbf{Priorité} \\
+\hline
+\rowcolor{gray!10}
+\multicolumn{5}{c}{\textbf{Module Workflow, IA et Reporting}} \\
+\hline
+16 & Assistant IA local & 16.1
+  & En tant que développeur, je veux obtenir une explication et une recommandation
+    de correction via \textit{Assist with AI} afin d'accélérer la remédiation. & M \\
+17 & Scoring de risque & 17.1
+  & En tant que Security Manager, je veux consulter un score de risque par projet
+    afin de prioriser les efforts de sécurité selon des critères objectifs. & M \\
+18 & Workflow vulnérabilités & 18.1
+  & En tant que développeur, je veux changer l'état d'une vulnérabilité et l'assigner
+    à un responsable afin de structurer le processus de remédiation. & M \\
+19 & Dashboard global & 19.1
+  & En tant que Security Manager, je veux visualiser un tableau de bord consolidé
+    afin d'avoir une vue d'ensemble du niveau de risque sur l'ensemble des projets. & S \\
+20 & Détail des vulnérabilités & 20.1
+  & En tant que développeur, je veux consulter les preuves et le contexte d'une
+    alerte afin de comprendre son impact et de la reproduire. & M \\
+21 & Génération de rapports & 21.1
+  & En tant que Security Manager, je veux générer un rapport PDF ou JSON par projet
+    afin de le partager lors des revues de sécurité. & S \\
+22 & Historique comparatif & 22.1
+  & En tant que Security Manager, je veux comparer les résultats de scan entre
+    versions afin de mesurer la progression de la maturité sécurité. & S \\
+\hline
+\rowcolor{gray!10}
+\multicolumn{5}{c}{\textbf{Module CI/CD et Notifications}} \\
+\hline
+23 & Déclenchement CI/CD & 23.1
+  & En tant que système CI/CD, je veux déclencher automatiquement un scan sur
+    commit ou merge request afin d'intégrer la sécurité au pipeline de livraison. & M \\
+24 & Notifications temps réel & 24.1
+  & En tant que développeur, je veux recevoir des notifications instantanées lors
+    de la détection de vulnérabilités critiques afin de réagir sans délai. & S \\
+25 & Politiques d'alerte & 25.1
+  & En tant que Security Manager, je veux configurer des seuils d'alerte par sévérité
+    afin d'adapter le niveau de notification au contexte du projet. & S \\
+26 & Intégration Slack & 26.1
+  & En tant que Security Manager, je veux recevoir les alertes critiques dans un canal
+    Slack afin de centraliser les notifications dans l'outil de communication de
+    l'équipe. & W \\
+27 & Comparaison inter-projets & 27.1
+  & En tant que Security Manager, je veux comparer les scores de risque entre projets
+    afin d'identifier les périmètres les plus exposés à l'échelle du portefeuille. & W \\
+\hline
+\end{tabularx}
+\end{table}
+
+% ─────────────────────────────────────────────────────
+\subsection{Planification des sprints}
+
+La planification de sprint répond à deux questions fondamentales : qu'est-ce qui peut
+être livré à l'issue de ce sprint ? Et de quelle façon le travail sélectionné
+sera-t-il conduit ? Pour InvisiThreat, la durée totale du projet a été estimée à
+\textbf{quatre mois}, découpée en cinq sprints de deux à trois semaines chacun,
+conformément aux préconisations Scrum pour des projets de taille intermédiaire.
+
+La répartition des responsabilités au sein de l'équipe est la suivante :
+
+\begin{itemize}
+  \item \textbf{Stagiaire 1} : développement backend, module IA/LLM, DevSecOps et
+  orchestration des scans.
+  \item \textbf{Stagiaire 2} : développement frontend, tableaux de bord et intégration
+  CI/CD.
+  \item \textbf{Encadrant professionnel} : supervision technique et validation des
+  choix d'architecture.
+  \item \textbf{Encadrant académique} : suivi méthodologique et validation scientifique.
+\end{itemize}
+
+Le planning détaillé est présenté au tableau~\ref{tab:sprints}. La progression suit
+une logique de construction en couches : fondations techniques, puis gouvernance des
+accès, puis gestion des projets, puis analyses de sécurité, et enfin restitution
+enrichie et automatisation.
+
+\begin{table}[H]
+\centering
+\caption{Planification et livrables des sprints InvisiThreat}
+\label{tab:sprints}
+\small
+\renewcommand{\arraystretch}{1.4}
+\begin{tabularx}{\textwidth}{c p{2.8cm} X X p{1.8cm}}
+\hline
+\rowcolor{gray!15}
+\textbf{Sprint} & \textbf{Objectif} & \textbf{Contenu} & \textbf{Livrables}
+  & \textbf{Durée} \\
+\hline
+0 & \textbf{Cadrage et fondations}
+  & Initialisation du dépôt, configuration Docker~Compose, modélisation de la
+    base de données, mise en place des squelettes FastAPI et React.
+  & Socle technique opérationnel, schéma PostgreSQL validé, services démarrables.
+  & 2~semaines \\
+\hline
+1 & \textbf{Sécurité et gouvernance}
+  & Authentification JWT, RBAC, 2FA~TOTP, audit logs, politiques de sécurité.
+  & Module d'authentification sécurisé et journalisation opérationnelle.
+  & 3~semaines \\
+\hline
+2 & \textbf{Projets et intégrations}
+  & CRUD projets et membres, intégration GitHub~OAuth, gestion des clés API,
+    notifications de base.
+  & Gestion de projets fonctionnelle, intégration GitHub et clés API opérationnelles.
+  & 3~semaines \\
+\hline
+3 & \textbf{SAST et SCA}
+  & Intégration Semgrep et Bandit, règles regex internes, analyse OSV, CLI~scanner,
+    normalisation des alertes.
+  & Pipeline SAST/SCA opérationnel, CLI fonctionnel.
+  & 3~semaines \\
+\hline
+4 & \textbf{DAST, orchestration et IA}
+  & Intégration OWASP~ZAP, workers Celery/Redis, suivi temps réel, scoring de risque,
+    workflow de vulnérabilités, assistant LLM local.
+  & Pipeline DAST asynchrone, scoring de risque, workflow et recommandations IA.
+  & 3~semaines \\
+\hline
+\end{tabularx}
+\end{table}
+
+% ───────────────────────────────────────────────────────────────────
+\section{Étude technique}
+
+\subsection{Environnement matériel}
+
+Le projet a été réalisé sur deux postes de travail homogènes, un par stagiaire, afin
+de garantir des conditions de développement et de test reproductibles. Ce dimensionnement
+répond à la nature des traitements effectués : l'analyse statique nécessite un accès
+rapide au système de fichiers et une charge CPU stable, tandis que l'analyse dynamique
+sollicite davantage la mémoire et la latence réseau pour piloter les scans actifs.
+L'isolation des conteneurs — notamment OWASP ZAP — dans des processus dédiés limite
+la contention avec l'API et l'interface, et contribue à stabiliser les temps de réponse
+observés lors des tests.
+
+\begin{table}[H]
+\centering
+\caption{Configuration matérielle des postes de travail}
+\label{tab:env-materiel}
+\renewcommand{\arraystretch}{1.2}
+\begin{tabular}{|l|c|c|}
+\hline
+\rowcolor{gray!15}
+\textbf{Élément} & \textbf{PC 1 -- Wiem Bziouich} & \textbf{PC 2 -- Nouha Boughnim} \\
+\hline
+Processeur     & Intel Core i7 & Intel Core i7 \\
+RAM installée  & 16 Go         & 16 Go         \\
+Système        & Windows 11 Pro 64 bits & Windows 11 Pro 64 bits \\
+Stockage       & SSD 512 Go    & SSD 512 Go    \\
+\hline
+\end{tabular}
+\end{table}
+
+% ─────────────────────────────────────────────────────
+\subsection{Environnement logiciel}
+
+Le tableau~\ref{tab:env-logiciel} regroupe l'ensemble des outils utilisés par l'équipe
+pour le développement, les tests, la modélisation et la gestion du projet. Ces outils
+constituent l'environnement de travail au sens ingénierie logicielle, distinct de la
+stack technique déployée en production.
+
+\begin{table}[H]
+\centering
+\caption{Environnement logiciel utilisé pour le développement}
+\label{tab:env-logiciel}
+\renewcommand{\arraystretch}{2.0}
+\begin{tabularx}{\textwidth}{c p{3cm} X}
+\hline
+\rowcolor{gray!15}
+\textbf{Logo} & \textbf{Outil} & \textbf{Description et rôle dans le projet} \\
+\hline
+\fbox{\rule{0pt}{0.55in}\rule{0.55in}{0pt}}
+  & \textbf{VS Code}
+  & IDE principal pour le développement Python et JavaScript, avec extensions de
+    linting, d'intégration Git et de test des APIs REST. \\
+\hline
+\fbox{\rule{0pt}{0.55in}\rule{0.55in}{0pt}}
+  & \textbf{Git / GitHub}
+  & Contrôle de version distribué, collaboration par branches et revue de code pour
+    assurer la traçabilité des évolutions. \\
+\hline
+\fbox{\rule{0pt}{0.55in}\rule{0.55in}{0pt}}
+  & \textbf{Docker Desktop}
+  & Exécution locale des conteneurs pour reproduire fidèlement l'environnement
+    de production et éviter les conflits de dépendances. \\
+\hline
+\fbox{\rule{0pt}{0.55in}\rule{0.55in}{0pt}}
+  & \textbf{Postman}
+  & Test des endpoints REST, validation des payloads et reproduction des scénarios
+    de scan pour vérifier les contrats d'API. \\
+\hline
+\fbox{\rule{0pt}{0.55in}\rule{0.55in}{0pt}}
+  & \textbf{Draw.io}
+  & Modélisation des diagrammes UML : cas d'utilisation, déploiement et architecture
+    logique. \\
+\hline
+\fbox{\rule{0pt}{0.55in}\rule{0.55in}{0pt}}
+  & \textbf{Trello / Jira / ClickUp}
+  & Gestion du Product Backlog, suivi de l'avancement des sprints et tableaux Kanban
+    partagés entre les membres de l'équipe. \\
+\hline
+\fbox{\rule{0pt}{0.55in}\rule{0.55in}{0pt}}
+  & \textbf{Chrome / Firefox DevTools}
+  & Validation de l'interface React, inspection des requêtes réseau et analyse des
+    performances côté client. \\
+\hline
+\fbox{\rule{0pt}{0.55in}\rule{0.55in}{0pt}}
+  & \textbf{venv / pip}
+  & Isolation des dépendances Python par environnement virtuel, garantissant la
+    cohérence entre les deux postes de développement. \\
+\hline
+\fbox{\rule{0pt}{0.55in}\rule{0.55in}{0pt}}
+  & \textbf{Node.js / npm}
+  & Gestion des dépendances et build du frontend React, avec contrôle précis des
+    versions des bibliothèques côté client. \\
+\hline
+\end{tabularx}
+\end{table}
+
+% ─────────────────────────────────────────────────────
+\subsection{Technologies et outils utilisés}
+
+Le tableau~\ref{tab:technologies} présente la stack technique déployée pour assurer
+la détection, la normalisation et la restitution des résultats de sécurité.
+Chaque choix est justifié par des exigences de performance, de sécurité et de
+maintenabilité, et accompagné d'une mise en perspective par rapport aux alternatives.
+
+\begin{table}[H]
+\centering
+\caption{Stack technique d'InvisiThreat -- technologies et justifications}
+\label{tab:technologies}
+\renewcommand{\arraystretch}{2.0}
+\begin{tabularx}{\textwidth}{c p{3cm} X}
+\hline
+\rowcolor{gray!15}
+\textbf{Logo} & \textbf{Technologie} & \textbf{Rôle, justification et contraintes} \\
+\hline
+\fbox{\rule{0pt}{0.55in}\rule{0.55in}{0pt}}
+  & \textbf{Python / FastAPI} \newline \small{Backend API}
+  & Expose une API REST asynchrone capable de traiter des requêtes concurrentes
+    sans blocage lors des scans longs. FastAPI apporte un typage strict et une
+    validation automatique des schémas (Pydantic), ce qui réduit les erreurs
+    d'intégration par rapport à Flask. Sa structure légère est mieux adaptée
+    qu'un framework Django pour un service d'orchestration découplé. \\
+\hline
+\includegraphics[width=0.1\textwidth]{images/logos/react.png}
+  & \textbf{React} \newline \small{Frontend}
+  & Bibliothèque de construction d'interfaces riches et réactives, adaptée à la
+    visualisation temps réel des états de scan. Son écosystème étendu et sa
+    flexibilité de composition des composants le distinguent de Vue ou Angular
+    pour des tableaux de bord complexes. La gestion d'état est assurée via
+    hooks et contextes React. \\
+\hline
+\fbox{\rule{0pt}{0.55in}\rule{0.55in}{0pt}}
+  & \textbf{PostgreSQL} \newline \small{Base de données}
+  & Assure la persistance transactionnelle (ACID) et les agrégations avancées
+    nécessaires à l'historisation des scans et aux analyses de tendances par
+    sévérité. Offre une richesse fonctionnelle supérieure à MySQL pour les
+    requêtes analytiques. La contrainte principale est l'optimisation des index
+    sur de grands volumes d'alertes. \\
+\hline
+\fbox{\rule{0pt}{0.55in}\rule{0.55in}{0pt}}
+  & \textbf{Redis} \newline \small{Broker \& cache}
+  & Utilisé comme broker de messages pour Celery et stockage temporaire des
+    états de scan (progression, files d'attente, verrous distribués). Sa nature
+    en mémoire garantit des temps d'accès très faibles et décharge PostgreSQL
+    pour les données éphémères. La stratégie d'expiration des clés constitue
+    la contrainte principale. \\
+\hline
+\fbox{\rule{0pt}{0.55in}\rule{0.55in}{0pt}}
+  & \textbf{Celery} \newline \small{Orchestration async.}
+  & Exécute les analyses SAST, SCA et DAST dans des workers isolés sans bloquer
+    l'API principale. Fournit un mécanisme de file d'attente, de retries
+    configurables et de suivi d'exécution adapté aux tâches longues. La
+    supervision des workers et la gestion fine de la concurrence constituent
+    les contraintes opérationnelles majeures. \\
+\hline
+\fbox{\rule{0pt}{0.55in}\rule{0.55in}{0pt}}
+  & \textbf{Socket.IO} \newline \small{Temps réel}
+  & Assure la diffusion en temps réel des états de scan et des notifications
+    critiques vers le frontend, éliminant la latence d'une interrogation
+    périodique (polling). La gestion des connexions persistantes et la montée
+    en charge représentent les contraintes principales. \\
+\hline
+\fbox{\rule{0pt}{0.55in}\rule{0.55in}{0pt}}
+  & \textbf{Docker / Docker Compose} \newline \small{Conteneurisation}
+  & Constitue le socle de déploiement de l'ensemble des services, garantissant
+    la reproductibilité des environnements et la séparation des composants
+    critiques. Réduit la surcharge par rapport aux machines virtuelles et
+    s'intègre naturellement aux pratiques DevSecOps. La gouvernance des images
+    et la sécurisation des volumes sont les contraintes clés. \\
+\hline
+\fbox{\rule{0pt}{0.55in}\rule{0.55in}{0pt}}
+  & \textbf{OWASP ZAP} \newline \small{DAST}
+  & Moteur d'analyse dynamique open source retenu pour son API REST native
+    permettant un pilotage programmatique complet. Plus accessible et
+    automatisable dans un pipeline CI/CD que Burp Suite Professional, au prix
+    d'une précision légèrement inférieure sur certaines règles, compensée par
+    un paramétrage fin des profils de scan. \\
+\hline
+\fbox{\rule{0pt}{0.55in}\rule{0.55in}{0pt}}
+  & \textbf{Semgrep / Bandit} \newline \small{SAST}
+  & Moteurs d'analyse statique complémentaires : Semgrep pour la détection
+    polyglotte par règles configurables, Bandit pour l'inspection spécialisée
+    du code Python. La maîtrise du taux de faux positifs et la maintenance
+    des règles constituent les enjeux principaux. \\
+\hline
+\fbox{\rule{0pt}{0.55in}\rule{0.55in}{0pt}}
+  & \textbf{OSV} \newline \small{SCA}
+  & Base de données ouverte de vulnérabilités maintenue collaborativement,
+    permettant d'identifier les composants tiers présentant des failles connues
+    alignées sur les identifiants CVE. La fréquence d'actualisation des
+    métadonnées et la gestion des faux positifs sont les contraintes
+    principales. \\
+\hline
+\fbox{\rule{0pt}{0.55in}\rule{0.55in}{0pt}}
+  & \textbf{Ollama (Mistral / Qwen)} \newline \small{Assistant IA local}
+  & Exécute localement des modèles LLM pour contextualiser les alertes et
+    proposer des recommandations de remédiation via l'action
+    \textit{Assist with AI}, garantissant la confidentialité totale du code
+    source. Les ressources matérielles nécessaires à l'inférence et la qualité
+    variable des réponses selon le modèle retenu constituent les contraintes
+    principales. \\
+\hline
+\fbox{\rule{0pt}{0.55in}\rule{0.55in}{0pt}}
+  & \textbf{Pytest} \newline \small{Tests automatisés}
+  & Framework de tests unitaires et d'intégration pour le backend, offrant un
+    modèle de fixtures flexible et des assertions lisibles, supérieur au module
+    standard \texttt{unittest}. La maintenance des suites de tests lors des
+    évolutions rapides du schéma d'API constitue la contrainte principale. \\
+\hline
+\end{tabularx}
+\end{table}
+
+% ─────────────────────────────────────────────────────
+\subsection{Architecture du système}
+
+\subsubsection{Architecture logicielle}
+
+L'architecture logicielle d'InvisiThreat repose sur une séparation claire des
+responsabilités en quatre couches fonctionnelles :
+
+\begin{itemize}
+  \item \textbf{Couche API} : gestion des projets, des accès utilisateurs, du
+  déclenchement des scans et de l'exposition des résultats via des endpoints REST
+  documentés.
+  \item \textbf{Couche d'orchestration} : exécution asynchrone des analyses longues
+  (SAST, SCA, DAST) via des workers Celery, avec file d'attente Redis et suivi
+  de progression.
+  \item \textbf{Couche de persistance} : stockage normalisé des vulnérabilités,
+  de l'historique des scans et des artefacts d'audit dans PostgreSQL.
+  \item \textbf{Couche de présentation} : interface React pour la visualisation,
+  le workflow de remédiation et les notifications temps réel via Socket.IO.
+\end{itemize}
+
+Le flux principal suit une chaîne continue : déclenchement d'un scan, exécution
+asynchrone via les workers, normalisation des alertes vers le modèle commun,
+calcul du scoring de risque, enrichissement par le module IA, puis exposition
+des résultats via les endpoints REST et le canal temps réel.
+
+\begin{figure}[H]
+\centering
+\fbox{\rule{0pt}{2in}\rule{0.9\linewidth}{0pt}}
+\caption{Architecture logicielle en couches d'InvisiThreat.}
+\label{fig:archi-logicielle}
+\end{figure}
+
+\subsubsection{Architecture physique}
+
+Sur le plan physique, InvisiThreat est déployé via \textbf{Docker Compose} selon
+une organisation en trois niveaux :
+
+\begin{itemize}
+  \item \textbf{Niveau client} : navigateur React servi par un conteneur Nginx,
+  communiquant avec le backend via HTTP/REST et Socket.IO.
+  \item \textbf{Niveau serveur d'application} : conteneurs FastAPI, workers Celery,
+  broker Redis et module IA Ollama, isolés et communicants par réseau Docker interne.
+  \item \textbf{Niveau données} : conteneur PostgreSQL pour la persistance, avec
+  volumes montés pour la durabilité des données entre redémarrages.
+\end{itemize}
+
+InvisiThreat adopte une architecture de \textbf{monolithe modulaire} côté backend,
+enrichie par une orchestration asynchrone. Les moteurs de scan (ZAP, Semgrep, Bandit)
+et le module IA sont isolés dans des conteneurs dédiés, sans imposer la complexité
+opérationnelle d'une architecture microservices complète. La scalabilité horizontale
+est assurée par la multiplication des workers Celery ; la tolérance aux pannes est
+renforcée car la défaillance d'un scanner n'interrompt pas les services de consultation ;
+et l'observabilité (logs structurés, métriques, audit trail) garantit une traçabilité
+de bout en bout.
+
+\begin{figure}[H]
+\centering
+\fbox{\rule{0pt}{2in}\rule{0.9\linewidth}{0pt}}
+\caption{Architecture physique -- déploiement Docker Compose d'InvisiThreat.}
+\label{fig:archi-physique}
+\end{figure}
+
+% ───────────────────────────────────────────────────────────────────
+\section{Diagramme de déploiement}
+
+Le diagramme de déploiement illustre l'organisation conteneurisée de la plateforme
+via Docker Compose, les flux réseau entre services et l'exposition des ports
+applicatifs (API FastAPI, frontend React, moteur ZAP, module Ollama). Il permet
+de visualiser l'isolation des composants critiques et les dépendances de
+communication entre niveaux.
+
+\begin{figure}[H]
+\centering
+\fbox{\rule{0pt}{2in}\rule{0.9\linewidth}{0pt}}
+\caption{Diagramme de déploiement Docker Compose d'InvisiThreat.}
+\label{fig:comp-deployment}
+\end{figure}
+
+% ───────────────────────────────────────────────────────────────────
 \section{Conclusion}
-Les besoins définis ont conduit à un modèle de données centré sur la traçabilité, avec
-des interactions orientées scan et reporting, garantissant une exploitation rapide des
-résultats.
+
+Ce chapitre a posé les fondations méthodologiques et techniques du projet InvisiThreat.
+L'identification des acteurs et la spécification exhaustive des besoins fonctionnels
+et non fonctionnels ont permis de délimiter précisément le périmètre de la plateforme.
+La structuration du Product Backlog selon une priorisation MoSCoW et la planification
+en cinq sprints garantissent une progression maîtrisée, alignée sur la valeur métier
+et la gestion du risque technique. Enfin, l'étude technique a confirmé la cohérence
+de la stack retenue avec les exigences DevSecOps : architecture modulaire,
+orchestration asynchrone, enrichissement par IA locale et déploiement intégralement
+conteneurisé.
+
+Le chapitre suivant présente le \textbf{Sprint 1}, consacré à la sécurité et à
+la gouvernance : authentification JWT, contrôle d'accès par rôles, double facteur
+TOTP et journalisation des actions sensibles.

@@ -1,0 +1,81 @@
+% ═══════════════════════════════════════════════════════════════════
+\chapter{Sprint 3 -- SAST et SCA}
+% ═══════════════════════════════════════════════════════════════════
+
+\section{Introduction}
+Ce sprint est dédié à l'intégration des analyses statiques (SAST) et de la composition logicielle (SCA). Il vise à automatiser la détection précoce des vulnérabilités dans le code et les dépendances, tout en normalisant les résultats pour un suivi cohérent.
+
+\section{Objectifs du sprint et planification des tâches}
+\subsection{Objectifs du sprint}
+\begin{itemize}
+  \item intégrer Semgrep et Bandit pour l'analyse SAST ;
+  \item intégrer OSV pour l'analyse SCA des dépendances ;
+  \item normaliser les résultats dans un modèle unique ;
+  \item exposer un rapport lisible et filtrable.
+\end{itemize}
+
+\subsection{Sprint Backlog}
+\begin{table}[H]
+\centering
+\caption{Sprint Backlog -- Sprint 3}
+\label{tab:sprint3-backlog}
+\small
+\renewcommand{\arraystretch}{1.2}
+\begin{tabularx}{\textwidth}{>{\bfseries}c X c}
+\hline
+\rowcolor{gray!15}
+ID & User Story & Priorité \\
+\hline
+S3-01 & En tant que développeur, je peux lancer un scan SAST via Semgrep/Bandit. & M \\
+S3-02 & En tant que développeur, je peux analyser les dépendances via OSV. & M \\
+S3-03 & En tant que Security Manager, je peux consulter des alertes normalisées. & M \\
+S3-04 & En tant que développeur, je peux exporter un rapport de scan. & S \\
+\hline
+\end{tabularx}
+\end{table}
+
+\section{Analyse détaillée des besoins}
+\subsection{Diagramme de cas d'utilisation du sprint}
+\begin{figure}[H]
+\centering
+\fbox{\rule{0pt}{2in}\rule{0.9\linewidth}{0pt}}
+\caption{Diagramme de cas d'utilisation -- Sprint 3 (placeholder).}
+\label{fig:sprint3-use-case}
+\end{figure}
+
+\subsection{Description textuelle des cas d'utilisation}
+Les cas d'utilisation portent sur la soumission d'un dépôt, l'exécution des moteurs SAST/SCA et la consultation des résultats normalisés. L'utilisateur peut filtrer les vulnérabilités par sévérité et accéder aux preuves associées.
+
+\section{Modélisation conceptuelle}
+\subsection{Diagramme de classes}
+\begin{figure}[H]
+\centering
+\fbox{\rule{0pt}{2in}\rule{0.9\linewidth}{0pt}}
+\caption{Diagramme de classes -- Sprint 3 (placeholder).}
+\label{fig:sprint3-class}
+\end{figure}
+
+\subsection{Diagrammes de séquence}
+\begin{figure}[H]
+\centering
+\fbox{\rule{0pt}{2in}\rule{0.9\linewidth}{0pt}}
+\caption{Diagrammes de séquence -- Sprint 3 (placeholder).}
+\label{fig:sprint3-seq}
+\end{figure}
+
+\section{Réalisation}
+\subsection{Intégration SAST (Semgrep, Bandit)}
+Les moteurs Semgrep et Bandit sont orchestrés via des jobs asynchrones afin d'analyser le code source. Les résultats sont convertis vers un format interne unifié pour faciliter la priorisation.
+
+\subsection{Intégration SCA (OSV)}
+L'analyse SCA s'appuie sur OSV pour identifier les dépendances vulnérables et lier chaque alerte à un identifiant CVE/OSV. Les alertes sont regroupées par projet et version.
+
+\section{Test et validation}
+\subsection{Tests réalisés}
+Les tests incluent l'exécution d'un scan SAST sur un dépôt témoin, l'analyse SCA d'un fichier de dépendances et la vérification du mapping des sévérités.
+
+\subsection{Validation}
+La validation repose sur des scénarios où les résultats SAST/SCA sont comparés à des sorties attendues et consolidés dans le tableau de bord.
+
+\section{Conclusion}
+Le Sprint 3 a permis d'intégrer la détection SAST/SCA et de normaliser les alertes. Cette base ouvre la voie au Sprint 4, centré sur la détection dynamique et l'orchestration avancée.

@@ -1,0 +1,84 @@
+% ═══════════════════════════════════════════════════════════════════
+\chapter{Sprint 2 -- Projets et intégrations}
+% ═══════════════════════════════════════════════════════════════════
+
+\section{Introduction}
+Ce sprint est consacré à la gestion des projets et aux intégrations nécessaires pour connecter InvisiThreat à l'écosystème existant. L'objectif est de permettre la création de projets, la configuration des dépôts et l'automatisation des déclenchements via OAuth et clés API.
+
+\section{Objectifs du sprint et planification des tâches}
+\subsection{Objectifs du sprint}
+\begin{itemize}
+  \item permettre la création et la configuration des projets ;
+  \item intégrer les dépôts GitHub via OAuth ;
+  \item gérer les clés API pour les pipelines CI/CD ;
+  \item initialiser des notifications de base sur les scans.
+\end{itemize}
+
+\subsection{Sprint Backlog}
+\begin{table}[H]
+\centering
+\caption{Sprint Backlog -- Sprint 2}
+\label{tab:sprint2-backlog}
+\small
+\renewcommand{\arraystretch}{1.2}
+\begin{tabularx}{\textwidth}{>{\bfseries}c X c}
+\hline
+\rowcolor{gray!15}
+ID & User Story & Priorité \\
+\hline
+S2-01 & En tant qu'administrateur, je peux créer un projet et définir ses URLs cibles. & M \\
+S2-02 & En tant que développeur, je peux connecter un dépôt GitHub via OAuth. & S \\
+S2-03 & En tant que système CI/CD, je peux déclencher un scan via une clé API. & S \\
+S2-04 & En tant que Security Manager, je peux consulter des notifications de scan. & S \\
+\hline
+\end{tabularx}
+\end{table}
+
+\section{Technologies et concepts utilisés}
+L'intégration GitHub s'appuie sur le flux OAuth2 afin d'autoriser l'accès aux dépôts sans exposer d'identifiants. Les clés API sont générées et stockées de manière sécurisée pour authentifier les appels automatisés. Le modèle de projet regroupe dépôts, URLs cibles et paramètres de scan afin de centraliser la configuration.
+
+\section{Analyse détaillée des besoins}
+\subsection{Diagramme de cas d'utilisation du sprint}
+\begin{figure}[H]
+\centering
+\fbox{\rule{0pt}{2in}\rule{0.9\linewidth}{0pt}}
+\caption{Diagramme de cas d'utilisation -- Sprint 2 (placeholder).}
+\label{fig:sprint2-use-case}
+\end{figure}
+
+\subsection{Description détaillée des cas d'utilisation}
+Les cas d'utilisation couvrent la création d'un projet, l'association d'un dépôt GitHub, la génération d'une clé API et le paramétrage des URLs de scan. Chaque action est auditée et limitée au périmètre de l'utilisateur.
+
+\section{Modélisation conceptuelle}
+\subsection{Diagramme de classes}
+\begin{figure}[H]
+\centering
+\fbox{\rule{0pt}{2in}\rule{0.9\linewidth}{0pt}}
+\caption{Diagramme de classes -- Sprint 2 (placeholder).}
+\label{fig:sprint2-class}
+\end{figure}
+
+\subsection{Diagrammes de séquence}
+\begin{figure}[H]
+\centering
+\fbox{\rule{0pt}{2in}\rule{0.9\linewidth}{0pt}}
+\caption{Diagrammes de séquence -- Sprint 2 (placeholder).}
+\label{fig:sprint2-seq}
+\end{figure}
+
+\section{Réalisation}
+\subsection{Gestion des projets et des dépôts}
+Le module projet centralise les métadonnées (nom, dépôt, URLs, paramètres) et sert de point d'entrée pour les scans. La configuration est persistée afin d'assurer la traçabilité et l'historisation.
+
+\subsection{Intégrations OAuth et clés API}
+L'intégration OAuth permet d'accéder aux dépôts GitHub pour récupérer les métadonnées et autoriser les scans. Les clés API offrent un mode d'authentification technique pour les pipelines CI/CD, avec rotation et révocation possibles.
+
+\section{Test et validation}
+\subsection{Tests réalisés}
+Les tests incluent la création de projets, la connexion OAuth, la génération de clés API et la vérification des droits d'accès selon le rôle.
+
+\subsection{Validation}
+La validation s'appuie sur des scénarios CI/CD simulés déclenchant des scans et vérifiant la récupération correcte des projets et dépôts.
+
+\section{Conclusion}
+Le Sprint 2 a permis d'ouvrir la plateforme aux intégrations essentielles. La gestion des projets, des dépôts et des clés API prépare le terrain pour les sprints orientés scanners et orchestration.

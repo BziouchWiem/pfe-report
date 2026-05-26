@@ -1,0 +1,81 @@
+% ═══════════════════════════════════════════════════════════════════
+\chapter{Sprint 4 -- DAST, orchestration et IA}
+% ═══════════════════════════════════════════════════════════════════
+
+\section{Introduction}
+Ce sprint finalise la chaîne DevSecOps par l'intégration du DAST et l'orchestration asynchrone, tout en consolidant le workflow de vulnérabilités et l'assistance IA. L'objectif est d'apporter une visibilité temps réel et une remédiation priorisée.
+
+\section{Objectifs du sprint et planification des tâches}
+\subsection{Objectifs du sprint}
+\begin{itemize}
+  \item intégrer OWASP ZAP pour l'analyse dynamique ;
+  \item orchestrer les scans via Celery/Redis avec suivi temps réel ;
+  \item mettre en place le workflow de vulnérabilités et le scoring de risque ;
+  \item activer l'assistance IA pour la remédiation.
+\end{itemize}
+
+\subsection{Sprint Backlog}
+\begin{table}[H]
+\centering
+\caption{Sprint Backlog -- Sprint 4}
+\label{tab:sprint4-backlog}
+\small
+\renewcommand{\arraystretch}{1.2}
+\begin{tabularx}{\textwidth}{>{\bfseries}c X c}
+\hline
+\rowcolor{gray!15}
+ID & User Story & Priorité \\
+\hline
+S4-01 & En tant que développeur, je peux lancer un scan DAST via OWASP ZAP. & M \\
+S4-02 & En tant que système, je peux orchestrer les scans asynchrones. & M \\
+S4-03 & En tant que Security Manager, je peux suivre le workflow des vulnérabilités. & M \\
+S4-04 & En tant que développeur, je peux obtenir une recommandation via l'assistant IA. & S \\
+\hline
+\end{tabularx}
+\end{table}
+
+\section{Analyse détaillée des besoins}
+\subsection{Diagramme de cas d'utilisation du sprint}
+\begin{figure}[H]
+\centering
+\fbox{\rule{0pt}{2in}\rule{0.9\linewidth}{0pt}}
+\caption{Diagramme de cas d'utilisation -- Sprint 4 (placeholder).}
+\label{fig:sprint4-use-case}
+\end{figure}
+
+\subsection{Description textuelle des cas d'utilisation}
+Les cas d'utilisation couvrent le déclenchement d'un scan DAST, le suivi d'exécution, la consultation des résultats enrichis et la transition des vulnérabilités dans le workflow. L'assistant IA fournit des explications contextualisées pour accélérer la correction.
+
+\section{Modélisation conceptuelle}
+\subsection{Diagramme de classes}
+\begin{figure}[H]
+\centering
+\fbox{\rule{0pt}{2in}\rule{0.9\linewidth}{0pt}}
+\caption{Diagramme de classes -- Sprint 4 (placeholder).}
+\label{fig:sprint4-class}
+\end{figure}
+
+\subsection{Diagrammes de séquence}
+\begin{figure}[H]
+\centering
+\fbox{\rule{0pt}{2in}\rule{0.9\linewidth}{0pt}}
+\caption{Diagrammes de séquence -- Sprint 4 (placeholder).}
+\label{fig:sprint4-seq}
+\end{figure}
+
+\section{Réalisation}
+\subsection{Intégration DAST (OWASP ZAP)}
+Le moteur OWASP ZAP est exécuté en mode daemon et piloté via API REST. Les profils de scan sont paramétrables afin d'équilibrer couverture et performance.
+
+\subsection{Orchestration et workflow}
+Les scans sont orchestrés via Celery/Redis, avec un suivi de progression et une gestion des files d'attente. Les vulnérabilités sont normalisées, scorées et intégrées dans un workflow d'état (ouvert, confirmé, corrigé, faux positif).
+
+\section{Test et validation}
+\subsection{Tests réalisés}
+Les tests incluent l'exécution d'un scan DAST sur une cible de test, la vérification des transitions de workflow et l'affichage des notifications en temps réel.
+
+\subsection{Validation}
+La validation s'appuie sur des scénarios de bout en bout combinant SAST/SCA/DAST et vérifiant la priorisation, l'historisation et les recommandations IA.
+
+\section{Conclusion}
+Le Sprint 4 clôture la chaîne DevSecOps en consolidant l'analyse dynamique, l'orchestration et l'assistance IA. La plateforme dispose désormais d'un pipeline complet et d'un workflow de remédiation exploitable.

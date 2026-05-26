@@ -1,13 +1,15 @@
 \chapter*{CONCLUSION GÉNÉRALE}
 \addcontentsline{toc}{chapter}{CONCLUSION GÉNÉRALE}
-InvisiThreat a permis de formaliser un pipeline de détection combinant SAST et DAST,
-de centraliser les résultats et d'offrir un tableau de bord exploitable pour les équipes
-techniques. L'intégration de FastAPI, PostgreSQL et OWASP ZAP a assuré une base solide
-pour l'automatisation, tandis que React et Socket.IO ont apporté une visualisation
-réactive de l'état des scans.
+InvisiThreat a permis de formaliser un pipeline de détection combinant SAST, DAST et
+SCA, de centraliser les résultats et d'offrir un tableau de bord exploitable pour les
+équipes techniques. L'intégration de FastAPI, PostgreSQL, Redis/Celery et OWASP ZAP a
+assuré une base solide pour l'automatisation, tandis que React et Socket.IO ont apporté
+une visualisation réactive de l'état des scans. L'assistant IA local, exposé via
+\textit{Assist with AI}, renforce la compréhension des vulnérabilités et accélère la
+remédiation grâce à des recommandations contextualisées.
 
-Les perspectives immédiates incluent l'intégration CI/CD complète (scans déclenchés
-à chaque merge), l'ajout d'un module SCA pour les dépendances tierces, et la mise en
-place d'un moteur de corrélation afin de réduire les faux positifs. Une extension
-vers le scanning d'images Docker et l'analyse de configuration cloud permettrait
-d'élargir la couverture sécurité.
+Les perspectives immédiates incluent l'intégration CI/CD complète (gates de sécurité
+sur merge), l'amélioration du moteur de corrélation pour réduire les faux positifs et
+l'extension du périmètre vers l'analyse d'images Docker et d'Infrastructure as Code.
+L'ajout d'une intégration avec des outils de ticketing (Jira, GitHub Issues) et un
+pilotage multi-tenant renforcerait la gouvernance et l'adoption à l'échelle.

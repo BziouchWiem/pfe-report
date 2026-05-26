@@ -1,59 +1,140 @@
-\chapter{Architecture et réalisation}
+% ═══════════════════════════════════════════════════════════════════
+\chapter{Sprint 1 -- Sécurité et gouvernance}
+% ═══════════════════════════════════════════════════════════════════
 
 \section{Introduction}
-L'architecture d'InvisiThreat a été pensée pour séparer l'orchestration des scans, la
-persistance des résultats et la visualisation, tout en restant simple à déployer.
+Ce sprint vise à mettre en place le socle de sécurité et de gouvernance de la plateforme InvisiThreat. L'objectif est de garantir un accès sécurisé, une traçabilité complète des actions sensibles et un modèle d'autorisation cohérent pour les différents profils d'utilisateurs.
 
-\section{Architecture technique}
-Le système s'appuie sur Docker Compose avec quatre services : frontend React, backend
-FastAPI, PostgreSQL et OWASP ZAP. Le backend expose l'API REST, orchestre les scans et
-centralise les résultats, tandis que ZAP exécute les analyses dynamiques.
-\begin{figure}[h]
+\section{Objectifs du sprint et planification des tâches}
+\subsection{Objectifs du sprint}
+\begin{itemize}
+	\item mettre en place l'authentification JWT et la gestion des sessions ;
+	\item définir un modèle RBAC pour les rôles \textit{Admin}, \textit{Security Manager}, \textit{Développeur} et \textit{Viewer} ;
+	\item intégrer la 2FA TOTP pour les comptes sensibles ;
+	\item assurer la traçabilité via des audit logs.
+\end{itemize}
+
+\subsection{Sprint Backlog}
+\begin{table}[H]
+\centering
+\caption{Sprint Backlog -- Sprint 1}
+\label{tab:sprint1-backlog}
+\small
+\renewcommand{\arraystretch}{1.2}
+\begin{tabularx}{\textwidth}{>{\bfseries}c X c}
+\hline
+\rowcolor{gray!15}
+ID & User Story & Priorité \\
+\hline
+S1-01 & En tant qu'utilisateur, je peux m'authentifier et obtenir un jeton JWT. & M \\
+S1-02 & En tant qu'administrateur, je peux gérer les rôles et permissions (RBAC). & M \\
+S1-03 & En tant qu'administrateur, je peux activer la 2FA TOTP pour renforcer la sécurité. & M \\
+S1-04 & En tant que Security Manager, je peux consulter l'audit des actions sensibles. & M \\
+\hline
+\end{tabularx}
+\end{table}
+
+\section{Technologies et concepts utilisés}
+\subsection{JWT et OAuth2 (FastAPI Security)}
+L'authentification repose sur des jetons JWT signés côté serveur, avec un mécanisme de rafraîchissement contrôlé. L'usage d'OAuth2 dans FastAPI standardise les flux d'authentification et assure une intégration propre avec les endpoints sécurisés.
+
+\subsection{TOTP et RBAC}
+La 2FA TOTP ajoute un facteur de sécurité basé sur des codes temporaires, tandis que le RBAC définit une matrice de permissions fine par rôle. Cette combinaison garantit que chaque action critique est limitée au bon profil et journalisée.
+
+\section{Analyse et spécification des besoins}
+\subsection{Diagramme de cas d'utilisation du sprint}
+\begin{figure}[H]
 \centering
 \fbox{\rule{0pt}{2in}\rule{0.9\linewidth}{0pt}}
-\caption{Architecture technique d'InvisiThreat (placeholder).}
-\label{fig:architecture}
+\caption{Diagramme de cas d'utilisation -- Sprint 1 (placeholder).}
+\label{fig:sprint1-use-case}
 \end{figure}
 
-\section{Environnement logiciel}
-\subsection{Technologies et Frameworks}
-\subsubsection{Backend}
-FastAPI sert d'API centrale avec validation Pydantic. SQLAlchemy gère les accès à
-PostgreSQL et Alembic assure les migrations. La sécurité utilise JWT
-(\texttt{python-jose}) et le hachage bcrypt. Les scans SAST s'appuient sur Semgrep et
-Bandit, tandis que le DAST est orchestré via l'API OWASP ZAP. Les notifications temps
-réel reposent sur python-socketio et Redis.
+\subsection{Description détaillée des cas d'utilisation}
+Les cas d'utilisation principaux concernent l'authentification (connexion, renouvellement de jeton), la gestion des rôles et permissions, l'activation de la 2FA et la consultation des journaux d'audit. Chaque action critique déclenche une trace horodatée associée à l'identité de l'utilisateur.
 
-\subsubsection{Frontend}
-Le frontend React (Vite) fournit le dashboard, la gestion des projets et la visualisation
-des vulnérabilités. TailwindCSS assure la cohérence graphique, Axios gère les requêtes
-HTTP et Socket.IO affiche l'état des scans en temps réel.
+\section{Modélisation conceptuelle}
+\subsection{Diagramme de classes}
+\begin{figure}[H]
+\centering
+\fbox{\rule{0pt}{2in}\rule{0.9\linewidth}{0pt}}
+\caption{Diagramme de classes -- Sprint 1 (placeholder).}
+\label{fig:sprint1-class}
+\end{figure}
 
-\subsubsection{Base de données}
-PostgreSQL stocke les projets, scans, vulnérabilités, rapports et notifications. Des
-index sont appliqués sur la date de scan et la sévérité pour accélérer les filtres.
+\subsection{Diagrammes de séquence}
+\begin{figure}[H]
+\centering
+\fbox{\rule{0pt}{2in}\rule{0.9\linewidth}{0pt}}
+\caption{Diagrammes de séquence -- Sprint 1 (placeholder).}
+\label{fig:sprint1-seq}
+\end{figure}
 
-\subsection{Outils de développement}
-VS Code, Postman, Docker Desktop, pgAdmin et GitHub Actions ont été utilisés pour le
-développement, les tests et l'intégration continue.
+\section{Réalisation}
+\subsection{Authentification JWT}
+La couche d'authentification fournit un mécanisme stateless avec génération et validation des jetons, ainsi qu'une politique d'expiration cohérente avec l'usage en CI/CD.
 
-\section{Environnement matériel}
-Le développement a été réalisé sur un PC Windows 11, Intel i7, 16 Go de RAM et SSD
-512 Go. Les scans lourds DAST ont été isolés dans le conteneur ZAP.
+\subsection{RBAC et gestion des rôles}
+Les rôles sont modélisés dans une matrice de permissions appliquée à chaque requête. Les endpoints sensibles sont protégés par des garde-fous d'autorisation côté API.
 
-\section{Réalisation de l'application}
-Les modules réalisés sont :
-\begin{itemize}
-	\item \textbf{Authentification} : inscription, login JWT, OTP via QR code.
-	\item \textbf{Gestion des projets} : création d'un projet, configuration de l'URL cible.
-	\item \textbf{Scans SAST} : exécution Semgrep/Bandit, parsing JSON, insertion en base.
-	\item \textbf{Scans DAST} : orchestration ZAP, récupération des alertes et preuves HTTP.
-	\item \textbf{Reporting} : synthèse par sévérité, export PDF/JSON.
-	\item \textbf{Notifications} : Socket.IO et email transactionnel.
-\end{itemize}
-Exemple d'API : \texttt{POST /api/scans} déclenche un scan et retourne un identifiant
-permettant de suivre l'état en temps réel.
+\subsection{Audit logs et 2FA}
+Chaque action critique (connexion, changement d'état, configuration) génère un audit log. La 2FA TOTP est activable pour les comptes sensibles afin de limiter le risque de compromission.
+
+\section{Test et validation}
+\subsection{Tests réalisés}
+Les tests incluent des scénarios unitaires de génération de jetons, des tests d'accès par rôle et des tests d'activation/désactivation de la 2FA.
+
+\subsection{Validation des fonctionnalités}
+La validation s'appuie sur des scénarios de bout en bout : création d'un utilisateur, attribution d'un rôle, tentative d'accès aux endpoints et vérification des logs.
+
+\subsection{Gestion des versions / commits}
+Le développement a été versionné par branches de fonctionnalités, avec des messages de commit structurés afin de retracer l'évolution du module de sécurité.
 
 \section{Conclusion}
-L'implémentation fournit un socle stable pour la détection automatisée et l'évolution
-vers des scans additionnels (SCA, conteneurs, cloud).
+Le Sprint 1 a posé le socle de gouvernance et de sécurité de la plateforme. Les modules d'authentification, de contrôle d'accès et d'audit garantissent une base solide pour les sprints fonctionnels suivants.
+
+\subsection{Diagramme IA/LLM}
+Ce diagramme détaille le flux \textit{Assist with AI} : sélection d'une vulnérabilité,
+appel au module Ollama, génération d'explications et restitution dans l'interface.
+\begin{figure}[H]
+\centering
+\fbox{\rule{0pt}{2in}\rule{0.9\linewidth}{0pt}}
+\caption{Diagramme IA/LLM (placeholder).}
+\label{fig:comp-ia}
+\end{figure}
+
+\subsection{Diagramme d'activités}
+Le diagramme d'activités couvre le cycle complet d'un scan : préparation, exécution
+asynchrone, normalisation, scoring et notification.
+\begin{figure}[H]
+\centering
+\fbox{\rule{0pt}{2in}\rule{0.9\linewidth}{0pt}}
+\caption{Diagramme d'activités (placeholder).}
+\label{fig:comp-activity}
+\end{figure}
+
+\section{Configuration du projet}
+La configuration repose sur des variables d'environnement pour isoler les secrets
+(clés JWT, identifiants base, URLs de scan) et éviter tout durcissement fragile dans le
+code source. Cette approche facilite la rotation des secrets et réduit les risques de
+fuite. Docker Compose joue un rôle central en orchestrant les conteneurs localement et
+en reproduisant un environnement CI/CD minimal : build, lancement des services et
+tests automatisés. Des scripts d'automatisation (Makefile ou scripts shell) permettent
+d'initialiser la base, d'exécuter les migrations et de lancer des scans de démonstration.
+
+\section{Bonnes pratiques}
+Le contrôle d'accès \textbf{RBAC} applique le principe du moindre privilège et limite
+la surface d'exposition des fonctions critiques. La gestion des secrets via des
+variables d'environnement, avec des mécanismes proches d'un coffre-fort, réduit le
+risque de compromission. Les scans asynchrones évitent le blocage de l'API et facilitent
+la mise en file des jobs lourds. Un \textbf{audit trail} complet garantit la traçabilité
+des actions sensibles et répond aux exigences de conformité. Enfin, les tests automatisés
+intégrés au pipeline DevSecOps sécurisent les évolutions et limitent les régressions
+fonctionnelles et sécurité.
+
+\section{Conclusion}
+Ce chapitre a présenté une étude technique détaillée, justifiant les choix d'outils,
+d'architecture et de configuration d'InvisiThreat. Les décisions prises assurent la
+cohérence entre automatisation des scans, sécurité des données et scalabilité. Cette
+base technique prépare la transition vers la conception détaillée et l'implémentation
+des modules critiques, en garantissant un alignement fort avec les objectifs DevSecOps.
