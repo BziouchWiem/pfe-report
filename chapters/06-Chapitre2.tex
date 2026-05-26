@@ -549,6 +549,10 @@ pour le développement, les tests, la modélisation et la gestion du projet. Ces
 constituent l'environnement de travail au sens ingénierie logicielle, distinct de la
 stack technique déployée en production.
 
+% Logos helpers for consistent size and alignment
+\newcommand{\logocell}[1]{\raisebox{-0.5\height}{\includegraphics[width=0.75in,height=0.45in,keepaspectratio]{#1}}}
+\newcommand{\placeholderlogo}{\fbox{\rule{0pt}{0.45in}\rule{0.75in}{0pt}}}
+
 \begin{table}[H]
 \centering
 \caption{Environnement logiciel utilisé pour le développement}
@@ -559,47 +563,47 @@ stack technique déployée en production.
 \rowcolor{gray!15}
 \textbf{Logo} & \textbf{Outil} & \textbf{Description et rôle dans le projet} \\
 \hline
-\fbox{\rule{0pt}{0.55in}\rule{0.55in}{0pt}}
+\logocell{images/logos/VSCode.png}
   & \textbf{VS Code}
   & IDE principal pour le développement Python et JavaScript, avec extensions de
     linting, d'intégration Git et de test des APIs REST. \\
 \hline
-\fbox{\rule{0pt}{0.55in}\rule{0.55in}{0pt}}
+\logocell{images/logos/Git.png}
   & \textbf{Git / GitHub}
   & Contrôle de version distribué, collaboration par branches et revue de code pour
     assurer la traçabilité des évolutions. \\
 \hline
-\fbox{\rule{0pt}{0.55in}\rule{0.55in}{0pt}}
+\logocell{images/logos/Docker.png}
   & \textbf{Docker Desktop}
   & Exécution locale des conteneurs pour reproduire fidèlement l'environnement
     de production et éviter les conflits de dépendances. \\
 \hline
-\fbox{\rule{0pt}{0.55in}\rule{0.55in}{0pt}}
+\placeholderlogo
   & \textbf{Postman}
   & Test des endpoints REST, validation des payloads et reproduction des scénarios
     de scan pour vérifier les contrats d'API. \\
 \hline
-\fbox{\rule{0pt}{0.55in}\rule{0.55in}{0pt}}
+\logocell{images/logos/Draw.png}
   & \textbf{Draw.io}
   & Modélisation des diagrammes UML : cas d'utilisation, déploiement et architecture
     logique. \\
 \hline
-\fbox{\rule{0pt}{0.55in}\rule{0.55in}{0pt}}
+\placeholderlogo
   & \textbf{Trello / Jira / ClickUp}
   & Gestion du Product Backlog, suivi de l'avancement des sprints et tableaux Kanban
     partagés entre les membres de l'équipe. \\
 \hline
-\fbox{\rule{0pt}{0.55in}\rule{0.55in}{0pt}}
+\placeholderlogo
   & \textbf{Chrome / Firefox DevTools}
   & Validation de l'interface React, inspection des requêtes réseau et analyse des
     performances côté client. \\
 \hline
-\fbox{\rule{0pt}{0.55in}\rule{0.55in}{0pt}}
+\placeholderlogo
   & \textbf{venv / pip}
   & Isolation des dépendances Python par environnement virtuel, garantissant la
     cohérence entre les deux postes de développement. \\
 \hline
-\fbox{\rule{0pt}{0.55in}\rule{0.55in}{0pt}}
+\logocell{images/logos/node.png}
   & \textbf{Node.js / npm}
   & Gestion des dépendances et build du frontend React, avec contrôle précis des
     versions des bibliothèques côté client. \\
@@ -625,7 +629,7 @@ maintenabilité, et accompagné d'une mise en perspective par rapport aux altern
 \rowcolor{gray!15}
 \textbf{Logo} & \textbf{Technologie} & \textbf{Rôle, justification et contraintes} \\
 \hline
-\fbox{\rule{0pt}{0.55in}\rule{0.55in}{0pt}}
+\logocell{images/logos/python.png}
   & \textbf{Python / FastAPI} \newline \small{Backend API}
   & Expose une API REST asynchrone capable de traiter des requêtes concurrentes
     sans blocage lors des scans longs. FastAPI apporte un typage strict et une
@@ -633,7 +637,7 @@ maintenabilité, et accompagné d'une mise en perspective par rapport aux altern
     d'intégration par rapport à Flask. Sa structure légère est mieux adaptée
     qu'un framework Django pour un service d'orchestration découplé. \\
 \hline
-\includegraphics[width=0.1\textwidth]{images/logos/react.png}
+\logocell{images/logos/react.png}
   & \textbf{React} \newline \small{Frontend}
   & Bibliothèque de construction d'interfaces riches et réactives, adaptée à la
     visualisation temps réel des états de scan. Son écosystème étendu et sa
@@ -641,7 +645,7 @@ maintenabilité, et accompagné d'une mise en perspective par rapport aux altern
     pour des tableaux de bord complexes. La gestion d'état est assurée via
     hooks et contextes React. \\
 \hline
-\fbox{\rule{0pt}{0.55in}\rule{0.55in}{0pt}}
+\logocell{images/logos/postgreSQL.png}
   & \textbf{PostgreSQL} \newline \small{Base de données}
   & Assure la persistance transactionnelle (ACID) et les agrégations avancées
     nécessaires à l'historisation des scans et aux analyses de tendances par
@@ -649,7 +653,7 @@ maintenabilité, et accompagné d'une mise en perspective par rapport aux altern
     requêtes analytiques. La contrainte principale est l'optimisation des index
     sur de grands volumes d'alertes. \\
 \hline
-\fbox{\rule{0pt}{0.55in}\rule{0.55in}{0pt}}
+\logocell{images/logos/redis.png}
   & \textbf{Redis} \newline \small{Broker \& cache}
   & Utilisé comme broker de messages pour Celery et stockage temporaire des
     états de scan (progression, files d'attente, verrous distribués). Sa nature
@@ -657,7 +661,7 @@ maintenabilité, et accompagné d'une mise en perspective par rapport aux altern
     pour les données éphémères. La stratégie d'expiration des clés constitue
     la contrainte principale. \\
 \hline
-\fbox{\rule{0pt}{0.55in}\rule{0.55in}{0pt}}
+\placeholderlogo
   & \textbf{Celery} \newline \small{Orchestration async.}
   & Exécute les analyses SAST, SCA et DAST dans des workers isolés sans bloquer
     l'API principale. Fournit un mécanisme de file d'attente, de retries
@@ -665,14 +669,14 @@ maintenabilité, et accompagné d'une mise en perspective par rapport aux altern
     supervision des workers et la gestion fine de la concurrence constituent
     les contraintes opérationnelles majeures. \\
 \hline
-\fbox{\rule{0pt}{0.55in}\rule{0.55in}{0pt}}
+\logocell{images/logos/Socket.IO.png}
   & \textbf{Socket.IO} \newline \small{Temps réel}
   & Assure la diffusion en temps réel des états de scan et des notifications
     critiques vers le frontend, éliminant la latence d'une interrogation
     périodique (polling). La gestion des connexions persistantes et la montée
     en charge représentent les contraintes principales. \\
 \hline
-\fbox{\rule{0pt}{0.55in}\rule{0.55in}{0pt}}
+\logocell{images/logos/Docker.png}
   & \textbf{Docker / Docker Compose} \newline \small{Conteneurisation}
   & Constitue le socle de déploiement de l'ensemble des services, garantissant
     la reproductibilité des environnements et la séparation des composants
@@ -680,7 +684,7 @@ maintenabilité, et accompagné d'une mise en perspective par rapport aux altern
     s'intègre naturellement aux pratiques DevSecOps. La gouvernance des images
     et la sécurisation des volumes sont les contraintes clés. \\
 \hline
-\fbox{\rule{0pt}{0.55in}\rule{0.55in}{0pt}}
+\logocell{images/logos/owaspzap.png}
   & \textbf{OWASP ZAP} \newline \small{DAST}
   & Moteur d'analyse dynamique open source retenu pour son API REST native
     permettant un pilotage programmatique complet. Plus accessible et
@@ -688,14 +692,14 @@ maintenabilité, et accompagné d'une mise en perspective par rapport aux altern
     d'une précision légèrement inférieure sur certaines règles, compensée par
     un paramétrage fin des profils de scan. \\
 \hline
-\fbox{\rule{0pt}{0.55in}\rule{0.55in}{0pt}}
+\placeholderlogo
   & \textbf{Semgrep / Bandit} \newline \small{SAST}
   & Moteurs d'analyse statique complémentaires : Semgrep pour la détection
     polyglotte par règles configurables, Bandit pour l'inspection spécialisée
     du code Python. La maîtrise du taux de faux positifs et la maintenance
     des règles constituent les enjeux principaux. \\
 \hline
-\fbox{\rule{0pt}{0.55in}\rule{0.55in}{0pt}}
+\placeholderlogo
   & \textbf{OSV} \newline \small{SCA}
   & Base de données ouverte de vulnérabilités maintenue collaborativement,
     permettant d'identifier les composants tiers présentant des failles connues
@@ -703,7 +707,7 @@ maintenabilité, et accompagné d'une mise en perspective par rapport aux altern
     métadonnées et la gestion des faux positifs sont les contraintes
     principales. \\
 \hline
-\fbox{\rule{0pt}{0.55in}\rule{0.55in}{0pt}}
+\placeholderlogo
   & \textbf{Ollama (Mistral / Qwen)} \newline \small{Assistant IA local}
   & Exécute localement des modèles LLM pour contextualiser les alertes et
     proposer des recommandations de remédiation via l'action
@@ -712,7 +716,7 @@ maintenabilité, et accompagné d'une mise en perspective par rapport aux altern
     variable des réponses selon le modèle retenu constituent les contraintes
     principales. \\
 \hline
-\fbox{\rule{0pt}{0.55in}\rule{0.55in}{0pt}}
+\placeholderlogo
   & \textbf{Pytest} \newline \small{Tests automatisés}
   & Framework de tests unitaires et d'intégration pour le backend, offrant un
     modèle de fixtures flexible et des assertions lisibles, supérieur au module

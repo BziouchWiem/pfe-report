@@ -50,95 +50,95 @@
 \contentsline {section}{\numberline {2.5}Étude technique}{21}{section.2.5}%
 \contentsline {subsection}{\numberline {2.5.1}Environnement matériel}{21}{subsection.2.5.1}%
 \contentsline {subsection}{\numberline {2.5.2}Environnement logiciel}{21}{subsection.2.5.2}%
-\contentsline {subsection}{\numberline {2.5.3}Technologies et outils utilisés}{23}{subsection.2.5.3}%
-\contentsline {subsection}{\numberline {2.5.4}Architecture du système}{25}{subsection.2.5.4}%
-\contentsline {subsubsection}{\numberline {2.5.4.1}Architecture logicielle}{25}{subsubsection.2.5.4.1}%
-\contentsline {subsubsection}{\numberline {2.5.4.2}Architecture physique}{25}{subsubsection.2.5.4.2}%
-\contentsline {section}{\numberline {2.6}Diagramme de déploiement}{26}{section.2.6}%
-\contentsline {section}{\numberline {2.7}Conclusion}{26}{section.2.7}%
-\contentsline {chapter}{\numberline {3}Sprint 1 -- Sécurité et gouvernance}{28}{chapter.3}%
-\contentsline {section}{\numberline {3.1}Introduction}{28}{section.3.1}%
-\contentsline {section}{\numberline {3.2}Objectifs du sprint et planification des tâches}{28}{section.3.2}%
-\contentsline {subsection}{\numberline {3.2.1}Objectifs du sprint}{28}{subsection.3.2.1}%
-\contentsline {subsection}{\numberline {3.2.2}Sprint Backlog}{28}{subsection.3.2.2}%
-\contentsline {section}{\numberline {3.3}Technologies et concepts utilisés}{28}{section.3.3}%
-\contentsline {subsection}{\numberline {3.3.1}JWT et OAuth2 (FastAPI Security)}{28}{subsection.3.3.1}%
-\contentsline {subsection}{\numberline {3.3.2}TOTP et RBAC}{29}{subsection.3.3.2}%
-\contentsline {section}{\numberline {3.4}Analyse et spécification des besoins}{29}{section.3.4}%
-\contentsline {subsection}{\numberline {3.4.1}Diagramme de cas d'utilisation du sprint}{29}{subsection.3.4.1}%
-\contentsline {subsection}{\numberline {3.4.2}Description détaillée des cas d'utilisation}{29}{subsection.3.4.2}%
-\contentsline {section}{\numberline {3.5}Modélisation conceptuelle}{30}{section.3.5}%
-\contentsline {subsection}{\numberline {3.5.1}Diagramme de classes}{30}{subsection.3.5.1}%
-\contentsline {subsection}{\numberline {3.5.2}Diagrammes de séquence}{30}{subsection.3.5.2}%
-\contentsline {section}{\numberline {3.6}Réalisation}{30}{section.3.6}%
-\contentsline {subsection}{\numberline {3.6.1}Authentification JWT}{30}{subsection.3.6.1}%
-\contentsline {subsection}{\numberline {3.6.2}RBAC et gestion des rôles}{30}{subsection.3.6.2}%
-\contentsline {subsection}{\numberline {3.6.3}Audit logs et 2FA}{31}{subsection.3.6.3}%
-\contentsline {section}{\numberline {3.7}Test et validation}{31}{section.3.7}%
-\contentsline {subsection}{\numberline {3.7.1}Tests réalisés}{31}{subsection.3.7.1}%
-\contentsline {subsection}{\numberline {3.7.2}Validation des fonctionnalités}{31}{subsection.3.7.2}%
-\contentsline {subsection}{\numberline {3.7.3}Gestion des versions / commits}{31}{subsection.3.7.3}%
-\contentsline {section}{\numberline {3.8}Conclusion}{31}{section.3.8}%
-\contentsline {subsection}{\numberline {3.8.1}Diagramme IA/LLM}{31}{subsection.3.8.1}%
-\contentsline {subsection}{\numberline {3.8.2}Diagramme d'activités}{32}{subsection.3.8.2}%
-\contentsline {section}{\numberline {3.9}Configuration du projet}{32}{section.3.9}%
-\contentsline {section}{\numberline {3.10}Bonnes pratiques}{32}{section.3.10}%
-\contentsline {section}{\numberline {3.11}Conclusion}{33}{section.3.11}%
-\contentsline {chapter}{\numberline {4}Sprint 2 -- Projets et intégrations}{34}{chapter.4}%
-\contentsline {section}{\numberline {4.1}Introduction}{34}{section.4.1}%
-\contentsline {section}{\numberline {4.2}Objectifs du sprint et planification des tâches}{34}{section.4.2}%
-\contentsline {subsection}{\numberline {4.2.1}Objectifs du sprint}{34}{subsection.4.2.1}%
-\contentsline {subsection}{\numberline {4.2.2}Sprint Backlog}{34}{subsection.4.2.2}%
-\contentsline {section}{\numberline {4.3}Technologies et concepts utilisés}{34}{section.4.3}%
-\contentsline {section}{\numberline {4.4}Analyse détaillée des besoins}{35}{section.4.4}%
-\contentsline {subsection}{\numberline {4.4.1}Diagramme de cas d'utilisation du sprint}{35}{subsection.4.4.1}%
-\contentsline {subsection}{\numberline {4.4.2}Description détaillée des cas d'utilisation}{35}{subsection.4.4.2}%
-\contentsline {section}{\numberline {4.5}Modélisation conceptuelle}{35}{section.4.5}%
-\contentsline {subsection}{\numberline {4.5.1}Diagramme de classes}{35}{subsection.4.5.1}%
-\contentsline {subsection}{\numberline {4.5.2}Diagrammes de séquence}{36}{subsection.4.5.2}%
-\contentsline {section}{\numberline {4.6}Réalisation}{36}{section.4.6}%
-\contentsline {subsection}{\numberline {4.6.1}Gestion des projets et des dépôts}{36}{subsection.4.6.1}%
-\contentsline {subsection}{\numberline {4.6.2}Intégrations OAuth et clés API}{36}{subsection.4.6.2}%
-\contentsline {section}{\numberline {4.7}Test et validation}{36}{section.4.7}%
-\contentsline {subsection}{\numberline {4.7.1}Tests réalisés}{36}{subsection.4.7.1}%
-\contentsline {subsection}{\numberline {4.7.2}Validation}{36}{subsection.4.7.2}%
-\contentsline {section}{\numberline {4.8}Conclusion}{37}{section.4.8}%
-\contentsline {chapter}{\numberline {5}Sprint 3 -- SAST et SCA}{38}{chapter.5}%
-\contentsline {section}{\numberline {5.1}Introduction}{38}{section.5.1}%
-\contentsline {section}{\numberline {5.2}Objectifs du sprint et planification des tâches}{38}{section.5.2}%
-\contentsline {subsection}{\numberline {5.2.1}Objectifs du sprint}{38}{subsection.5.2.1}%
-\contentsline {subsection}{\numberline {5.2.2}Sprint Backlog}{38}{subsection.5.2.2}%
-\contentsline {section}{\numberline {5.3}Analyse détaillée des besoins}{39}{section.5.3}%
-\contentsline {subsection}{\numberline {5.3.1}Diagramme de cas d'utilisation du sprint}{39}{subsection.5.3.1}%
-\contentsline {subsection}{\numberline {5.3.2}Description textuelle des cas d'utilisation}{39}{subsection.5.3.2}%
-\contentsline {section}{\numberline {5.4}Modélisation conceptuelle}{39}{section.5.4}%
-\contentsline {subsection}{\numberline {5.4.1}Diagramme de classes}{39}{subsection.5.4.1}%
-\contentsline {subsection}{\numberline {5.4.2}Diagrammes de séquence}{40}{subsection.5.4.2}%
-\contentsline {section}{\numberline {5.5}Réalisation}{40}{section.5.5}%
-\contentsline {subsection}{\numberline {5.5.1}Intégration SAST (Semgrep, Bandit)}{40}{subsection.5.5.1}%
-\contentsline {subsection}{\numberline {5.5.2}Intégration SCA (OSV)}{40}{subsection.5.5.2}%
-\contentsline {section}{\numberline {5.6}Test et validation}{40}{section.5.6}%
-\contentsline {subsection}{\numberline {5.6.1}Tests réalisés}{40}{subsection.5.6.1}%
-\contentsline {subsection}{\numberline {5.6.2}Validation}{40}{subsection.5.6.2}%
-\contentsline {section}{\numberline {5.7}Conclusion}{41}{section.5.7}%
-\contentsline {chapter}{\numberline {6}Sprint 4 -- DAST, orchestration et IA}{42}{chapter.6}%
-\contentsline {section}{\numberline {6.1}Introduction}{42}{section.6.1}%
-\contentsline {section}{\numberline {6.2}Objectifs du sprint et planification des tâches}{42}{section.6.2}%
-\contentsline {subsection}{\numberline {6.2.1}Objectifs du sprint}{42}{subsection.6.2.1}%
-\contentsline {subsection}{\numberline {6.2.2}Sprint Backlog}{42}{subsection.6.2.2}%
-\contentsline {section}{\numberline {6.3}Analyse détaillée des besoins}{43}{section.6.3}%
-\contentsline {subsection}{\numberline {6.3.1}Diagramme de cas d'utilisation du sprint}{43}{subsection.6.3.1}%
-\contentsline {subsection}{\numberline {6.3.2}Description textuelle des cas d'utilisation}{43}{subsection.6.3.2}%
-\contentsline {section}{\numberline {6.4}Modélisation conceptuelle}{43}{section.6.4}%
-\contentsline {subsection}{\numberline {6.4.1}Diagramme de classes}{43}{subsection.6.4.1}%
-\contentsline {subsection}{\numberline {6.4.2}Diagrammes de séquence}{44}{subsection.6.4.2}%
-\contentsline {section}{\numberline {6.5}Réalisation}{44}{section.6.5}%
-\contentsline {subsection}{\numberline {6.5.1}Intégration DAST (OWASP ZAP)}{44}{subsection.6.5.1}%
-\contentsline {subsection}{\numberline {6.5.2}Orchestration et workflow}{44}{subsection.6.5.2}%
-\contentsline {section}{\numberline {6.6}Test et validation}{44}{section.6.6}%
-\contentsline {subsection}{\numberline {6.6.1}Tests réalisés}{44}{subsection.6.6.1}%
-\contentsline {subsection}{\numberline {6.6.2}Validation}{44}{subsection.6.6.2}%
-\contentsline {section}{\numberline {6.7}Conclusion}{45}{section.6.7}%
-\contentsline {chapter}{CONCLUSION GÉNÉRALE}{46}{chapter*.48}%
-\contentsline {chapter}{BIBLIOGRAPHIE}{47}{section*.49}%
+\contentsline {subsection}{\numberline {2.5.3}Technologies et outils utilisés}{22}{subsection.2.5.3}%
+\contentsline {subsection}{\numberline {2.5.4}Architecture du système}{24}{subsection.2.5.4}%
+\contentsline {subsubsection}{\numberline {2.5.4.1}Architecture logicielle}{24}{subsubsection.2.5.4.1}%
+\contentsline {subsubsection}{\numberline {2.5.4.2}Architecture physique}{24}{subsubsection.2.5.4.2}%
+\contentsline {section}{\numberline {2.6}Diagramme de déploiement}{25}{section.2.6}%
+\contentsline {section}{\numberline {2.7}Conclusion}{25}{section.2.7}%
+\contentsline {chapter}{\numberline {3}Sprint 1 -- Sécurité et gouvernance}{27}{chapter.3}%
+\contentsline {section}{\numberline {3.1}Introduction}{27}{section.3.1}%
+\contentsline {section}{\numberline {3.2}Objectifs du sprint et planification des tâches}{27}{section.3.2}%
+\contentsline {subsection}{\numberline {3.2.1}Objectifs du sprint}{27}{subsection.3.2.1}%
+\contentsline {subsection}{\numberline {3.2.2}Sprint Backlog}{27}{subsection.3.2.2}%
+\contentsline {section}{\numberline {3.3}Technologies et concepts utilisés}{27}{section.3.3}%
+\contentsline {subsection}{\numberline {3.3.1}JWT et OAuth2 (FastAPI Security)}{27}{subsection.3.3.1}%
+\contentsline {subsection}{\numberline {3.3.2}TOTP et RBAC}{28}{subsection.3.3.2}%
+\contentsline {section}{\numberline {3.4}Analyse et spécification des besoins}{28}{section.3.4}%
+\contentsline {subsection}{\numberline {3.4.1}Diagramme de cas d'utilisation du sprint}{28}{subsection.3.4.1}%
+\contentsline {subsection}{\numberline {3.4.2}Description détaillée des cas d'utilisation}{28}{subsection.3.4.2}%
+\contentsline {section}{\numberline {3.5}Modélisation conceptuelle}{29}{section.3.5}%
+\contentsline {subsection}{\numberline {3.5.1}Diagramme de classes}{29}{subsection.3.5.1}%
+\contentsline {subsection}{\numberline {3.5.2}Diagrammes de séquence}{29}{subsection.3.5.2}%
+\contentsline {section}{\numberline {3.6}Réalisation}{29}{section.3.6}%
+\contentsline {subsection}{\numberline {3.6.1}Authentification JWT}{29}{subsection.3.6.1}%
+\contentsline {subsection}{\numberline {3.6.2}RBAC et gestion des rôles}{29}{subsection.3.6.2}%
+\contentsline {subsection}{\numberline {3.6.3}Audit logs et 2FA}{30}{subsection.3.6.3}%
+\contentsline {section}{\numberline {3.7}Test et validation}{30}{section.3.7}%
+\contentsline {subsection}{\numberline {3.7.1}Tests réalisés}{30}{subsection.3.7.1}%
+\contentsline {subsection}{\numberline {3.7.2}Validation des fonctionnalités}{30}{subsection.3.7.2}%
+\contentsline {subsection}{\numberline {3.7.3}Gestion des versions / commits}{30}{subsection.3.7.3}%
+\contentsline {section}{\numberline {3.8}Conclusion}{30}{section.3.8}%
+\contentsline {subsection}{\numberline {3.8.1}Diagramme IA/LLM}{30}{subsection.3.8.1}%
+\contentsline {subsection}{\numberline {3.8.2}Diagramme d'activités}{31}{subsection.3.8.2}%
+\contentsline {section}{\numberline {3.9}Configuration du projet}{31}{section.3.9}%
+\contentsline {section}{\numberline {3.10}Bonnes pratiques}{31}{section.3.10}%
+\contentsline {section}{\numberline {3.11}Conclusion}{32}{section.3.11}%
+\contentsline {chapter}{\numberline {4}Sprint 2 -- Projets et intégrations}{33}{chapter.4}%
+\contentsline {section}{\numberline {4.1}Introduction}{33}{section.4.1}%
+\contentsline {section}{\numberline {4.2}Objectifs du sprint et planification des tâches}{33}{section.4.2}%
+\contentsline {subsection}{\numberline {4.2.1}Objectifs du sprint}{33}{subsection.4.2.1}%
+\contentsline {subsection}{\numberline {4.2.2}Sprint Backlog}{33}{subsection.4.2.2}%
+\contentsline {section}{\numberline {4.3}Technologies et concepts utilisés}{33}{section.4.3}%
+\contentsline {section}{\numberline {4.4}Analyse détaillée des besoins}{34}{section.4.4}%
+\contentsline {subsection}{\numberline {4.4.1}Diagramme de cas d'utilisation du sprint}{34}{subsection.4.4.1}%
+\contentsline {subsection}{\numberline {4.4.2}Description détaillée des cas d'utilisation}{34}{subsection.4.4.2}%
+\contentsline {section}{\numberline {4.5}Modélisation conceptuelle}{34}{section.4.5}%
+\contentsline {subsection}{\numberline {4.5.1}Diagramme de classes}{34}{subsection.4.5.1}%
+\contentsline {subsection}{\numberline {4.5.2}Diagrammes de séquence}{35}{subsection.4.5.2}%
+\contentsline {section}{\numberline {4.6}Réalisation}{35}{section.4.6}%
+\contentsline {subsection}{\numberline {4.6.1}Gestion des projets et des dépôts}{35}{subsection.4.6.1}%
+\contentsline {subsection}{\numberline {4.6.2}Intégrations OAuth et clés API}{35}{subsection.4.6.2}%
+\contentsline {section}{\numberline {4.7}Test et validation}{35}{section.4.7}%
+\contentsline {subsection}{\numberline {4.7.1}Tests réalisés}{35}{subsection.4.7.1}%
+\contentsline {subsection}{\numberline {4.7.2}Validation}{35}{subsection.4.7.2}%
+\contentsline {section}{\numberline {4.8}Conclusion}{36}{section.4.8}%
+\contentsline {chapter}{\numberline {5}Sprint 3 -- SAST et SCA}{37}{chapter.5}%
+\contentsline {section}{\numberline {5.1}Introduction}{37}{section.5.1}%
+\contentsline {section}{\numberline {5.2}Objectifs du sprint et planification des tâches}{37}{section.5.2}%
+\contentsline {subsection}{\numberline {5.2.1}Objectifs du sprint}{37}{subsection.5.2.1}%
+\contentsline {subsection}{\numberline {5.2.2}Sprint Backlog}{37}{subsection.5.2.2}%
+\contentsline {section}{\numberline {5.3}Analyse détaillée des besoins}{38}{section.5.3}%
+\contentsline {subsection}{\numberline {5.3.1}Diagramme de cas d'utilisation du sprint}{38}{subsection.5.3.1}%
+\contentsline {subsection}{\numberline {5.3.2}Description textuelle des cas d'utilisation}{38}{subsection.5.3.2}%
+\contentsline {section}{\numberline {5.4}Modélisation conceptuelle}{38}{section.5.4}%
+\contentsline {subsection}{\numberline {5.4.1}Diagramme de classes}{38}{subsection.5.4.1}%
+\contentsline {subsection}{\numberline {5.4.2}Diagrammes de séquence}{39}{subsection.5.4.2}%
+\contentsline {section}{\numberline {5.5}Réalisation}{39}{section.5.5}%
+\contentsline {subsection}{\numberline {5.5.1}Intégration SAST (Semgrep, Bandit)}{39}{subsection.5.5.1}%
+\contentsline {subsection}{\numberline {5.5.2}Intégration SCA (OSV)}{39}{subsection.5.5.2}%
+\contentsline {section}{\numberline {5.6}Test et validation}{39}{section.5.6}%
+\contentsline {subsection}{\numberline {5.6.1}Tests réalisés}{39}{subsection.5.6.1}%
+\contentsline {subsection}{\numberline {5.6.2}Validation}{39}{subsection.5.6.2}%
+\contentsline {section}{\numberline {5.7}Conclusion}{40}{section.5.7}%
+\contentsline {chapter}{\numberline {6}Sprint 4 -- DAST, orchestration et IA}{41}{chapter.6}%
+\contentsline {section}{\numberline {6.1}Introduction}{41}{section.6.1}%
+\contentsline {section}{\numberline {6.2}Objectifs du sprint et planification des tâches}{41}{section.6.2}%
+\contentsline {subsection}{\numberline {6.2.1}Objectifs du sprint}{41}{subsection.6.2.1}%
+\contentsline {subsection}{\numberline {6.2.2}Sprint Backlog}{41}{subsection.6.2.2}%
+\contentsline {section}{\numberline {6.3}Analyse détaillée des besoins}{42}{section.6.3}%
+\contentsline {subsection}{\numberline {6.3.1}Diagramme de cas d'utilisation du sprint}{42}{subsection.6.3.1}%
+\contentsline {subsection}{\numberline {6.3.2}Description textuelle des cas d'utilisation}{42}{subsection.6.3.2}%
+\contentsline {section}{\numberline {6.4}Modélisation conceptuelle}{42}{section.6.4}%
+\contentsline {subsection}{\numberline {6.4.1}Diagramme de classes}{42}{subsection.6.4.1}%
+\contentsline {subsection}{\numberline {6.4.2}Diagrammes de séquence}{43}{subsection.6.4.2}%
+\contentsline {section}{\numberline {6.5}Réalisation}{43}{section.6.5}%
+\contentsline {subsection}{\numberline {6.5.1}Intégration DAST (OWASP ZAP)}{43}{subsection.6.5.1}%
+\contentsline {subsection}{\numberline {6.5.2}Orchestration et workflow}{43}{subsection.6.5.2}%
+\contentsline {section}{\numberline {6.6}Test et validation}{43}{section.6.6}%
+\contentsline {subsection}{\numberline {6.6.1}Tests réalisés}{43}{subsection.6.6.1}%
+\contentsline {subsection}{\numberline {6.6.2}Validation}{43}{subsection.6.6.2}%
+\contentsline {section}{\numberline {6.7}Conclusion}{44}{section.6.7}%
+\contentsline {chapter}{CONCLUSION GÉNÉRALE}{45}{chapter*.48}%
+\contentsline {chapter}{BIBLIOGRAPHIE}{46}{section*.49}%
 \contentsfinish 
