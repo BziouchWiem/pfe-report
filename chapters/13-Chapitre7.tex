@@ -1,0 +1,338 @@
+% ═══════════════════════════════════════════════════════════════════
+\chapter{Sprint 5 -- Dashboard, Recommandation LLM et Rapport}
+% ═══════════════════════════════════════════════════════════════════
+
+\section{Introduction}
+Ce sprint clôture le développement fonctionnel d'InvisiThreat en apportant trois dimensions complémentaires : un tableau de bord analytique consolidant les métriques de sécurité, un module de recommandation par intelligence artificielle locale (Ollama, modèles Mistral/Qwen) permettant d'expliquer et de contextualiser chaque vulnérabilité via l'action \textit{Assist with AI}, et un système de génération de rapports de sécurité exportables (PDF et JSON) à destination des équipes de direction et d'audit. L'ensemble de ces fonctionnalités repose sur les données accumulées lors des sprints précédents.
+
+% ───────────────────────────────────────────────────────────────────
+\section{Objectifs du sprint et planification des tâches}
+
+\subsection{Objectifs attendus}
+À l'issue de ce sprint, la plateforme doit offrir :
+\begin{itemize}
+  \item un tableau de bord consolidé par projet avec agrégations de sécurité (scores de risque, répartition par sévérité, taux de remédiation, tendances temporelles) ;
+  \item un assistant IA local (\textit{Assist with AI}) capable d'expliquer une vulnérabilité et de proposer un exemple de correctif, en inférant sur un modèle Ollama local (confidentialité totale du code) ;
+  \item un module de génération de \texttt{SecurityReport} exportable en PDF (ReportLab) et JSON, filtrable par projet, période et sévérité.
+\end{itemize}
+
+\subsection{Sprint Backlog}
+\begin{table}[H]
+\centering
+\caption{Sprint Backlog -- Sprint 5}
+\label{tab:sprint5-backlog}
+\small
+\renewcommand{\arraystretch}{1.3}
+\begin{tabularx}{\textwidth}{c X c X c}
+\hline
+\rowcolor{gray!15}
+\textbf{ID} & \textbf{User Story} & \textbf{ID Tâche} & \textbf{Tâche} & \textbf{Priorité} \\
+\hline
+S5-01 & En tant que Security Manager ou développeur, je peux consulter un tableau de bord avec les métriques de sécurité de mes projets.
+  & T5-01 & Implémenter \texttt{GET /dashboard/stats} avec agrégation des \texttt{RiskScore}, compteurs par sévérité et taux de remédiation. & M \\
+\cline{3-5}
+  & & T5-02 & Implémenter \texttt{GET /dashboard/trends} retournant les scores de risque sur les N derniers scans par projet. & M \\
+\hline
+S5-02 & En tant que développeur ou Security Manager, je peux obtenir une recommandation IA contextualisée pour une vulnérabilité via l'action \textit{Assist with AI}.
+  & T5-03 & Implémenter l'adaptateur Ollama (\texttt{POST /api/generate}) avec construction du prompt enrichi (titre, description, extrait de code, CWE). & M \\
+\cline{3-5}
+  & & T5-04 & Exposer \texttt{POST /vulnerabilities/\{id\}/assist} et persister la réponse dans \texttt{Recommendation}. & M \\
+\hline
+S5-03 & En tant que Security Manager, je peux générer un rapport de sécurité PDF ou JSON filtré par projet, période et sévérité.
+  & T5-05 & Implémenter la génération PDF avec ReportLab (résumé exécutif, score de risque, liste des vulnérabilités par sévérité, statistiques de remédiation). & M \\
+\cline{3-5}
+  & & T5-06 & Implémenter la sérialisation JSON du rapport et l'endpoint \texttt{POST /security-reports}. & S \\
+\cline{3-5}
+  & & T5-07 & Persister le \texttt{SecurityReport} et exposer \texttt{GET /security-reports/\{id\}/download?format=pdf|json}. & S \\
+\hline
+\end{tabularx}
+\end{table}
+
+% ───────────────────────────────────────────────────────────────────
+\section{Technologies et concepts utilisés}
+
+\subsection{Ollama — LLM local (Mistral, Qwen)}
+
+\textbf{Description.} Ollama est un serveur d'inférence local permettant d'exécuter des modèles LLM (Large Language Models) tels que Mistral et Qwen sur du matériel standard sans accès à des API cloud. Il expose une API HTTP locale (\texttt{POST /api/generate}) pour soumettre des prompts et récupérer les réponses en streaming ou en mode complet.
+
+\textbf{Utilisation dans InvisiThreat.} L'action \textit{Assist with AI} déclenche un appel à l'adaptateur Ollama. Celui-ci construit un prompt structuré intégrant le titre, la description, l'extrait de code vulnérable et la référence CWE de la vulnérabilité sélectionnée, puis soumet ce prompt au modèle local. La réponse est parsée pour extraire l'explication contextuelle (\texttt{explanation}) et l'exemple de code corrigé (\texttt{fix\_example}). Ces données sont persistées dans l'entité \texttt{Recommendation}.
+
+\textbf{Justification.} L'utilisation d'un LLM local (Ollama) est le différenciateur principal d'InvisiThreat par rapport aux solutions SaaS concurrentes : aucun code source ni donnée sensible ne transite vers des serveurs externes. Le choix des modèles Mistral et Qwen repose sur leur équilibre entre qualité de génération et performances sur du matériel standard (quantification 4-bit ou 8-bit).
+
+\subsection{ReportLab (génération PDF)}
+
+\textbf{Description.} ReportLab est une bibliothèque Python permettant la génération programmatique de documents PDF, avec support des tableaux, graphiques vectoriels, en-têtes/pieds de page et mise en page complexe.
+
+\textbf{Utilisation dans InvisiThreat.} La génération du \texttt{SecurityReport} utilise ReportLab pour produire un document PDF structuré en plusieurs sections : résumé exécutif (score de risque global, nombre de vulnérabilités par sévérité), liste détaillée des vulnérabilités (titre, sévérité, localisation, CVSS), statistiques de remédiation (taux de résolution, vulnérabilités en attente) et recommandations IA si disponibles. Le document intègre le logo et les couleurs de charte de Mobelite.
+
+\textbf{Justification.} La génération PDF côté serveur garantit une mise en page cohérente et reproductible, indépendante du navigateur ou du système d'exploitation du destinataire.
+
+\subsection{Agrégations PostgreSQL (tableau de bord)}
+
+\textbf{Description.} Les métriques du tableau de bord (scores de risque, tendances, taux de remédiation) requièrent des requêtes SQL agrégées efficaces sur les tables \texttt{scans}, \texttt{vulnerabilities}, \texttt{risk\_scores} et \texttt{vulnerability\_tasks}.
+
+\textbf{Utilisation dans InvisiThreat.} Les endpoints du tableau de bord s'appuient sur des requêtes SQLAlchemy ORM avec \texttt{func.count()}, \texttt{func.avg()} et des sous-requêtes fenêtrées pour calculer les tendances temporelles. Les résultats sont mis en cache Redis (TTL configurable) pour garantir la réactivité de l'interface même sur des projets avec de nombreux scans historiques.
+
+\textbf{Justification.} Le cache Redis évite les requêtes agrégées répétitives sur des données qui ne changent que lors d'un nouveau scan, préservant la performance de la base de données sous charge.
+
+% ───────────────────────────────────────────────────────────────────
+\section{Analyse et spécification des besoins}
+
+\subsection{Diagramme de cas d'utilisation du sprint}
+
+Le diagramme de cas d'utilisation du Sprint 5 (figure~\ref{fig:sprint5-use-case}) représente les interactions entre le \textbf{Security Manager} (consultation du dashboard, génération de rapports) et le \textbf{Developer} (consultation du dashboard, action \textit{Assist with AI}). Le cas \textit{Obtenir une recommandation IA} communique avec le système externe \textbf{Ollama}. Le cas \textit{Générer un rapport} est accessible uniquement au \texttt{security\_manager}, avec choix du format (PDF ou JSON) et des filtres.
+
+\begin{figure}[H]
+\centering
+\fbox{\rule{0pt}{2in}\rule{0.9\linewidth}{0pt}}
+\caption{Diagramme de cas d'utilisation -- Sprint 5 (Dashboard · Recommandation LLM · Rapport).}
+\label{fig:sprint5-use-case}
+\end{figure}
+
+\subsection{Description détaillée des cas d'utilisation}
+
+\paragraph{Cas d'utilisation : Consulter le tableau de bord de sécurité}
+\begin{table}[H]
+\centering
+\caption{Description du cas d'utilisation -- Consulter le tableau de bord}
+\label{tab:uc-dashboard}
+\small
+\renewcommand{\arraystretch}{1.3}
+\begin{tabularx}{\textwidth}{>{\bfseries}p{3.5cm} X}
+\hline
+Titre & Consulter le tableau de bord de sécurité \\
+\hline
+Acteur & Développeur (\texttt{developer}), Security Manager (\texttt{security\_manager}), Administrateur (\texttt{admin}) \\
+\hline
+Résumé & Consulter une vue agrégée des métriques de sécurité des projets auxquels l'utilisateur appartient : score de risque actuel, répartition des vulnérabilités par sévérité, taux de remédiation et tendances temporelles. \\
+\hline
+Préconditions & L'utilisateur est authentifié. Au moins un scan \texttt{completed} existe dans ses projets. \\
+\hline
+Postconditions & Les métriques agrégées sont retournées depuis le cache Redis ou calculées à la volée. \\
+\hline
+Scénario nominal &
+1. L'utilisateur accède au tableau de bord (\texttt{GET /dashboard/stats?project\_id=\{id\}}). \newline
+2. Le système vérifie le cache Redis ; si valide, retourne les métriques en cache. \newline
+3. Sinon, exécute les requêtes SQL agrégées sur PostgreSQL et met à jour le cache. \newline
+4. Les métriques sont affichées : score de risque, compteurs par sévérité, taux de résolution, tendance sur les 10 derniers scans. \\
+\hline
+Scénario alternatif &
+1.a Aucun scan completed pour ce projet : le dashboard affiche un état vide avec message informatif. \\
+\hline
+\end{tabularx}
+\end{table}
+
+\paragraph{Cas d'utilisation : Obtenir une recommandation IA (\textit{Assist with AI})}
+\begin{table}[H]
+\centering
+\caption{Description du cas d'utilisation -- Recommandation IA (Ollama)}
+\label{tab:uc-llm}
+\small
+\renewcommand{\arraystretch}{1.3}
+\begin{tabularx}{\textwidth}{>{\bfseries}p{3.5cm} X}
+\hline
+Titre & Obtenir une recommandation IA (\textit{Assist with AI}) \\
+\hline
+Acteur & Développeur (\texttt{developer}), Security Manager (\texttt{security\_manager}) \\
+\hline
+Résumé & Obtenir une explication contextuelle et un exemple de code corrigé pour une vulnérabilité donnée, via un LLM exécuté localement (Ollama, Mistral/Qwen), garantissant la confidentialité du code. \\
+\hline
+Préconditions & La vulnérabilité existe dans un scan \texttt{completed}. L'utilisateur est membre du projet. Le serveur Ollama est démarré et le modèle est disponible. \\
+\hline
+Postconditions & \texttt{Recommendation} persistée avec \texttt{explanation}, \texttt{fix\_example} et \texttt{cwe\_reference}. \\
+\hline
+Scénario nominal &
+1. L'utilisateur clique sur \textit{Assist with AI} depuis le détail d'une vulnérabilité. \newline
+2. Le système soumet un prompt enrichi à l'adaptateur Ollama (titre, description, code vulnérable, contexte CWE). \newline
+3. Ollama génère l'explication et l'exemple de correctif. \newline
+4. La réponse est parsée et persistée dans \texttt{Recommendation}. \newline
+5. La recommandation est affichée dans l'interface avec la référence CWE. \\
+\hline
+Scénario alternatif &
+3.a Timeout Ollama (modèle non chargé ou surcharge) : HTTP 503, message d'erreur ; aucune \texttt{Recommendation} créée. \newline
+3.b Recommandation déjà existante : le système retourne la \texttt{Recommendation} existante sans appel supplémentaire à Ollama. \\
+\hline
+\end{tabularx}
+\end{table}
+
+\paragraph{Cas d'utilisation : Générer un rapport de sécurité}
+\begin{table}[H]
+\centering
+\caption{Description du cas d'utilisation -- Générer un rapport}
+\label{tab:uc-report}
+\small
+\renewcommand{\arraystretch}{1.3}
+\begin{tabularx}{\textwidth}{>{\bfseries}p{3.5cm} X}
+\hline
+Titre & Générer un rapport de sécurité (PDF ou JSON) \\
+\hline
+Acteur & Security Manager (\texttt{security\_manager}) \\
+\hline
+Résumé & Générer un rapport de sécurité exportable (PDF ou JSON) pour un projet sur une période donnée, incluant le score de risque, les vulnérabilités par sévérité et les statistiques de remédiation. \\
+\hline
+Préconditions & L'utilisateur est Security Manager et membre du projet. Au moins un scan \texttt{completed} correspond aux critères de filtre. \\
+\hline
+Postconditions & Entité \texttt{SecurityReport} créée. Fichier PDF ou JSON disponible au téléchargement via \texttt{GET /security-reports/\{id\}/download}. \\
+\hline
+Scénario nominal &
+1. Le Security Manager soumet \texttt{POST /security-reports} avec \texttt{project\_id}, plage de dates et \texttt{format = "pdf"} ou \texttt{"json"}. \newline
+2. Le système agrège les données des scans concernés. \newline
+3. Si PDF : ReportLab génère le document structuré et le stocke temporairement. \newline
+4. Si JSON : les données sont sérialisées via Pydantic. \newline
+5. L'entité \texttt{SecurityReport} est persistée avec \texttt{data} (JSON sérialisé). \newline
+6. Le lien de téléchargement est retourné au Security Manager. \\
+\hline
+Scénario alternatif &
+2.a Aucun scan dans la période sélectionnée : HTTP 400, message explicite. \\
+\hline
+\end{tabularx}
+\end{table}
+
+% ───────────────────────────────────────────────────────────────────
+\section{Modélisation conceptuelle}
+
+\subsection{Diagramme de classes}
+
+Le diagramme de classes du Sprint 5 (figure~\ref{fig:sprint5-class}) modélise les entités analytiques. \texttt{Recommendation} est lié à \texttt{Vulnerability} (\(0..1\)) : une vulnérabilité peut avoir au plus une recommandation IA. \texttt{SecurityReport} est lié à \texttt{Project} (\(N..1\)) et à \texttt{Scan} (\(0..N\) via une table de liaison) : un rapport peut consolider plusieurs scans sur une période. La classe utilitaire \texttt{DashboardStats} (non persistée, produit d'une requête agrégée) encapsule les métriques retournées par \texttt{GET /dashboard/stats}.
+
+\begin{figure}[H]
+\centering
+\fbox{\rule{0pt}{2in}\rule{0.9\linewidth}{0pt}}
+\caption{Diagramme de classes -- Sprint 5 (Recommendation, SecurityReport, DashboardStats).}
+\label{fig:sprint5-class}
+\end{figure}
+
+\paragraph{Dictionnaire de données}
+
+\begin{table}[H]
+\centering
+\caption{Dictionnaire de données -- Sprint 5}
+\label{tab:dict-sprint5}
+\small
+\renewcommand{\arraystretch}{1.3}
+\begin{tabularx}{\textwidth}{>{\bfseries}p{2.8cm} p{3.2cm} X p{2.5cm}}
+\hline
+\rowcolor{gray!15}
+\textbf{Classe} & \textbf{Code} & \textbf{Désignation} & \textbf{Type} \\
+\hline
+Recommendation & id & Identifiant unique de la recommandation IA & UUID \\
+Recommendation & vulnerability\_id & Référence à la vulnérabilité concernée & UUID (FK → Vulnerability) \\
+Recommendation & explanation & Explication contextuelle générée par le LLM & Text \\
+Recommendation & fix\_example & Exemple de code corrigé généré par le LLM & Text \\
+Recommendation & cwe\_reference & Référence CWE associée à la vulnérabilité & String (nullable) \\
+Recommendation & model\_used & Nom du modèle Ollama utilisé (ex. : \texttt{mistral:7b}) & String \\
+Recommendation & created\_at & Horodatage de génération & DateTime \\
+\hline
+SecurityReport & id & Identifiant unique du rapport & UUID \\
+SecurityReport & project\_id & Référence au projet concerné & UUID (FK → Project) \\
+SecurityReport & generated\_by & Référence au Security Manager ayant généré le rapport & UUID (FK → User) \\
+SecurityReport & period\_start & Début de la période couverte & Date \\
+SecurityReport & period\_end & Fin de la période couverte & Date \\
+SecurityReport & format & Format du rapport (\texttt{pdf} ou \texttt{json}) & String (enum) \\
+SecurityReport & generated\_at & Horodatage de génération & DateTime \\
+SecurityReport & data & Données du rapport sérialisées (JSON) & JSON \\
+\hline
+DashboardStats & project\_id & Identifiant du projet concerné & UUID \\
+DashboardStats & current\_risk\_score & Score de risque du dernier scan complété & Float \\
+DashboardStats & risk\_level & Niveau qualitatif (\texttt{critical}/\texttt{high}/\texttt{medium}/\texttt{low}) & String \\
+DashboardStats & total\_open & Nombre de vulnérabilités à l'état \texttt{open} & Integer \\
+DashboardStats & by\_severity & Décompte par sévérité (JSON : \texttt{\{critical: N, high: N, ...\}}) & JSON \\
+DashboardStats & remediation\_rate & Taux de vulnérabilités résolues (en pourcentage) & Float \\
+DashboardStats & trend & Historique des scores de risque (N derniers scans) & JSON \\
+\hline
+\end{tabularx}
+\end{table}
+
+\subsection{Diagramme de séquence}
+
+\paragraph{Diagramme DS-5 : Dashboard · Recommandation LLM · Rapport}
+
+Le diagramme DS-5 (figure~\ref{fig:sprint5-seq}) consolide les trois flux du sprint selon la notation BCE. \textbf{DashboardPage} (boundary — interface React) appelle \textbf{DashboardController} (control — \texttt{GET /dashboard/stats}) qui interroge le cache \textbf{Redis} avant de requêter \textbf{PostgreSQL} (entity). L'action \textit{Assist with AI} depuis \textbf{VulnDetailPanel} (boundary) déclenche \textbf{LLMController} (control — \texttt{POST /vulnerabilities/\{id\}/assist}) qui appelle \textbf{OllamaAdapter} (control) et persiste l'entité \textbf{Recommendation} (entity). La génération de rapport depuis \textbf{ReportForm} (boundary) déclenche \textbf{ReportController} (control — \texttt{POST /security-reports}) qui orchestre les agrégations et délègue la mise en forme à \textbf{ReportLabGenerator} (control) avant de persister \textbf{SecurityReport} (entity).
+
+\begin{figure}[H]
+\centering
+\fbox{\rule{0pt}{2in}\rule{0.9\linewidth}{0pt}}
+\caption{Diagramme de séquence DS-5 -- Dashboard · Recommandation LLM (Ollama) · Génération de rapport (ReportLab).}
+\label{fig:sprint5-seq}
+\end{figure}
+
+% ───────────────────────────────────────────────────────────────────
+\section{Réalisation}
+
+\subsection{Tableau de bord analytique}
+Les endpoints du tableau de bord agrègent les données des entités \texttt{RiskScore}, \texttt{Vulnerability} et \texttt{VulnerabilityTask} pour chaque projet de l'utilisateur. Les métriques (score de risque courant, répartition par sévérité, taux de remédiation) sont mises en cache Redis avec un TTL de 5 minutes, invalidé automatiquement à la complétion d'un nouveau scan. L'endpoint \texttt{GET /dashboard/trends} retourne les scores de risque des N derniers scans, permettant la visualisation de l'évolution de la posture sécurité dans le temps.
+
+\subsection{Assistance IA locale (Ollama)}
+L'adaptateur Ollama construit un prompt structuré en trois sections : contexte de la vulnérabilité (titre, description, sévérité, CWE), extrait de code vulnérable (si disponible depuis le champ \texttt{evidence}) et instruction explicite de génération. La réponse du modèle est parsée pour extraire les sections \textit{Explication} et \textit{Correctif proposé}. Si une \texttt{Recommendation} existe déjà pour la vulnérabilité, elle est retournée directement sans nouvel appel à Ollama.
+
+\subsection{Génération de rapports (ReportLab + JSON)}
+Le module de génération de rapports prend en entrée les filtres (\texttt{project\_id}, \texttt{period\_start}, \texttt{period\_end}, \texttt{min\_severity}) et produit un document structuré. Le PDF généré inclut : page de garde (projet, période, Security Manager), résumé exécutif avec score de risque et indicateurs clés, tableau des vulnérabilités triées par sévérité décroissante, graphique à barres de répartition par sévérité, statistiques de remédiation et section recommandations IA. La version JSON expose les mêmes données pour intégration avec des outils tiers (SIEM, ticketing).
+
+% ───────────────────────────────────────────────────────────────────
+\section{Test et validation}
+
+\subsection{Tests réalisés}
+
+\begin{table}[H]
+\centering
+\caption{Tableau de test -- Recommandation LLM (Sprint 5)}
+\label{tab:test-sprint5-llm}
+\small
+\renewcommand{\arraystretch}{1.3}
+\begin{tabularx}{\textwidth}{>{\bfseries}p{3.5cm} X}
+\hline
+Cas de Test & TC-S5-01 -- Génération d'une recommandation IA via Ollama \\
+\hline
+Auteur du cas de test & Développeur / Testeur QA \\
+\hline
+Description & Vérifier que l'action \textit{Assist with AI} produit une \texttt{Recommendation} persistée avec les champs requis, et que les appels redondants retournent la recommandation existante. \\
+\hline
+Précondition & Une vulnérabilité \texttt{open} existe dans un scan \texttt{completed}. Le serveur Ollama est démarré avec le modèle \texttt{mistral:7b}. \\
+\hline
+Scénario &
+1. Envoyer \texttt{POST /vulnerabilities/\{id\}/assist} avec \texttt{Authorization: Bearer <token>}. \newline
+2. Vérifier la réponse HTTP 200 contenant \texttt{explanation} (non vide), \texttt{fix\_example} (non vide) et \texttt{cwe\_reference}. \newline
+3. Vérifier la création d'une entité \texttt{Recommendation} en base avec \texttt{model\_used = "mistral:7b"}. \newline
+4. Renvoyer la même requête ; vérifier qu'aucun nouvel appel Ollama n'est effectué (retour immédiat de la \texttt{Recommendation} existante). \\
+\hline
+Postcondition & \texttt{Recommendation} persistée. Idempotence garantie : aucun double appel LLM. \\
+\hline
+\end{tabularx}
+\end{table}
+
+\begin{table}[H]
+\centering
+\caption{Tableau de test -- Génération de rapport PDF (Sprint 5)}
+\label{tab:test-sprint5-report}
+\small
+\renewcommand{\arraystretch}{1.3}
+\begin{tabularx}{\textwidth}{>{\bfseries}p{3.5cm} X}
+\hline
+Cas de Test & TC-S5-02 -- Génération d'un rapport PDF de sécurité \\
+\hline
+Auteur du cas de test & Security Manager / Testeur QA \\
+\hline
+Description & Vérifier qu'un Security Manager peut générer un rapport PDF valide pour un projet avec plusieurs scans complétés. \\
+\hline
+Précondition & Un projet avec au moins deux scans \texttt{completed} et des vulnérabilités de sévérités variées. L'utilisateur est Security Manager du projet. \\
+\hline
+Scénario &
+1. Envoyer \texttt{POST /security-reports} avec \texttt{project\_id}, \texttt{period\_start}, \texttt{period\_end} et \texttt{format="pdf"}. \newline
+2. Vérifier la réponse HTTP 201 avec l'ID du rapport et le lien de téléchargement. \newline
+3. Appeler \texttt{GET /security-reports/\{id\}/download?format=pdf}. \newline
+4. Vérifier que le fichier retourné est un PDF valide (en-tête \texttt{\%PDF}) contenant les sections attendues. \\
+\hline
+Postcondition & Rapport PDF généré et téléchargeable. \texttt{SecurityReport} persisté en base. \\
+\hline
+\end{tabularx}
+\end{table}
+
+\subsection{Validation}
+La validation du tableau de bord a utilisé des jeux de données avec des historiques de scans simulés pour vérifier la cohérence des agrégations. Les tests de l'adaptateur Ollama ont été exécutés avec un vrai modèle Mistral local pour valider la qualité des recommandations générées sur des vulnérabilités Python connues (injection SQL, mauvaise gestion des secrets).
+
+\subsection{Gestion des versions et commits}
+Ce sprint a été développé sur la branche \texttt{feature/sprint5-dashboard-llm-report}. Les migrations Alembic ajoutant les tables \texttt{recommendations} et \texttt{security\_reports} ont été versionnées. La génération PDF a été testée via des tests de snapshot comparant les structures de documents générés.
+
+% ───────────────────────────────────────────────────────────────────
+\section{Conclusion}
+Le Sprint 5 parachève la plateforme InvisiThreat en y ajoutant les trois dimensions analytiques et intelligentes qui transforment un pipeline de détection en outil de gouvernance complet. Le tableau de bord offre une vision priorisée du risque par projet et dans le temps. L'assistance IA locale (Ollama, Mistral/Qwen) accélère la remédiation en fournissant des explications contextualisées et des correctifs concrets, sans compromettre la confidentialité du code. La génération de rapports PDF et JSON consolide les résultats pour la communication avec les équipes de direction et les auditeurs.

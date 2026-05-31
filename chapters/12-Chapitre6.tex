@@ -1,17 +1,21 @@
 % ═══════════════════════════════════════════════════════════════════
-\chapter{Sprint 4 -- DAST, orchestration et IA}
+\chapter{Sprint 4 -- Workflow de vulnérabilités}
 % ═══════════════════════════════════════════════════════════════════
 
 \section{Introduction}
-Ce sprint finalise la chaîne DevSecOps par l'intégration du DAST et l'orchestration asynchrone, tout en consolidant le workflow de vulnérabilités et l'assistance IA. L'objectif est d'apporter une visibilité temps réel et une remédiation priorisée.
+Ce sprint met en place le système de gestion collaborative des vulnérabilités détectées lors des scans. Il s'agit de transformer des alertes brutes en tâches de remédiation pilotables : synchronisation des tâches entre les scans, assignation à des responsables, suivi des transitions d'état et diffusion de notifications en temps réel. Ce sprint constitue la couche de gouvernance opérationnelle qui permet aux équipes sécurité et développement de collaborer efficacement autour des résultats des analyses.
 
+% ───────────────────────────────────────────────────────────────────
 \section{Objectifs du sprint et planification des tâches}
-\subsection{Objectifs du sprint}
+
+\subsection{Objectifs attendus}
+À l'issue de ce sprint, la plateforme doit permettre de créer des tâches de remédiation à partir des vulnérabilités détectées, de les assigner, de gérer leurs transitions d'état, d'y associer des commentaires et de notifier les parties prenantes en temps réel. Plus précisément :
 \begin{itemize}
-  \item intégrer OWASP ZAP pour l'analyse dynamique ;
-  \item orchestrer les scans via Celery/Redis avec suivi temps réel ;
-  \item mettre en place le workflow de vulnérabilités et le scoring de risque ;
-  \item activer l'assistance IA pour la remédiation.
+  \item synchroniser les tâches \texttt{VulnerabilityTask} avec les vulnérabilités issues des scans ;
+  \item implémenter les transitions d'état (\texttt{open} → \texttt{in\_progress} → \texttt{fixed} → \texttt{verified}) ;
+  \item gérer l'assignation des tâches et les commentaires collaboratifs ;
+  \item émettre des notifications (\texttt{Notification}) sur chaque événement clé (assignation, changement d'état) ;
+  \item diffuser les mises à jour en temps réel via Socket.IO.
 \end{itemize}
 
 \subsection{Sprint Backlog}
@@ -20,62 +24,648 @@ Ce sprint finalise la chaîne DevSecOps par l'intégration du DAST et l'orchestr
 \caption{Sprint Backlog -- Sprint 4}
 \label{tab:sprint4-backlog}
 \small
-\renewcommand{\arraystretch}{1.2}
-\begin{tabularx}{\textwidth}{>{\bfseries}c X c}
+\renewcommand{\arraystretch}{1.3}
+\begin{tabularx}{\textwidth}{c X c X c}
 \hline
 \rowcolor{gray!15}
-ID & User Story & Priorité \\
+\textbf{ID} & \textbf{User Story} & \textbf{ID Tâche} & \textbf{Tâche} & \textbf{Priorité} \\
 \hline
-S4-01 & En tant que développeur, je peux lancer un scan DAST via OWASP ZAP. & M \\
-S4-02 & En tant que système, je peux orchestrer les scans asynchrones. & M \\
-S4-03 & En tant que Security Manager, je peux suivre le workflow des vulnérabilités. & M \\
-S4-04 & En tant que développeur, je peux obtenir une recommandation via l'assistant IA. & S \\
+S4-01 & En tant que Security Manager, je peux créer une tâche de remédiation à partir d'une vulnérabilité détectée et l'assigner à un développeur.
+  & T4-01 & Implémenter \texttt{POST /vulnerability-tasks} avec création de \texttt{VulnerabilityTask} liée à une \texttt{Vulnerability} par empreinte. & M \\
+\cline{3-5}
+  & & T4-02 & Implémenter l'assignation (\texttt{assignee\_id}, \texttt{due\_date}) et déclencher la création d'une \texttt{Notification}. & M \\
+\hline
+S4-02 & En tant que développeur, je peux consulter mes tâches assignées et changer leur statut.
+  & T4-03 & Exposer \texttt{GET /vulnerability-tasks?assignee\_id=me} et \texttt{PUT /vulnerability-tasks/\{id\}/status}. & M \\
+\cline{3-5}
+  & & T4-04 & Valider les transitions d'état autorisées (\texttt{open→in\_progress→fixed→verified}) côté API. & M \\
+\hline
+S4-03 & En tant que membre du projet, je peux ajouter un commentaire sur une tâche et notifier les parties prenantes.
+  & T4-05 & Implémenter \texttt{POST /vulnerability-tasks/\{id\}/comments} avec création de \texttt{VulnerabilityTaskComment}. & M \\
+\cline{3-5}
+  & & T4-06 & Créer une \texttt{Notification} pour chaque nouveau commentaire à destination du Security Manager et de l'assigné. & S \\
+\hline
+S4-04 & En tant qu'utilisateur, je reçois des notifications temps réel pour les événements qui me concernent.
+  & T4-07 & Exposer \texttt{GET /notifications} (paginé, filtre \texttt{is\_read}) et \texttt{PUT /notifications/\{id\}/read}. & M \\
+\cline{3-5}
+  & & T4-08 & Émettre des événements Socket.IO (\texttt{task.assigned}, \texttt{task.status\_changed}, \texttt{task.commented}) vers la room de l'utilisateur concerné. & M \\
 \hline
 \end{tabularx}
 \end{table}
 
-\section{Analyse détaillée des besoins}
+% ───────────────────────────────────────────────────────────────────
+\section{Technologies et concepts utilisés}
+
+\subsection{Workflow de gestion d'états (State Machine)}
+
+\textbf{Description.} Un workflow de gestion d'états modélise le cycle de vie d'un objet métier à travers des transitions explicites entre états définis. Chaque transition est validée par une règle métier (qui peut effectuer la transition, dans quelle condition).
+
+\textbf{Utilisation dans InvisiThreat.} Le cycle de vie d'une \texttt{VulnerabilityTask} suit quatre états : \texttt{open} (tâche créée, non assignée ou non démarrée), \texttt{in\_progress} (développeur a pris en charge), \texttt{fixed} (développeur a appliqué un correctif) et \texttt{verified} (Security Manager a validé la correction). Les transitions inverses (\texttt{verified} → \texttt{open}) sont autorisées si la correction est jugée insuffisante.
+
+\textbf{Justification.} La formalisation des états et des transitions garantit la traçabilité complète du processus de remédiation et empêche les sauts d'état incohérents.
+
+\subsection{Système de notifications (\texttt{Notification})}
+
+\textbf{Description.} Un système de notifications persistantes stocke en base les messages destinés à chaque utilisateur, avec un indicateur de lecture. Les notifications peuvent être diffusées en push (Socket.IO) ou consultées en pull (endpoint REST).
+
+\textbf{Utilisation dans InvisiThreat.} Chaque événement clé (assignation d'une tâche, changement d'état, nouveau commentaire, fin de scan) crée une ou plusieurs entités \texttt{Notification} ciblant les utilisateurs concernés. Le champ \texttt{is\_read} permet de distinguer les notifications non lues. Les événements Socket.IO (\texttt{notification.new}) permettent une mise à jour instantanée du badge dans l'interface sans rechargement.
+
+\subsection{SQLAlchemy — Alembic (migrations Sprint 4)}
+
+\textbf{Description.} Les nouvelles entités introduites dans ce sprint (\texttt{vulnerability\_tasks}, \texttt{vulnerability\_task\_comments}, \texttt{notifications}) nécessitent des migrations de schéma versionnées.
+
+\textbf{Utilisation dans InvisiThreat.} Les scripts Alembic de ce sprint ajoutent les tables correspondantes avec leurs contraintes de clés étrangères, index et enums PostgreSQL natifs pour les colonnes de statut.
+
+% ───────────────────────────────────────────────────────────────────
+\section{Analyse et spécification des besoins}
+
 \subsection{Diagramme de cas d'utilisation du sprint}
+
+Le diagramme de cas d'utilisation du Sprint 4 (figure~\ref{fig:sprint4-use-case}) représente les interactions entre le \textbf{Security Manager} (création et vérification des tâches) et le \textbf{Developer} (prise en charge, correction, commentaires). Le cas \textit{Créer une tâche} inclut \textit{S'authentifier} et déclenche \textit{Envoyer une notification}. Le cas \textit{Changer le statut} est disponible pour les deux acteurs selon leur rôle dans la tâche. Le cas \textit{Consulter les notifications} est transverse à tous les rôles.
+
 \begin{figure}[H]
 \centering
 \fbox{\rule{0pt}{2in}\rule{0.9\linewidth}{0pt}}
-\caption{Diagramme de cas d'utilisation -- Sprint 4 (placeholder).}
+\caption{Diagramme de cas d'utilisation -- Sprint 4 (Workflow de vulnérabilités).}
 \label{fig:sprint4-use-case}
 \end{figure}
 
-\subsection{Description textuelle des cas d'utilisation}
-Les cas d'utilisation couvrent le déclenchement d'un scan DAST, le suivi d'exécution, la consultation des résultats enrichis et la transition des vulnérabilités dans le workflow. L'assistant IA fournit des explications contextualisées pour accélérer la correction.
+\subsection{Description détaillée des cas d'utilisation}
 
+\paragraph{Cas d'utilisation : Créer et assigner une tâche de remédiation}
+\begin{table}[H]
+\centering
+\caption{Description du cas d'utilisation -- Créer et assigner une tâche}
+\label{tab:uc-task-create}
+\small
+\renewcommand{\arraystretch}{1.3}
+\begin{tabularx}{\textwidth}{>{\bfseries}p{3.5cm} X}
+\hline
+Titre & Créer et assigner une tâche de remédiation \\
+\hline
+Acteur & Security Manager (\texttt{security\_manager}) \\
+\hline
+Résumé & Créer une \texttt{VulnerabilityTask} liée à une vulnérabilité détectée, l'assigner à un développeur et fixer une date limite de correction. \\
+\hline
+Préconditions & Un scan \texttt{completed} existe avec des vulnérabilités \texttt{open}. L'utilisateur est Security Manager et membre du projet. \\
+\hline
+Postconditions & \texttt{VulnerabilityTask} créée avec \texttt{status="open"}. \texttt{Notification} créée pour l'assigné. Événement Socket.IO \texttt{task.assigned} émis. \\
+\hline
+Scénario nominal &
+1. Le Security Manager sélectionne une vulnérabilité depuis le tableau de bord. \newline
+2. Il crée une tâche (\texttt{POST /vulnerability-tasks}) en spécifiant \texttt{assignee\_id} et \texttt{due\_date}. \newline
+3. Le système persiste la \texttt{VulnerabilityTask} et crée une \texttt{Notification} pour le développeur assigné. \newline
+4. Socket.IO émet \texttt{task.assigned} vers la room de l'utilisateur assigné. \newline
+5. Le développeur reçoit la notification et voit la tâche dans son tableau de bord. \\
+\hline
+Scénario alternatif &
+2.a \texttt{assignee\_id} ne correspond pas à un membre du projet : HTTP 400, tâche non créée. \newline
+2.b \texttt{due\_date} dans le passé : HTTP 422, erreur de validation Pydantic. \\
+\hline
+\end{tabularx}
+\end{table}
+
+\paragraph{Cas d'utilisation : Transition d'état et commentaire}
+\begin{table}[H]
+\centering
+\caption{Description du cas d'utilisation -- Transition d'état}
+\label{tab:uc-task-status}
+\small
+\renewcommand{\arraystretch}{1.3}
+\begin{tabularx}{\textwidth}{>{\bfseries}p{3.5cm} X}
+\hline
+Titre & Changer le statut d'une tâche et ajouter un commentaire \\
+\hline
+Acteur & Développeur (\texttt{developer}), Security Manager (\texttt{security\_manager}) \\
+\hline
+Résumé & Faire évoluer le statut d'une \texttt{VulnerabilityTask} selon le cycle (\texttt{open→in\_progress→fixed→verified}) et documenter l'avancement par des commentaires. \\
+\hline
+Préconditions & La tâche existe avec un statut compatible. L'utilisateur est l'assigné (pour \texttt{in\_progress}/\texttt{fixed}) ou le Security Manager (pour \texttt{verified}). \\
+\hline
+Postconditions & Statut mis à jour. \texttt{VulnerabilityTaskComment} créé si commentaire. \texttt{Notification} envoyée aux parties prenantes. \\
+\hline
+Scénario nominal &
+1. Le développeur change le statut de la tâche à \texttt{in\_progress} (\texttt{PUT /vulnerability-tasks/\{id\}/status}). \newline
+2. Il ajoute un commentaire expliquant son approche (\texttt{POST /vulnerability-tasks/\{id\}/comments}). \newline
+3. Après correction, il passe le statut à \texttt{fixed}. \newline
+4. Une notification est envoyée au Security Manager. \newline
+5. Le Security Manager vérifie la correction et passe à \texttt{verified}. \\
+\hline
+Scénario alternatif &
+1.a Transition non autorisée (ex. : \texttt{open→fixed} directement) : HTTP 400, message d'erreur explicite. \newline
+5.a Correction insuffisante : le Security Manager repasse à \texttt{open} avec un commentaire expliquant le rejet. \\
+\hline
+\end{tabularx}
+\end{table}
+
+% ───────────────────────────────────────────────────────────────────
 \section{Modélisation conceptuelle}
+
 \subsection{Diagramme de classes}
+
+Le diagramme de classes du Sprint 4 (figure~\ref{fig:sprint4-class}) modélise les entités du workflow collaboratif. \texttt{VulnerabilityTask} est l'entité centrale, liée à \texttt{Vulnerability} (via \texttt{fingerprint}) et à \texttt{User} (via \texttt{assignee\_id}). \texttt{VulnerabilityTaskComment} est lié à \texttt{VulnerabilityTask} (\(1..N\)) et à \texttt{User} (auteur). \texttt{Notification} est liée à \texttt{User} (\(1..N\)) et référence optionnellement la tâche concernée via \texttt{resource\_id}.
+
 \begin{figure}[H]
 \centering
 \fbox{\rule{0pt}{2in}\rule{0.9\linewidth}{0pt}}
-\caption{Diagramme de classes -- Sprint 4 (placeholder).}
+\caption{Diagramme de classes -- Sprint 4 (VulnerabilityTask, VulnerabilityTaskComment, Notification).}
 \label{fig:sprint4-class}
 \end{figure}
 
-\subsection{Diagrammes de séquence}
+\paragraph{Dictionnaire de données}
+
+\begin{table}[H]
+\centering
+\caption{Dictionnaire de données -- Sprint 4}
+\label{tab:dict-sprint4}
+\small
+\renewcommand{\arraystretch}{1.3}
+\begin{tabularx}{\textwidth}{>{\bfseries}p{2.8cm} p{3.2cm} X p{2.5cm}}
+\hline
+\rowcolor{gray!15}
+\textbf{Classe} & \textbf{Code} & \textbf{Désignation} & \textbf{Type} \\
+\hline
+VulnerabilityTask & id & Identifiant unique de la tâche & UUID \\
+VulnerabilityTask & project\_id & Référence au projet concerné & UUID (FK → Project) \\
+VulnerabilityTask & scan\_id & Référence au scan source & UUID (FK → Scan) \\
+VulnerabilityTask & fingerprint & Empreinte de la vulnérabilité (déduplication) & String \\
+VulnerabilityTask & title & Titre descriptif de la tâche & String \\
+VulnerabilityTask & severity & Sévérité héritée de la vulnérabilité source & String (enum) \\
+VulnerabilityTask & status & État de la tâche (\texttt{open}/\texttt{in\_progress}/\texttt{fixed}/\texttt{verified}) & String (enum) \\
+VulnerabilityTask & assignee\_id & Référence au développeur assigné & UUID (FK → User, nullable) \\
+VulnerabilityTask & due\_date & Date limite de correction & Date (nullable) \\
+\hline
+VulnerabilityTaskComment & id & Identifiant unique du commentaire & UUID \\
+VulnerabilityTaskComment & task\_id & Référence à la tâche concernée & UUID (FK → VulnerabilityTask) \\
+VulnerabilityTaskComment & author\_id & Référence à l'auteur du commentaire & UUID (FK → User) \\
+VulnerabilityTaskComment & content & Contenu textuel du commentaire & Text \\
+VulnerabilityTaskComment & created\_at & Horodatage de création & DateTime \\
+\hline
+Notification & id & Identifiant unique de la notification & UUID \\
+Notification & user\_id & Référence à l'utilisateur destinataire & UUID (FK → User) \\
+Notification & type & Type (\textit{task\_assigned}, \textit{task\_status\_changed}, \textit{task\_commented}, \textit{scan\_completed}) & String \\
+Notification & message & Contenu lisible de la notification & String \\
+Notification & is\_read & Indicateur de lecture & Boolean \\
+Notification & created\_at & Horodatage de création & DateTime \\
+\hline
+\end{tabularx}
+\end{table}
+
+\subsection{Diagramme de séquence}
+
+\paragraph{Diagramme DS-4 : Sync tâches — Assignation · Statut · Notification}
+
+Le diagramme DS-4 (figure~\ref{fig:sprint4-seq}) modélise le cycle complet d'une tâche de remédiation selon la notation BCE. \textbf{VulnerabilityPanel} (boundary — interface React) soumet les actions au \textbf{VulnWorkflowController} (control — endpoints \texttt{/vulnerability-tasks}). Le contrôleur met à jour l'entité \textbf{VulnerabilityTask} (entity) et crée les entités \textbf{VulnerabilityTaskComment} et \textbf{Notification} (entity) dans une transaction atomique. Le \textbf{SocketIOGateway} (control) émet les événements \texttt{task.assigned}, \texttt{task.status\_changed} et \texttt{task.commented} vers les rooms des utilisateurs concernés (\texttt{user\_\{id\}}).
+
 \begin{figure}[H]
 \centering
 \fbox{\rule{0pt}{2in}\rule{0.9\linewidth}{0pt}}
-\caption{Diagrammes de séquence -- Sprint 4 (placeholder).}
+\caption{Diagramme de séquence DS-4 -- Sync tâches · Assignation · Statut · Notification.}
 \label{fig:sprint4-seq}
 \end{figure}
 
+% ───────────────────────────────────────────────────────────────────
 \section{Réalisation}
-\subsection{Intégration DAST (OWASP ZAP)}
-Le moteur OWASP ZAP est exécuté en mode daemon et piloté via API REST. Les profils de scan sont paramétrables afin d'équilibrer couverture et performance.
 
-\subsection{Orchestration et workflow}
-Les scans sont orchestrés via Celery/Redis, avec un suivi de progression et une gestion des files d'attente. Les vulnérabilités sont normalisées, scorées et intégrées dans un workflow d'état (ouvert, confirmé, corrigé, faux positif).
+\subsection{Workflow d'états et assignation}
+Les transitions d'état de \texttt{VulnerabilityTask} sont validées par une matrice de transitions côté API : seules les transitions autorisées (\texttt{open→in\_progress}, \texttt{in\_progress→fixed}, \texttt{fixed→verified}, \texttt{verified→open}) sont acceptées. L'assignation met à jour \texttt{assignee\_id} et déclenche immédiatement la création d'une \texttt{Notification} et l'émission d'un événement Socket.IO vers la room \texttt{user\_\{assignee\_id\}}.
 
+\subsection{Commentaires et notifications}
+L'ajout d'un commentaire (\texttt{VulnerabilityTaskComment}) notifie automatiquement l'assigné et le Security Manager du projet. Les notifications non lues (\texttt{is\_read=false}) sont accessibles via \texttt{GET /notifications?is\_read=false} et affichées dans le badge de l'interface. L'endpoint \texttt{PUT /notifications/\{id\}/read} permet le marquage individuel ; \texttt{PUT /notifications/read-all} marque toutes les notifications en lot.
+
+% ───────────────────────────────────────────────────────────────────
 \section{Test et validation}
+
 \subsection{Tests réalisés}
-Les tests incluent l'exécution d'un scan DAST sur une cible de test, la vérification des transitions de workflow et l'affichage des notifications en temps réel.
+
+\begin{table}[H]
+\centering
+\caption{Tableau de test -- Cycle complet de remédiation (Sprint 4)}
+\label{tab:test-sprint4}
+\small
+\renewcommand{\arraystretch}{1.3}
+\begin{tabularx}{\textwidth}{>{\bfseries}p{3.5cm} X}
+\hline
+Cas de Test & TC-S4-01 -- Cycle complet \texttt{open → verified} avec notifications \\
+\hline
+Auteur du cas de test & Security Manager + Développeur / Testeur QA \\
+\hline
+Description & Vérifier le cycle complet de remédiation d'une vulnérabilité, de la création de tâche à la vérification, avec génération des notifications à chaque étape. \\
+\hline
+Précondition & Un scan \texttt{completed} avec au moins une vulnérabilité. Un développeur membre du projet. \\
+\hline
+Scénario &
+1. Security Manager : \texttt{POST /vulnerability-tasks} (assignation au développeur). \newline
+2. Vérifier \texttt{Notification} créée pour le développeur (\texttt{type="task\_assigned"}). \newline
+3. Développeur : \texttt{PUT /vulnerability-tasks/\{id\}/status} → \texttt{in\_progress}. \newline
+4. Développeur : \texttt{POST /vulnerability-tasks/\{id\}/comments} (explication de la correction). \newline
+5. Développeur : \texttt{PUT} → \texttt{fixed} ; vérifier notification Security Manager. \newline
+6. Security Manager : \texttt{PUT} → \texttt{verified}. \newline
+7. Vérifier les événements Socket.IO reçus à chaque étape (\texttt{task.assigned}, \texttt{task.status\_changed}). \\
+\hline
+Postcondition & Tâche à l'état \texttt{verified}. Toutes les notifications créées. Tous les événements Socket.IO émis. \\
+\hline
+\end{tabularx}
+\end{table}
 
 \subsection{Validation}
-La validation s'appuie sur des scénarios de bout en bout combinant SAST/SCA/DAST et vérifiant la priorisation, l'historisation et les recommandations IA.
+Les tests d'intégration couvrent les scénarios nominaux et les cas de transition interdite (HTTP 400 attendu). Les notifications en temps réel ont été validées via un client Socket.IO de test abonné aux rooms des deux utilisateurs impliqués.
 
+\subsection{Gestion des versions et commits}
+Ce sprint a été développé sur la branche \texttt{feature/sprint4-vuln-workflow}. Les migrations Alembic ajoutant les tables \texttt{vulnerability\_tasks}, \texttt{vulnerability\_task\_comments} et \texttt{notifications} ont été versionnées.
+
+% ───────────────────────────────────────────────────────────────────
 \section{Conclusion}
-Le Sprint 4 clôture la chaîne DevSecOps en consolidant l'analyse dynamique, l'orchestration et l'assistance IA. La plateforme dispose désormais d'un pipeline complet et d'un workflow de remédiation exploitable.
+Le Sprint 4 a mis en place le système collaboratif de gestion des vulnérabilités d'InvisiThreat. La formalisation des transitions d'état, l'assignation des tâches et le système de notifications temps réel transforment les résultats bruts des scans en un processus de remédiation structuré, traçable et exploitable par les équipes. Le Sprint 5 apportera la dimension analytique et l'assistance IA sur l'ensemble des données collectées.
+
+\section{Introduction}
+Ce sprint finalise la chaîne DevSecOps par l'intégration de l'analyse dynamique (DAST) via OWASP ZAP, l'extension de l'orchestration Celery/Redis au DAST, la mise en place du workflow de gestion des vulnérabilités (états, assignation, commentaires), le calcul du scoring de risque, les notifications temps réel et l'assistance IA locale via Ollama. L'objectif est de compléter le pipeline de sécurité et de fournir aux équipes une remédiation priorisée, contextualisée et traçable.
+
+% ───────────────────────────────────────────────────────────────────
+\section{Objectifs du sprint et planification des tâches}
+
+\subsection{Objectifs attendus}
+À l'issue de ce sprint, la plateforme doit permettre de lancer un scan DAST sur une URL cible via OWASP ZAP, de calculer un score de risque agrégé, de gérer le cycle de vie des vulnérabilités (tâches assignées, commentaires, transitions d'état), de notifier en temps réel et d'obtenir des recommandations de remédiation via l'assistant IA local (Ollama). Plus précisément :
+\begin{itemize}
+  \item intégrer OWASP ZAP (mode daemon, API REST) pour l'analyse dynamique ;
+  \item étendre l'orchestration Celery/Redis au DAST et calculer le scoring de risque (\texttt{RiskScore}) ;
+  \item mettre en place le workflow complet des vulnérabilités (\texttt{VulnerabilityTask} : états, assignation, commentaires) ;
+  \item activer l'assistant IA local (Ollama, modèles Mistral/Qwen) via l'action \textit{Assist with AI} ;
+  \item générer des rapports de sécurité exportables (PDF/JSON) via \texttt{SecurityReport}.
+\end{itemize}
+
+\subsection{Sprint Backlog}
+\begin{table}[H]
+\centering
+\caption{Sprint Backlog -- Sprint 4}
+\label{tab:sprint4-backlog}
+\small
+\renewcommand{\arraystretch}{1.3}
+\begin{tabularx}{\textwidth}{c X c X c}
+\hline
+\rowcolor{gray!15}
+\textbf{ID} & \textbf{User Story} & \textbf{ID Tâche} & \textbf{Tâche} & \textbf{Priorité} \\
+\hline
+S4-01 & En tant que développeur, je peux lancer un scan DAST sur une URL cible via OWASP ZAP.
+  & T4-01 & Implémenter l'endpoint \texttt{POST /scans} avec \texttt{method = "dast"} et déclenchement du worker DAST Celery. & M \\
+\cline{3-5}
+  & & T4-02 & Développer le worker Celery DAST : démarrage du contexte ZAP, spider, scan actif, collecte des alertes. & M \\
+\hline
+S4-02 & En tant que Security Manager, je peux visualiser le score de risque agrégé d'un scan.
+  & T4-03 & Calculer le \texttt{RiskScore} (agrégation CVSS pondérée par sévérité) et persister après chaque scan. & M \\
+\cline{3-5}
+  & & T4-04 & Exposer \texttt{GET /scans/\{id\}/risk-score} et l'intégrer dans le tableau de bord. & M \\
+\hline
+S4-03 & En tant que Security Manager ou développeur, je peux gérer le cycle de vie d'une vulnérabilité (état, assignation, commentaires).
+  & T4-05 & Implémenter les endpoints CRUD pour \texttt{VulnerabilityTask} avec transitions d'état (\texttt{open}/\texttt{in\_progress}/\texttt{fixed}/\texttt{verified}). & M \\
+\cline{3-5}
+  & & T4-06 & Implémenter les commentaires (\texttt{VulnerabilityTaskComment}) et les notifications d'assignation (\texttt{Notification}). & M \\
+\hline
+S4-04 & En tant que développeur ou Security Manager, je peux obtenir une recommandation de remédiation via l'assistant IA local (Ollama).
+  & T4-07 & Intégrer l'adaptateur Ollama (modèles Mistral/Qwen) pour l'action \textit{Assist with AI} sur une vulnérabilité. & M \\
+\cline{3-5}
+  & & T4-08 & Persister la recommandation IA dans \texttt{Recommendation} (explication, exemple de correctif, référence CWE). & M \\
+\hline
+S4-05 & En tant que Security Manager, je peux générer et exporter un rapport de sécurité PDF/JSON.
+  & T4-09 & Implémenter la génération de \texttt{SecurityReport} avec ReportLab (PDF) et sérialisation JSON. & S \\
+\hline
+\end{tabularx}
+\end{table}
+
+% ───────────────────────────────────────────────────────────────────
+\section{Technologies et concepts utilisés}
+
+\subsection{OWASP ZAP (API REST daemon)}
+
+\textbf{Description.} OWASP Zed Attack Proxy (ZAP) est un outil d'analyse dynamique web open source. En mode daemon (\texttt{zap.sh -daemon}), il expose une API REST permettant de piloter les phases de scan : création de contexte, spider (exploration de l'application), scan actif (injection de payloads), collecte des alertes.
+
+\textbf{Utilisation dans InvisiThreat.} Le worker Celery DAST interagit avec ZAP via son API REST. Il crée un contexte dédié par scan, déclenche le spider sur l'URL cible, lance le scan actif et collecte les alertes. Les alertes ZAP sont normalisées vers le modèle \texttt{Vulnerability} avec mapping des sévérités (High/Medium/Low/Informational → \texttt{critical}/\texttt{high}/\texttt{medium}/\texttt{info}).
+
+\textbf{Justification.} ZAP est la référence open source pour le DAST web. Son API REST permet une intégration programmatique complète sans interface graphique, adaptée à une orchestration depuis Celery.
+
+\subsection{python-socketio (Socket.IO temps réel)}
+
+\textbf{Description.} python-socketio est l'implémentation Python du protocole Socket.IO, permettant une communication bidirectionnelle en temps réel entre le serveur et les clients web via WebSocket (avec fallback long-polling).
+
+\textbf{Utilisation dans InvisiThreat.} Les workers Celery publient des événements Socket.IO (\texttt{scan.status\_changed}, \texttt{vulnerability.found}, \texttt{task.assigned}) via un canal Redis partagé. Le gateway Socket.IO (intégré à FastAPI) les diffuse aux clients abonnés. Les salles (\textit{rooms}) sont scopées par \texttt{scan\_id} pour éviter les émissions croisées entre projets. La gestion des connexions simultanées et la scalabilité horizontale représentent les contraintes principales.
+
+\textbf{Justification.} Le suivi en temps réel des scans DAST (qui peuvent durer plusieurs dizaines de minutes) est essentiel pour l'expérience utilisateur. Socket.IO assure la rétrocompatibilité navigateur et la gestion automatique des reconnexions.
+
+\subsection{Ollama (LLM local — Mistral/Qwen)}
+
+\textbf{Description.} Ollama est un serveur d'inférence local qui permet d'exécuter des modèles LLM (Large Language Models) tels que Mistral et Qwen sur du matériel standard sans accès à des API cloud. Il expose une API HTTP locale (\texttt{POST /api/generate}) pour soumettre des prompts et récupérer les réponses générées.
+
+\textbf{Utilisation dans InvisiThreat.} L'action \textit{Assist with AI} déclenche un appel à l'adaptateur Ollama, qui soumet un prompt enrichi avec le titre, la description et le code vulnérable de la \texttt{Vulnerability} sélectionnée. La réponse est parsée et persistée dans \texttt{Recommendation} (explication, exemple de correctif, référence CWE). L'inférence locale garantit la confidentialité totale du code analysé, sans transmission vers des serveurs externes.
+
+\textbf{Justification.} L'utilisation d'un LLM local (Ollama) est un différenciateur majeur d'InvisiThreat par rapport aux solutions SaaS. Elle permet d'analyser du code propriétaire sensible sans risque de fuite vers des fournisseurs cloud, répondant aux exigences de confidentialité de Mobelite.
+
+\subsection{ReportLab (génération PDF)}
+
+\textbf{Description.} ReportLab est une bibliothèque Python permettant la génération programmatique de documents PDF, avec support des tableaux, graphiques et mise en page complexe.
+
+\textbf{Utilisation dans InvisiThreat.} La génération de \texttt{SecurityReport} utilise ReportLab pour produire des rapports PDF structurés contenant : résumé exécutif, score de risque, liste des vulnérabilités par sévérité, statistiques de remédiation et recommandations IA. Le contenu est également sérialisé en JSON pour les intégrations API.
+
+% ───────────────────────────────────────────────────────────────────
+\section{Analyse et spécification des besoins}
+
+\subsection{Diagramme de cas d'utilisation du sprint}
+
+Le diagramme de cas d'utilisation du Sprint 4 (figure~\ref{fig:sprint4-use-case}) représente les interactions entre les acteurs \textbf{Developer}, \textbf{Security Manager} et les systèmes externes \textbf{OWASP ZAP} et \textbf{Ollama}. Le cas \textit{Lancer un scan DAST} inclut \textit{S'authentifier} et communique avec OWASP ZAP. Le cas \textit{Gérer le workflow de vulnérabilités} regroupe les sous-cas \textit{Assigner une tâche}, \textit{Changer l'état} et \textit{Ajouter un commentaire}. Le cas \textit{Obtenir une recommandation IA} étend \textit{Consulter une vulnérabilité} et communique avec Ollama. Le cas \textit{Générer un rapport} est disponible uniquement pour le \texttt{security\_manager}.
+
+\begin{figure}[H]
+\centering
+\fbox{\rule{0pt}{2in}\rule{0.9\linewidth}{0pt}}
+\caption{Diagramme de cas d'utilisation -- Sprint 4.}
+\label{fig:sprint4-use-case}
+\end{figure}
+
+\subsection{Description détaillée des cas d'utilisation}
+
+\paragraph{Cas d'utilisation : Lancer un scan DAST}
+\begin{table}[H]
+\centering
+\caption{Description du cas d'utilisation -- Lancer un scan DAST}
+\label{tab:uc-dast}
+\small
+\renewcommand{\arraystretch}{1.3}
+\begin{tabularx}{\textwidth}{>{\bfseries}p{3.5cm} X}
+\hline
+Titre & Lancer un scan DAST (OWASP ZAP) \\
+\hline
+Acteur & Développeur (\texttt{developer}), Administrateur (\texttt{admin}) \\
+\hline
+Résumé & Permet de soumettre une URL cible pour analyse dynamique via OWASP ZAP, orchestrée de façon asynchrone par Celery. \\
+\hline
+Préconditions & L'utilisateur est authentifié et membre du projet. Le projet est configuré avec \texttt{analysis\_type = "dast"} ou \texttt{"both"}. L'URL cible est accessible depuis le réseau du worker. Le daemon ZAP est démarré. \\
+\hline
+Postconditions & Un \texttt{Scan} est créé avec \texttt{method = "dast"}, \texttt{status = "pending"}. Les \texttt{Vulnerability} DAST sont persistées après exécution. Un \texttt{RiskScore} est calculé et persisté. \\
+\hline
+Scénario nominal &
+1. L'utilisateur soumet \texttt{POST /scans} avec \texttt{method = "dast"} et l'URL cible. \newline
+2. Le système crée le \texttt{Scan} avec \texttt{status = "pending"} et publie la tâche dans Redis. \newline
+3. Le worker Celery crée un contexte ZAP, configure l'URL cible et déclenche le spider. \newline
+4. Après le spider, le scan actif est lancé (injection de payloads). \newline
+5. Les alertes ZAP sont collectées, normalisées et persistées comme \texttt{Vulnerability}. \newline
+6. Le \texttt{RiskScore} est calculé (agrégation CVSS pondérée). \newline
+7. Le scan passe à \texttt{status = "completed"} et les événements Socket.IO sont émis. \\
+\hline
+Scénario alternatif &
+3.a URL cible inaccessible : le worker met le scan à \texttt{failed} avec le message d'erreur dans \texttt{job\_state}. \newline
+4.a Scan ZAP timeout : les alertes déjà collectées sont sauvegardées et le statut passe à \texttt{failed}. \\
+\hline
+\end{tabularx}
+\end{table}
+
+\paragraph{Cas d'utilisation : Gérer le workflow d'une vulnérabilité}
+\begin{table}[H]
+\centering
+\caption{Description du cas d'utilisation -- Workflow de vulnérabilité}
+\label{tab:uc-vulnworkflow}
+\small
+\renewcommand{\arraystretch}{1.3}
+\begin{tabularx}{\textwidth}{>{\bfseries}p{3.5cm} X}
+\hline
+Titre & Gérer le workflow d'une vulnérabilité (états, assignation, commentaires) \\
+\hline
+Acteur & Security Manager (\texttt{security\_manager}), Développeur (\texttt{developer}) \\
+\hline
+Résumé & Permet de créer une tâche de remédiation à partir d'une vulnérabilité, de l'assigner à un développeur, de faire évoluer son état (\texttt{open} → \texttt{in\_progress} → \texttt{fixed} → \texttt{verified}) et d'y ajouter des commentaires. \\
+\hline
+Préconditions & La vulnérabilité existe dans un scan \texttt{completed}. L'utilisateur est Security Manager ou développeur assigné. \\
+\hline
+Postconditions & Un \texttt{VulnerabilityTask} est créé ou mis à jour. Une \texttt{Notification} est envoyée à l'assigné. Un \texttt{AuditLog} trace la transition d'état. \\
+\hline
+Scénario nominal &
+1. Le Security Manager sélectionne une vulnérabilité et crée une tâche (\texttt{POST /vulnerability-tasks}). \newline
+2. Il assigne la tâche à un développeur (\texttt{assignee\_id}) et fixe une échéance (\texttt{due\_date}). \newline
+3. Une \texttt{Notification} est créée pour le développeur assigné. \newline
+4. Le développeur reçoit la notification, consulte la tâche et change l'état à \texttt{in\_progress}. \newline
+5. Après correction, le développeur change l'état à \texttt{fixed} et ajoute un commentaire. \newline
+6. Le Security Manager vérifie la correction et change l'état à \texttt{verified}. \\
+\hline
+Scénario alternatif &
+4.a Développeur non disponible : le Security Manager réassigne la tâche à un autre développeur ; une nouvelle notification est envoyée. \newline
+6.a La correction est insuffisante : le Security Manager remet l'état à \texttt{open} avec un commentaire explicatif. \\
+\hline
+\end{tabularx}
+\end{table}
+
+\paragraph{Cas d'utilisation : Obtenir une recommandation IA}
+\begin{table}[H]
+\centering
+\caption{Description du cas d'utilisation -- Recommandation IA (Ollama)}
+\label{tab:uc-llm}
+\small
+\renewcommand{\arraystretch}{1.3}
+\begin{tabularx}{\textwidth}{>{\bfseries}p{3.5cm} X}
+\hline
+Titre & Obtenir une recommandation IA (\textit{Assist with AI}) \\
+\hline
+Acteur & Développeur (\texttt{developer}), Security Manager (\texttt{security\_manager}) \\
+\hline
+Résumé & Permet d'obtenir une explication contextuelle et un exemple de correctif pour une vulnérabilité donnée, via un LLM local (Ollama, modèles Mistral/Qwen), garantissant la confidentialité du code. \\
+\hline
+Préconditions & La vulnérabilité existe. L'utilisateur est membre du projet. Le serveur Ollama est démarré et le modèle sélectionné est disponible. \\
+\hline
+Postconditions & Une \texttt{Recommendation} est persistée avec \texttt{explanation}, \texttt{fix\_example} et \texttt{cwe\_reference}. \\
+\hline
+Scénario nominal &
+1. L'utilisateur clique sur \textit{Assist with AI} depuis le détail de la vulnérabilité. \newline
+2. Le système soumet un prompt enrichi à l'adaptateur Ollama (titre, description, extrait de code vulnérable, contexte CWE). \newline
+3. Ollama génère une explication et un exemple de correctif dans la langue du prompt. \newline
+4. La réponse est parsée et persistée dans \texttt{Recommendation}. \newline
+5. La recommandation est affichée dans l'interface avec la référence CWE. \\
+\hline
+Scénario alternatif &
+3.a Timeout Ollama (modèle non chargé ou surcharge) : le système retourne un message d'erreur et invite à réessayer. Aucune \texttt{Recommendation} n'est persistée. \\
+\hline
+\end{tabularx}
+\end{table}
+
+% ───────────────────────────────────────────────────────────────────
+\section{Modélisation conceptuelle}
+
+\subsection{Diagramme de classes}
+
+Le diagramme de classes du Sprint 4 (figure~\ref{fig:sprint4-class}) modélise les entités du pipeline DAST, du workflow de vulnérabilités et de l'IA. \texttt{RiskScore} est lié à \texttt{Scan} (\(1..1\)) et encapsule le score agrégé calculé après chaque scan. \texttt{VulnerabilityTask} est lié à \texttt{Vulnerability} (via \texttt{fingerprint}) et à \texttt{User} (assignation, \texttt{assignee\_id}). \texttt{VulnerabilityTaskComment} est lié à \texttt{VulnerabilityTask} (\(1..N\)). \texttt{Recommendation} est lié à \texttt{Vulnerability} (\(0..1\)). \texttt{Notification} est lié à \texttt{User} (\(1..N\)). \texttt{SecurityReport} est lié à \texttt{Scan} et \texttt{Project}.
+
+\begin{figure}[H]
+\centering
+\fbox{\rule{0pt}{2in}\rule{0.9\linewidth}{0pt}}
+\caption{Diagramme de classes -- Sprint 4 (entités RiskScore, VulnerabilityTask, VulnerabilityTaskComment, Recommendation, Notification, SecurityReport).}
+\label{fig:sprint4-class}
+\end{figure}
+
+\paragraph{Dictionnaire de données}
+
+\begin{table}[H]
+\centering
+\caption{Dictionnaire de données -- Sprint 4}
+\label{tab:dict-sprint4}
+\small
+\renewcommand{\arraystretch}{1.3}
+\begin{tabularx}{\textwidth}{>{\bfseries}p{2.8cm} p{3.2cm} X p{2.5cm}}
+\hline
+\rowcolor{gray!15}
+\textbf{Classe} & \textbf{Code} & \textbf{Désignation} & \textbf{Type} \\
+\hline
+RiskScore & id & Identifiant unique du score de risque & UUID \\
+RiskScore & scan\_id & Référence au scan évalué & UUID (FK → Scan) \\
+RiskScore & score & Score de risque agrégé (0.0--10.0, pondération CVSS) & Float \\
+RiskScore & level & Niveau de risque qualitatif (\texttt{critical}/\texttt{high}/\texttt{medium}/\texttt{low}) & String (enum) \\
+\hline
+VulnerabilityTask & id & Identifiant unique de la tâche de remédiation & UUID \\
+VulnerabilityTask & project\_id & Référence au projet concerné & UUID (FK → Project) \\
+VulnerabilityTask & scan\_id & Référence au scan source & UUID (FK → Scan) \\
+VulnerabilityTask & fingerprint & Empreinte unique de la vulnérabilité (déduplication) & String \\
+VulnerabilityTask & title & Titre descriptif de la tâche & String \\
+VulnerabilityTask & severity & Sévérité héritée de la vulnérabilité source & String (enum) \\
+VulnerabilityTask & status & État de la tâche (\texttt{open}/\texttt{in\_progress}/\texttt{fixed}/\texttt{verified}) & String (enum) \\
+VulnerabilityTask & assignee\_id & Référence au développeur assigné & UUID (FK → User, nullable) \\
+VulnerabilityTask & due\_date & Date limite de correction & Date (nullable) \\
+\hline
+VulnerabilityTaskComment & id & Identifiant unique du commentaire & UUID \\
+VulnerabilityTaskComment & task\_id & Référence à la tâche concernée & UUID (FK → VulnerabilityTask) \\
+VulnerabilityTaskComment & author\_id & Référence à l'auteur du commentaire & UUID (FK → User) \\
+VulnerabilityTaskComment & content & Contenu textuel du commentaire & Text \\
+VulnerabilityTaskComment & created\_at & Horodatage de création du commentaire & DateTime \\
+\hline
+Recommendation & id & Identifiant unique de la recommandation IA & UUID \\
+Recommendation & vulnerability\_id & Référence à la vulnérabilité concernée & UUID (FK → Vulnerability) \\
+Recommendation & explanation & Explication contextuelle générée par le LLM & Text \\
+Recommendation & fix\_example & Exemple de code corrigé généré par le LLM & Text \\
+Recommendation & cwe\_reference & Référence CWE associée à la vulnérabilité & String (nullable) \\
+\hline
+Notification & id & Identifiant unique de la notification & UUID \\
+Notification & user\_id & Référence à l'utilisateur destinataire & UUID (FK → User) \\
+Notification & type & Type de notification (\textit{task\_assigned}, \textit{scan\_completed}, etc.) & String \\
+Notification & message & Contenu de la notification & String \\
+Notification & is\_read & Indicateur de lecture de la notification & Boolean \\
+Notification & created\_at & Horodatage de création & DateTime \\
+\hline
+SecurityReport & id & Identifiant unique du rapport de sécurité & UUID \\
+SecurityReport & scan\_id & Référence au scan source & UUID (FK → Scan) \\
+SecurityReport & project\_id & Référence au projet concerné & UUID (FK → Project) \\
+SecurityReport & generated\_at & Horodatage de génération du rapport & DateTime \\
+SecurityReport & data & Données du rapport sérialisées (JSON) & JSON \\
+\hline
+\end{tabularx}
+\end{table}
+
+\subsection{Diagrammes de séquence}
+
+\paragraph{Diagramme DS-4a : Lancer un scan DAST via OWASP ZAP}
+
+Le diagramme DS-4a (figure~\ref{fig:sprint4-seq-dast}) modélise le flux DAST selon la notation BCE. \textbf{DASTScanForm} (boundary) soumet la requête à \textbf{ScanController} (control — \texttt{POST /scans}). Après création de l'entité \textbf{Scan} (entity), le contrôleur publie la tâche dans Redis. Le \textbf{CeleryWorker} (control) interagit avec \textbf{OWASP ZAP} (système externe) via API REST : création du contexte, spider, scan actif, collecte des alertes. Les entités \textbf{Vulnerability} et \textbf{RiskScore} (entity) sont persistées en fin d'exécution.
+
+\begin{figure}[H]
+\centering
+\fbox{\rule{0pt}{2in}\rule{0.9\linewidth}{0pt}}
+\caption{Diagramme de séquence DS-4a -- Scan DAST via OWASP ZAP.}
+\label{fig:sprint4-seq-dast}
+\end{figure}
+
+\paragraph{Diagramme DS-4b : Workflow de vulnérabilité (assignation et transition d'état)}
+
+Le diagramme DS-4b (figure~\ref{fig:sprint4-seq-workflow}) décrit le workflow de gestion d'une vulnérabilité. \textbf{VulnerabilityPanel} (boundary) soumet les actions à \textbf{VulnWorkflowController} (control — endpoints \texttt{POST/PUT /vulnerability-tasks}). Le contrôleur met à jour l'entité \textbf{VulnerabilityTask} (entity), crée le \textbf{VulnerabilityTaskComment} (entity) et persiste une \textbf{Notification} (entity) pour l'utilisateur assigné. L'événement Socket.IO \texttt{task.assigned} est émis en temps réel.
+
+\begin{figure}[H]
+\centering
+\fbox{\rule{0pt}{2in}\rule{0.9\linewidth}{0pt}}
+\caption{Diagramme de séquence DS-4b -- Workflow de vulnérabilité (assignation, transition d'état).}
+\label{fig:sprint4-seq-workflow}
+\end{figure}
+
+\paragraph{Diagramme DS-4c : Recommandation IA via Ollama}
+
+Le diagramme DS-4c (figure~\ref{fig:sprint4-seq-llm}) décrit le flux de l'action \textit{Assist with AI}. \textbf{VulnDetailPanel} (boundary) déclenche la requête vers \textbf{LLMController} (control — endpoint \texttt{POST /vulnerabilities/\{id\}/assist}). Ce contrôleur appelle \textbf{LLMAdapter/Ollama} (control — adaptateur HTTP interne vers le serveur Ollama) qui soumet le prompt enrichi et reçoit la réponse. L'entité \textbf{Recommendation} (entity) est persistée et retournée à l'interface.
+
+\begin{figure}[H]
+\centering
+\fbox{\rule{0pt}{2in}\rule{0.9\linewidth}{0pt}}
+\caption{Diagramme de séquence DS-4c -- Recommandation IA via Ollama (action Assist with AI).}
+\label{fig:sprint4-seq-llm}
+\end{figure}
+
+% ───────────────────────────────────────────────────────────────────
+\section{Réalisation}
+
+\subsection{Intégration DAST (OWASP ZAP)}
+Le worker Celery DAST démarre une session ZAP via API REST, configure le contexte avec l'URL cible et les paramètres d'authentification si nécessaire, déclenche le spider puis le scan actif. Les alertes ZAP sont collectées après le scan et normalisées par l'adaptateur DAST, qui mappe les sévérités ZAP (High/Medium/Low/Informational) vers l'enum \texttt{VulnerabilitySeverity}.
+
+\subsection{Orchestration et workflow de vulnérabilités}
+Les \texttt{VulnerabilityTask} modélisent le cycle de vie de la remédiation : \texttt{open} → \texttt{in\_progress} → \texttt{fixed} → \texttt{verified}. L'assignation déclenche une \texttt{Notification} et un événement Socket.IO. Les commentaires (\texttt{VulnerabilityTaskComment}) permettent un échange structuré entre le Security Manager et le développeur assigné sans quitter la plateforme.
+
+\subsection{Assistant IA (Ollama)}
+L'adaptateur Ollama construit un prompt structuré incluant le contexte technique de la vulnérabilité (titre, description, extrait de code, CWE). La réponse du modèle (Mistral ou Qwen selon la configuration) est parsée pour extraire l'explication et l'exemple de correctif, puis persistée dans \texttt{Recommendation}. L'inférence locale garantit qu'aucun code source ne quitte l'infrastructure de Mobelite.
+
+% ───────────────────────────────────────────────────────────────────
+\section{Test et validation}
+
+\subsection{Tests réalisés}
+
+\begin{table}[H]
+\centering
+\caption{Tableau de test -- Scan DAST et recommandation IA (Sprint 4)}
+\label{tab:test-sprint4}
+\small
+\renewcommand{\arraystretch}{1.3}
+\begin{tabularx}{\textwidth}{>{\bfseries}p{3.5cm} X}
+\hline
+Cas de Test & TC-S4-01 -- Scan DAST sur application cible de test \\
+\hline
+Auteur du cas de test & Security Manager / Testeur QA \\
+\hline
+Description & Vérifier qu'un scan DAST sur une application de test (DVWA — Damn Vulnerable Web Application) détecte les failles OWASP Top 10 exposées et calcule un RiskScore cohérent. \\
+\hline
+Précondition & Une instance DVWA est accessible à l'URL cible. Le worker Celery et le daemon ZAP sont opérationnels. Un projet avec \texttt{analysis\_type = "dast"} est configuré. \\
+\hline
+Scénario &
+1. Envoyer \texttt{POST /scans} avec \texttt{method = "dast"} et l'URL de DVWA. \newline
+2. Observer les événements Socket.IO : \texttt{pending} → \texttt{running} → \texttt{completed}. \newline
+3. Appeler \texttt{GET /scans/\{id\}/vulnerabilities} et vérifier la détection des vulnérabilités XSS et SQL injection avec sévérité \texttt{high} ou \texttt{critical}. \newline
+4. Appeler \texttt{GET /scans/\{id\}/risk-score} et vérifier que le score est supérieur à 7.0 pour DVWA. \\
+\hline
+Postcondition & Les vulnérabilités OWASP connues de DVWA sont détectées. Le RiskScore reflète le niveau de risque élevé de l'application cible. \\
+\hline
+\end{tabularx}
+\end{table}
+
+\begin{table}[H]
+\centering
+\caption{Tableau de test -- Workflow de vulnérabilité (Sprint 4)}
+\label{tab:test-sprint4-workflow}
+\small
+\renewcommand{\arraystretch}{1.3}
+\begin{tabularx}{\textwidth}{>{\bfseries}p{3.5cm} X}
+\hline
+Cas de Test & TC-S4-02 -- Cycle complet de remédiation d'une vulnérabilité \\
+\hline
+Auteur du cas de test & Security Manager / Développeur / Testeur QA \\
+\hline
+Description & Vérifier le cycle complet : création d'une VulnerabilityTask, assignation à un développeur, notification, transitions d'état et vérification finale. \\
+\hline
+Précondition & Un scan \texttt{completed} existe avec au moins une vulnérabilité. Un utilisateur avec le rôle \texttt{developer} est membre du projet. \\
+\hline
+Scénario &
+1. Le Security Manager crée une tâche (\texttt{POST /vulnerability-tasks}) et l'assigne au développeur. \newline
+2. Vérifier la création d'une \texttt{Notification} pour le développeur assigné. \newline
+3. Le développeur change l'état à \texttt{in\_progress} et ajoute un commentaire. \newline
+4. Le développeur change l'état à \texttt{fixed}. \newline
+5. Le Security Manager change l'état à \texttt{verified}. \newline
+6. Vérifier que l'historique des transitions est traçable dans \texttt{audit\_logs}. \\
+\hline
+Postcondition & La tâche est à l'état \texttt{verified}. Toutes les transitions sont auditées. Les notifications ont été créées à chaque étape clé. \\
+\hline
+\end{tabularx}
+\end{table}
+
+\subsection{Validation}
+La validation bout en bout a combiné des scans SAST et DAST sur des projets de test, vérifiant la cohérence du pipeline complet : normalisation, scoring, workflow, notifications temps réel et recommandations IA. Les tests d'intégration de l'adaptateur Ollama ont utilisé des réponses mockées pour garantir l'indépendance des tests vis-à-vis de la disponibilité du modèle LLM.
+
+\subsection{Gestion des versions et commits}
+Le Sprint 4 a été développé sur la branche \texttt{feature/sprint4-dast-ia}. Les migrations Alembic ajoutant les tables \texttt{risk\_scores}, \texttt{vulnerability\_tasks}, \texttt{vulnerability\_task\_comments}, \texttt{recommendations}, \texttt{notifications} et \texttt{security\_reports} ont été versionnées et testées en isolation.
+
+% ───────────────────────────────────────────────────────────────────
+\section{Conclusion}
+Le Sprint 4 clôture la chaîne DevSecOps d'InvisiThreat en intégrant l'analyse dynamique DAST (OWASP ZAP), le scoring de risque agrégé, le workflow complet de gestion des vulnérabilités, les notifications temps réel (Socket.IO) et l'assistance IA locale (Ollama, Mistral/Qwen). La plateforme dispose désormais d'un pipeline de sécurité unifié, traçable et enrichi par intelligence artificielle, garantissant la confidentialité du code grâce à l'inférence locale.

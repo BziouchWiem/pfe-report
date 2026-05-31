@@ -1,15 +1,31 @@
 \chapter*{CONCLUSION GÉNÉRALE}
 \addcontentsline{toc}{chapter}{CONCLUSION GÉNÉRALE}
-InvisiThreat a permis de formaliser un pipeline de détection combinant SAST, DAST et
-SCA, de centraliser les résultats et d'offrir un tableau de bord exploitable pour les
-équipes techniques. L'intégration de FastAPI, PostgreSQL, Redis/Celery et OWASP ZAP a
-assuré une base solide pour l'automatisation, tandis que React et Socket.IO ont apporté
-une visualisation réactive de l'état des scans. L'assistant IA local, exposé via
-\textit{Assist with AI}, renforce la compréhension des vulnérabilités et accélère la
-remédiation grâce à des recommandations contextualisées.
 
-Les perspectives immédiates incluent l'intégration CI/CD complète (gates de sécurité
-sur merge), l'amélioration du moteur de corrélation pour réduire les faux positifs et
-l'extension du périmètre vers l'analyse d'images Docker et d'Infrastructure as Code.
-L'ajout d'une intégration avec des outils de ticketing (Jira, GitHub Issues) et un
-pilotage multi-tenant renforcerait la gouvernance et l'adoption à l'échelle.
+\noindent Le présent projet a conduit à la conception et au développement complet de la plateforme \textbf{InvisiThreat}, une solution DevSecOps intégrée de détection automatisée de vulnérabilités. Ce travail, mené en quatre sprints Scrum au sein de l'entreprise Mobelite, a permis de formaliser un pipeline de sécurité applicative couvrant l'ensemble du cycle de détection, de remédiation et de gouvernance.
+
+\medskip
+\noindent \textbf{Bilan technique.} Sur le plan technique, la plateforme repose sur un ensemble cohérent de composants : une API REST asynchrone FastAPI exposant plus d'une cinquantaine d'endpoints, un modèle de données SQLAlchemy structuré en dix-huit entités persistées sur PostgreSQL (\texttt{User}, \texttt{Role}, \texttt{Project}, \texttt{GitHubRepository}, \texttt{ProjectMember}, \texttt{Scan}, \texttt{Vulnerability}, \texttt{VulnerabilityTask}, \texttt{VulnerabilityTaskComment}, \texttt{RiskScore}, \texttt{Recommendation}, \texttt{AuditLog}, \texttt{AuthToken}, \texttt{UserAPIKey}, \texttt{Notification}, \texttt{SecurityReport} et les entités de configuration), un pipeline asynchrone Celery/Redis prenant en charge l'exécution non bloquante des scans SAST (Semgrep, Bandit) et DAST (OWASP ZAP), et une interface React temps réel connectée via Socket.IO. Les migrations de schéma sont versionnées avec Alembic, garantissant la reproductibilité entre environnements. L'ensemble est conteneurisé avec Docker Compose.
+
+\medskip
+\noindent \textbf{Différenciateur IA.} L'intégration d'un assistant LLM local (Ollama, modèles Mistral/Qwen) constitue le principal élément différenciateur d'InvisiThreat par rapport aux solutions SaaS concurrentes. En inférant localement, la plateforme garantit la confidentialité totale du code source analysé, sans transmission vers des serveurs externes. Les recommandations de remédiation (explication contextuelle, exemple de correctif, référence CWE) sont persistées dans le modèle \texttt{Recommendation} et intégrées dans l'interface via l'action \textit{Assist with AI}.
+
+\medskip
+\noindent \textbf{Gouvernance et sécurité.} La plateforme implémente un socle de gouvernance robuste : RBAC à quatre rôles (\texttt{admin}, \texttt{developer}, \texttt{security\_manager}, \texttt{viewer}) appliqué à chaque requête, authentification forte TOTP (\texttt{pyotp}, RFC 6238) compatible Google Authenticator, jetons JWT à durée limitée (access token 30 min, refresh token révocable), chiffrement des tokens GitHub avec Fernet (AES-128-CBC + HMAC-SHA256) et audit logs exhaustifs traçant chaque action sensible avec horodatage et identité de l'acteur.
+
+\medskip
+\noindent \textbf{Perspectives.} Les travaux futurs envisagés en continuité de ce projet portent sur cinq axes principaux :
+
+\begin{enumerate}
+  \item \textbf{Intégration CI/CD complète avec security gates} : bloquer automatiquement les merge requests contenant des vulnérabilités de sévérité \texttt{critical} ou \texttt{high} non résolues, renforçant le contrôle qualité dès la revue de code.
+
+  \item \textbf{Extension du périmètre d'analyse} : ajout du scanner \textbf{Trivy} pour l'analyse des images Docker et des manifestes Kubernetes, et de \textbf{Checkov} pour l'Infrastructure as Code (Terraform, Ansible), étendant la couverture DevSecOps à la couche infrastructure.
+
+  \item \textbf{Intégration ticketing (Jira, GitHub Issues)} : synchronisation bidirectionnelle du workflow de vulnérabilités avec les outils de gestion de projet existants, pour éviter la double saisie et améliorer l'adoption par les équipes de développement.
+
+  \item \textbf{Architecture multi-tenant} : isolation des données par organisation et facturation à l'usage, permettant le déploiement d'InvisiThreat en mode SaaS mutualisé pour des clients externes.
+
+  \item \textbf{Fine-tuning du modèle LLM} : entraînement du modèle sur un corpus de vulnérabilités spécifiques au domaine (CVE, CWE, OWASP), afin d'améliorer la pertinence des recommandations pour les langages et frameworks de l'écosystème Mobelite.
+\end{enumerate}
+
+\medskip
+\noindent Ce projet a représenté une opportunité d'acquérir une maîtrise approfondie des pratiques DevSecOps modernes, de l'orchestration asynchrone et de l'intégration de l'intelligence artificielle dans un contexte de sécurité applicative réelle. InvisiThreat constitue désormais un outil opérationnel dont l'adoption au sein de Mobelite permettra de structurer, d'automatiser et de mesurer continuellement la posture de sécurité du portefeuille applicatif.

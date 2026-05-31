@@ -1,17 +1,21 @@
 % ═══════════════════════════════════════════════════════════════════
-\chapter{Sprint 3 -- SAST et SCA}
+\chapter{Sprint 3 -- SAST et DAST}
 % ═══════════════════════════════════════════════════════════════════
 
 \section{Introduction}
-Ce sprint est dédié à l'intégration des analyses statiques (SAST) et de la composition logicielle (SCA). Il vise à automatiser la détection précoce des vulnérabilités dans le code et les dépendances, tout en normalisant les résultats pour un suivi cohérent.
+Ce sprint constitue le cœur du moteur d'analyse d'InvisiThreat : il intègre en un même pipeline les deux familles d'analyses de sécurité applicative. La première partie porte sur l'analyse statique (SAST) via Semgrep et Bandit, exécutée de façon asynchrone par des workers Celery avec suivi temps réel Socket.IO. La seconde partie introduit l'analyse dynamique (DAST) via OWASP ZAP, pilotée par l'API REST du daemon ZAP, et calcule un scoring de risque agrégé. La complexité de ce sprint justifie deux diagrammes de séquence distincts (DS-3a et DS-3b).
 
+% ───────────────────────────────────────────────────────────────────
 \section{Objectifs du sprint et planification des tâches}
-\subsection{Objectifs du sprint}
+
+\subsection{Objectifs attendus}
+À l'issue de ce sprint, la plateforme doit être capable de lancer des scans SAST et DAST, d'exécuter les moteurs correspondants de façon asynchrone, de normaliser les résultats et de calculer un score de risque. Plus précisément :
 \begin{itemize}
-  \item intégrer Semgrep et Bandit pour l'analyse SAST ;
-  \item intégrer OSV pour l'analyse SCA des dépendances ;
-  \item normaliser les résultats dans un modèle unique ;
-  \item exposer un rapport lisible et filtrable.
+  \item intégrer Semgrep (analyse polyglotte par règles) et Bandit (inspection Python) via workers Celery/Redis ;
+  \item assurer le suivi temps réel de la progression via Socket.IO (room scopée par \texttt{scan\_id}) ;
+  \item intégrer OWASP ZAP en mode daemon, piloté par API REST, pour l'analyse dynamique ;
+  \item normaliser les alertes SAST et DAST vers le modèle \texttt{Vulnerability} unifié ;
+  \item calculer le score de risque agrégé (\texttt{RiskScore}) après chaque scan.
 \end{itemize}
 
 \subsection{Sprint Backlog}
@@ -20,62 +24,580 @@ Ce sprint est dédié à l'intégration des analyses statiques (SAST) et de la c
 \caption{Sprint Backlog -- Sprint 3}
 \label{tab:sprint3-backlog}
 \small
-\renewcommand{\arraystretch}{1.2}
-\begin{tabularx}{\textwidth}{>{\bfseries}c X c}
+\renewcommand{\arraystretch}{1.3}
+\begin{tabularx}{\textwidth}{c X c X c}
 \hline
 \rowcolor{gray!15}
-ID & User Story & Priorité \\
+\textbf{ID} & \textbf{User Story} & \textbf{ID Tâche} & \textbf{Tâche} & \textbf{Priorité} \\
 \hline
-S3-01 & En tant que développeur, je peux lancer un scan SAST via Semgrep/Bandit. & M \\
-S3-02 & En tant que développeur, je peux analyser les dépendances via OSV. & M \\
-S3-03 & En tant que Security Manager, je peux consulter des alertes normalisées. & M \\
-S3-04 & En tant que développeur, je peux exporter un rapport de scan. & S \\
+S3-01 & En tant que développeur, je peux lancer un scan SAST via Semgrep et Bandit sur un dépôt GitHub.
+  & T3-01 & Implémenter \texttt{POST /scans} avec \texttt{method="github"} et enqueue Celery (worker SAST). & M \\
+\cline{3-5}
+  & & T3-02 & Développer les workers Celery Semgrep (\texttt{semgrep --json}) et Bandit (\texttt{bandit -f json}). & M \\
+\hline
+S3-02 & En tant que développeur ou Security Manager, je peux suivre la progression du scan en temps réel.
+  & T3-03 & Émettre des événements Socket.IO (\texttt{scan.status\_changed}, \texttt{scan.vuln\_found}) depuis le worker Celery, scopés par \texttt{scan\_id}. & M \\
+\hline
+S3-03 & En tant que développeur, je peux lancer un scan DAST sur une URL cible via OWASP ZAP.
+  & T3-04 & Implémenter \texttt{POST /scans} avec \texttt{method="dast"} et enqueue Celery (worker DAST). & M \\
+\cline{3-5}
+  & & T3-05 & Développer le worker Celery DAST : contexte ZAP, spider, scan actif, collecte des alertes. & M \\
+\hline
+S3-04 & En tant que Security Manager, je peux consulter le rapport normalisé filtré par sévérité et le score de risque du scan.
+  & T3-06 & Normaliser les sorties SAST (SARIF/JSON Bandit) et DAST (alertes ZAP) vers \texttt{Vulnerability} avec mapping \texttt{VulnerabilitySeverity}. & M \\
+\cline{3-5}
+  & & T3-07 & Calculer et persister le \texttt{RiskScore} (agrégation CVSS pondérée) après chaque scan. & M \\
 \hline
 \end{tabularx}
 \end{table}
 
-\section{Analyse détaillée des besoins}
+% ───────────────────────────────────────────────────────────────────
+\section{Technologies et concepts utilisés}
+
+\subsection{Semgrep (analyse statique polyglotte)}
+
+\textbf{Description.} Semgrep est un moteur d'analyse statique basé sur la correspondance de patterns AST (Abstract Syntax Tree). Il supporte plus de 30 langages et produit des sorties au format SARIF ou JSON exploitables programmatiquement.
+
+\textbf{Utilisation dans InvisiThreat.} Exécuté en sous-processus depuis le worker Celery SAST (\texttt{semgrep --config auto --json}), ses résultats sont normalisés par l'adaptateur SAST. Des règles personnalisées sont configurables via le paramètre \texttt{custom\_rules} de la requête \texttt{POST /scans}.
+
+\textbf{Justification.} Semgrep couvre les projets polyglots (Python, JavaScript, Java, TypeScript) du portefeuille Mobelite. La combinaison avec Bandit maximise la couverture sur les projets Python.
+
+\subsection{Bandit (inspection de sécurité Python)}
+
+\textbf{Description.} Bandit inspecte l'AST Python pour détecter des patterns de code dangereux (injections, algorithmes cryptographiques faibles, secrets codés en dur). Il classe ses résultats par sévérité et confiance.
+
+\textbf{Utilisation dans InvisiThreat.} Exécuté via \texttt{bandit -r . -f json -q} sur les projets Python. Ses sorties sont fusionnées avec celles de Semgrep, avec déduplication par empreinte (\texttt{fingerprint}).
+
+\subsection{Celery et Redis (orchestration asynchrone)}
+
+\textbf{Description.} Celery est un système de file de tâches distribuées pour Python. Redis, utilisé comme broker de messages, gère les queues des workers SAST et DAST.
+
+\textbf{Utilisation dans InvisiThreat.} À la réception d'un \texttt{POST /scans}, l'API crée immédiatement l'entité \texttt{Scan} avec \texttt{status="pending"}, puis enqueue la tâche dans Redis. Le worker approprié (SAST ou DAST) consomme la tâche, exécute le moteur, persiste les \texttt{Vulnerability} et met à jour le statut du scan.
+
+\textbf{Justification.} Les scans peuvent durer plusieurs minutes. L'approche asynchrone garantit la réactivité de l'API et permet d'exécuter plusieurs scans en parallèle.
+
+\subsection{Socket.IO — \texttt{python-socketio} (temps réel)}
+
+\textbf{Description.} python-socketio implémente le protocole Socket.IO côté serveur Python, offrant une communication bidirectionnelle temps réel via WebSocket (avec fallback long-polling).
+
+\textbf{Utilisation dans InvisiThreat.} Les workers Celery publient des événements (\texttt{scan.status\_changed}, \texttt{scan.vuln\_found}) via un canal Redis. Le gateway Socket.IO (intégré à FastAPI) les diffuse aux clients. Les rooms sont scopées par \texttt{scan\_id} pour éviter les émissions croisées entre projets — contrainte principale de l'architecture Socket.IO multi-tenant.
+
+\subsection{OWASP ZAP (analyse dynamique, mode daemon)}
+
+\textbf{Description.} OWASP Zed Attack Proxy, en mode daemon (\texttt{zap.sh -daemon}), expose une API REST permettant de piloter les phases de scan : création de contexte, spider (exploration), scan actif (injection de payloads), collecte des alertes.
+
+\textbf{Utilisation dans InvisiThreat.} Le worker Celery DAST crée un contexte ZAP dédié par scan, déclenche le spider sur l'URL cible, lance le scan actif et collecte les alertes. Celles-ci sont normalisées vers le modèle \texttt{Vulnerability} avec mapping des sévérités ZAP (High/Medium/Low/Informational → \texttt{critical}/\texttt{high}/\texttt{medium}/\texttt{info}).
+
+\textbf{Justification.} ZAP est la référence open source pour le DAST web. Son API REST permet une intégration programmatique complète depuis Celery, sans interface graphique.
+
+% ───────────────────────────────────────────────────────────────────
+\section{Analyse et spécification des besoins}
+
 \subsection{Diagramme de cas d'utilisation du sprint}
+
+Le diagramme de cas d'utilisation du Sprint 3 (figure~\ref{fig:sprint3-use-case}) représente les interactions entre le \textbf{Developer}, le \textbf{Security Manager} et les systèmes externes \textbf{Semgrep}, \textbf{Bandit} et \textbf{OWASP ZAP}. Le cas \textit{Lancer un scan SAST} et le cas \textit{Lancer un scan DAST} partagent la même infrastructure Celery/Redis via une relation \textit{include} vers \textit{Exécuter le worker asynchrone}. Le cas \textit{Suivre en temps réel} étend les deux cas de scan via Socket.IO. Le cas \textit{Consulter le rapport normalisé} est accessible après \texttt{status="completed"} et inclut la consultation du \texttt{RiskScore}.
+
 \begin{figure}[H]
 \centering
 \fbox{\rule{0pt}{2in}\rule{0.9\linewidth}{0pt}}
-\caption{Diagramme de cas d'utilisation -- Sprint 3 (placeholder).}
+\caption{Diagramme de cas d'utilisation -- Sprint 3 (SAST et DAST).}
 \label{fig:sprint3-use-case}
 \end{figure}
 
-\subsection{Description textuelle des cas d'utilisation}
-Les cas d'utilisation portent sur la soumission d'un dépôt, l'exécution des moteurs SAST/SCA et la consultation des résultats normalisés. L'utilisateur peut filtrer les vulnérabilités par sévérité et accéder aux preuves associées.
+\subsection{Description détaillée des cas d'utilisation}
 
+\paragraph{Cas d'utilisation : Lancer un scan SAST}
+\begin{table}[H]
+\centering
+\caption{Description du cas d'utilisation -- Lancer un scan SAST}
+\label{tab:uc-sast}
+\small
+\renewcommand{\arraystretch}{1.3}
+\begin{tabularx}{\textwidth}{>{\bfseries}p{3.5cm} X}
+\hline
+Titre & Lancer un scan SAST \\
+\hline
+Acteur & Développeur (\texttt{developer}), Administrateur (\texttt{admin}) \\
+\hline
+Résumé & Soumettre un dépôt de code source pour analyse statique (Semgrep + Bandit) via un job Celery asynchrone, avec suivi temps réel Socket.IO. \\
+\hline
+Préconditions & L'utilisateur est authentifié, membre du projet. Le projet est configuré avec \texttt{analysis\_type = "sast"} ou \texttt{"both"}. Le dépôt est accessible. \\
+\hline
+Postconditions & \texttt{Scan} créé avec \texttt{method="github"} ou \texttt{"cli"}, \texttt{status="completed"}. Entités \texttt{Vulnerability} persistées. Événements Socket.IO émis. \\
+\hline
+Scénario nominal &
+1. L'utilisateur soumet \texttt{POST /scans} avec \texttt{project\_id} et \texttt{method="github"}. \newline
+2. Le système crée le \texttt{Scan} (\texttt{status="pending"}) et publie la tâche dans Redis. \newline
+3. Le worker Celery SAST clone le dépôt et passe \texttt{status="running"}. \newline
+4. Semgrep puis Bandit sont exécutés ; les résultats sont normalisés et persistés. \newline
+5. Le scan passe à \texttt{status="completed"} ; Socket.IO émet \texttt{scan.status\_changed}. \\
+\hline
+Scénario alternatif &
+3.a Dépôt inaccessible : \texttt{status="failed"}, erreur dans \texttt{job\_state}. \newline
+4.a Semgrep timeout : Bandit est poursuivi seul ; l'erreur partielle est journalisée. \\
+\hline
+\end{tabularx}
+\end{table}
+
+\paragraph{Cas d'utilisation : Lancer un scan DAST}
+\begin{table}[H]
+\centering
+\caption{Description du cas d'utilisation -- Lancer un scan DAST}
+\label{tab:uc-dast}
+\small
+\renewcommand{\arraystretch}{1.3}
+\begin{tabularx}{\textwidth}{>{\bfseries}p{3.5cm} X}
+\hline
+Titre & Lancer un scan DAST (OWASP ZAP) \\
+\hline
+Acteur & Développeur (\texttt{developer}), Administrateur (\texttt{admin}) \\
+\hline
+Résumé & Soumettre une URL cible pour analyse dynamique via OWASP ZAP (daemon), orchestrée par Celery. Le \texttt{RiskScore} est calculé en fin de scan. \\
+\hline
+Préconditions & L'utilisateur est authentifié, membre du projet. \texttt{analysis\_type = "dast"} ou \texttt{"both"}. L'URL cible est accessible depuis le worker. Le daemon ZAP est démarré. \\
+\hline
+Postconditions & \texttt{Scan} à \texttt{status="completed"}, \texttt{method="dast"}. \texttt{Vulnerability} DAST persistées. \texttt{RiskScore} calculé et persisté. \\
+\hline
+Scénario nominal &
+1. L'utilisateur soumet \texttt{POST /scans} avec \texttt{method="dast"} et l'URL cible. \newline
+2. Le système crée le \texttt{Scan} (\texttt{status="pending"}) et publie la tâche dans Redis. \newline
+3. Le worker Celery DAST crée un contexte ZAP, déclenche le spider, puis le scan actif. \newline
+4. Les alertes ZAP sont collectées et normalisées vers \texttt{Vulnerability}. \newline
+5. Le \texttt{RiskScore} est calculé (agrégation CVSS pondérée par sévérité). \newline
+6. Le scan passe à \texttt{status="completed"} ; Socket.IO émet \texttt{scan.status\_changed}. \\
+\hline
+Scénario alternatif &
+3.a URL cible inaccessible : \texttt{status="failed"}, message dans \texttt{job\_state}. \newline
+3.b Timeout ZAP : alertes déjà collectées sauvegardées ; \texttt{status="failed"} partiel. \\
+\hline
+\end{tabularx}
+\end{table}
+
+% ───────────────────────────────────────────────────────────────────
 \section{Modélisation conceptuelle}
+
 \subsection{Diagramme de classes}
+
+Le diagramme de classes du Sprint 3 (figure~\ref{fig:sprint3-class}) modélise les entités du pipeline d'analyse. \texttt{Scan} est l'agrégat central, lié à \texttt{Project} (\(N..1\)). \texttt{Vulnerability} est lié à \texttt{Scan} (\(1..N\)) et porte les résultats normalisés, qu'ils proviennent du SAST ou du DAST. \texttt{RiskScore} est lié à \texttt{Scan} (\(1..1\)) et encapsule le score agrégé calculé en fin d'exécution. Les enums \texttt{ScanMethod} (\texttt{cli}/\texttt{github}/\texttt{dast}/\texttt{exe}), \texttt{ScanStatus} (\texttt{pending}/\texttt{running}/\texttt{completed}/\texttt{failed}) et \texttt{VulnerabilitySeverity} (\texttt{critical}/\texttt{high}/\texttt{medium}/\texttt{low}/\texttt{info}) contraignent les valeurs admissibles.
+
 \begin{figure}[H]
 \centering
 \fbox{\rule{0pt}{2in}\rule{0.9\linewidth}{0pt}}
-\caption{Diagramme de classes -- Sprint 3 (placeholder).}
+\caption{Diagramme de classes -- Sprint 3 (Scan, Vulnerability, RiskScore avec enums).}
 \label{fig:sprint3-class}
 \end{figure}
 
+\paragraph{Dictionnaire de données}
+
+\begin{table}[H]
+\centering
+\caption{Dictionnaire de données -- Sprint 3}
+\label{tab:dict-sprint3}
+\small
+\renewcommand{\arraystretch}{1.3}
+\begin{tabularx}{\textwidth}{>{\bfseries}p{2.8cm} p{3cm} X p{2.5cm}}
+\hline
+\rowcolor{gray!15}
+\textbf{Classe} & \textbf{Code} & \textbf{Désignation} & \textbf{Type} \\
+\hline
+Scan & id & Identifiant unique du scan & UUID \\
+Scan & project\_id & Référence au projet analysé & UUID (FK → Project) \\
+Scan & method & Méthode de déclenchement (\texttt{cli}/\texttt{github}/\texttt{dast}/\texttt{exe}) & String (enum) \\
+Scan & status & État du scan (\texttt{pending}/\texttt{running}/\texttt{completed}/\texttt{failed}) & String (enum) \\
+Scan & job\_state & Métadonnées de progression Celery (JSON) & JSON (nullable) \\
+Scan & created\_at & Horodatage de création & DateTime \\
+\hline
+Vulnerability & id & Identifiant unique de la vulnérabilité & UUID \\
+Vulnerability & scan\_id & Référence au scan parent & UUID (FK → Scan) \\
+Vulnerability & title & Titre de la vulnérabilité & String \\
+Vulnerability & description & Description détaillée & Text \\
+Vulnerability & severity & Sévérité normalisée (\texttt{critical}/\texttt{high}/\texttt{medium}/\texttt{low}/\texttt{info}) & String (enum) \\
+Vulnerability & status & État de traitement (\texttt{open}/\texttt{in\_progress}/\texttt{resolved}/\texttt{false\_positive}/\texttt{risk\_accepted}) & String (enum) \\
+Vulnerability & cvss\_score & Score CVSS (0.0--10.0) & Float (nullable) \\
+\hline
+RiskScore & id & Identifiant unique du score de risque & UUID \\
+RiskScore & scan\_id & Référence au scan évalué & UUID (FK → Scan) \\
+RiskScore & score & Score agrégé pondéré par CVSS (0.0--10.0) & Float \\
+RiskScore & level & Niveau qualitatif (\texttt{critical}/\texttt{high}/\texttt{medium}/\texttt{low}) & String (enum) \\
+\hline
+\end{tabularx}
+\end{table}
+
 \subsection{Diagrammes de séquence}
+
+\paragraph{Diagramme DS-3a : Lancement SAST — Celery worker et Socket.IO}
+
+Le diagramme DS-3a (figure~\ref{fig:sprint3-seq-sast}) modélise le flux d'un scan SAST selon la notation BCE. \textbf{ScanForm} (boundary — interface React ou CLI) soumet la requête à \textbf{ScanController} (control — \texttt{POST /scans}). Après création de l'entité \textbf{Scan} (entity), la tâche est publiée dans \textbf{Redis Queue}. Le \textbf{CeleryWorker SAST} (control) exécute Semgrep et Bandit, persiste les \textbf{Vulnerability} (entity) et émet les événements \texttt{scan.status\_changed} et \texttt{scan.vuln\_found} vers le \textbf{SocketIOGateway} (control), qui les diffuse aux clients abonnés à la room \texttt{scan\_id}.
+
 \begin{figure}[H]
 \centering
 \fbox{\rule{0pt}{2in}\rule{0.9\linewidth}{0pt}}
-\caption{Diagrammes de séquence -- Sprint 3 (placeholder).}
-\label{fig:sprint3-seq}
+\caption{Diagramme de séquence DS-3a -- Lancement SAST (Celery worker · Semgrep · Bandit · Socket.IO).}
+\label{fig:sprint3-seq-sast}
 \end{figure}
 
+\paragraph{Diagramme DS-3b : Lancement DAST — OWASP ZAP et score de risque}
+
+Le diagramme DS-3b (figure~\ref{fig:sprint3-seq-dast}) décrit le flux DAST selon la notation BCE. \textbf{DASTScanForm} (boundary) soumet la requête à \textbf{ScanController} (control). La tâche est enqueued dans Redis ; le \textbf{CeleryWorker DAST} (control) interagit avec le système externe \textbf{OWASP ZAP} (API REST) : création du contexte, spider, scan actif, collecte des alertes. Les alertes sont normalisées et persistées comme \textbf{Vulnerability} (entity). Le \textbf{RiskScoreCalculator} (control) agrège les scores CVSS et persiste l'entité \textbf{RiskScore} (entity). Des événements Socket.IO sont émis à chaque étape.
+
+\begin{figure}[H]
+\centering
+\fbox{\rule{0pt}{2in}\rule{0.9\linewidth}{0pt}}
+\caption{Diagramme de séquence DS-3b -- Lancement DAST (OWASP ZAP · normalisation · score de risque).}
+\label{fig:sprint3-seq-dast}
+\end{figure}
+
+% ───────────────────────────────────────────────────────────────────
 \section{Réalisation}
-\subsection{Intégration SAST (Semgrep, Bandit)}
-Les moteurs Semgrep et Bandit sont orchestrés via des jobs asynchrones afin d'analyser le code source. Les résultats sont convertis vers un format interne unifié pour faciliter la priorisation.
 
-\subsection{Intégration SCA (OSV)}
-L'analyse SCA s'appuie sur OSV pour identifier les dépendances vulnérables et lier chaque alerte à un identifiant CVE/OSV. Les alertes sont regroupées par projet et version.
+\subsection{Pipeline SAST (Semgrep + Bandit)}
+Les workers Celery SAST exécutent Semgrep (\texttt{semgrep --config auto --json}) et Bandit (\texttt{bandit -r . -f json -q}) en sous-processus isolés. Les adaptateurs de normalisation (un par moteur) mappent les sévérités natives vers l'enum \texttt{VulnerabilitySeverity} et calculent une empreinte (\texttt{fingerprint}) unique par vulnérabilité pour la déduplication lors des scans répétés.
 
+\subsection{Pipeline DAST (OWASP ZAP)}
+Le worker Celery DAST démarre une session ZAP via API REST, configure le contexte avec l'URL cible, déclenche le spider puis le scan actif. Les alertes collectées sont normalisées par l'adaptateur DAST (même interface que l'adaptateur SAST). Le \texttt{RiskScore} est calculé en agrégeant les scores CVSS pondérés par sévérité et persisté en base à la fin du scan.
+
+\subsection{Suivi temps réel (Socket.IO)}
+Les rooms Socket.IO sont scopées par \texttt{scan\_id} : seuls les clients abonnés à la room d'un scan reçoivent ses événements. Les événements \texttt{scan.status\_changed} (transitions \texttt{pending→running→completed}) et \texttt{scan.vuln\_found} (compteur en temps réel) permettent un suivi granulaire sans polling de l'API REST.
+
+% ───────────────────────────────────────────────────────────────────
 \section{Test et validation}
+
 \subsection{Tests réalisés}
-Les tests incluent l'exécution d'un scan SAST sur un dépôt témoin, l'analyse SCA d'un fichier de dépendances et la vérification du mapping des sévérités.
+
+\begin{table}[H]
+\centering
+\caption{Tableau de test -- Scan SAST complet (Sprint 3)}
+\label{tab:test-sprint3-sast}
+\small
+\renewcommand{\arraystretch}{1.3}
+\begin{tabularx}{\textwidth}{>{\bfseries}p{3.5cm} X}
+\hline
+Cas de Test & TC-S3-01 -- Scan SAST sur dépôt Python avec vulnérabilités connues \\
+\hline
+Auteur du cas de test & Développeur / Testeur QA \\
+\hline
+Description & Vérifier qu'un scan SAST détecte les vulnérabilités connues et les persiste avec les sévérités correctes. \\
+\hline
+Précondition & Un projet Python est configuré. Un dépôt de test contenant des vulnérabilités intentionnelles (injection SQL, secret codé en dur) est rattaché. Un worker Celery est opérationnel. \\
+\hline
+Scénario &
+1. Envoyer \texttt{POST /scans} (\texttt{method="github"}). \newline
+2. Observer les événements Socket.IO : \texttt{pending} → \texttt{running} → \texttt{completed}. \newline
+3. Appeler \texttt{GET /scans/\{id\}/vulnerabilities?severity=critical,high}. \newline
+4. Vérifier la présence des vulnérabilités attendues avec sévérités correctes. \\
+\hline
+Postcondition & Les vulnérabilités connues sont détectées. Le scan passe à \texttt{completed}. \\
+\hline
+\end{tabularx}
+\end{table}
+
+\begin{table}[H]
+\centering
+\caption{Tableau de test -- Scan DAST et score de risque (Sprint 3)}
+\label{tab:test-sprint3-dast}
+\small
+\renewcommand{\arraystretch}{1.3}
+\begin{tabularx}{\textwidth}{>{\bfseries}p{3.5cm} X}
+\hline
+Cas de Test & TC-S3-02 -- Scan DAST sur DVWA avec calcul de RiskScore \\
+\hline
+Auteur du cas de test & Security Manager / Testeur QA \\
+\hline
+Description & Vérifier qu'un scan DAST sur DVWA détecte les failles OWASP Top 10 et produit un \texttt{RiskScore} cohérent. \\
+\hline
+Précondition & Une instance DVWA est accessible à l'URL cible. Worker Celery DAST et daemon ZAP opérationnels. \\
+\hline
+Scénario &
+1. Envoyer \texttt{POST /scans} (\texttt{method="dast"}, URL DVWA). \newline
+2. Observer les événements Socket.IO jusqu'à \texttt{completed}. \newline
+3. Appeler \texttt{GET /scans/\{id\}/vulnerabilities} et vérifier XSS et SQL injection (\texttt{high}/\texttt{critical}). \newline
+4. Appeler \texttt{GET /scans/\{id\}/risk-score} et vérifier \texttt{score > 7.0} et \texttt{level = "high"}. \\
+\hline
+Postcondition & Vulnérabilités OWASP détectées. \texttt{RiskScore} calculé et persisté. \\
+\hline
+\end{tabularx}
+\end{table}
 
 \subsection{Validation}
-La validation repose sur des scénarios où les résultats SAST/SCA sont comparés à des sorties attendues et consolidés dans le tableau de bord.
+La validation bout en bout a porté sur des projets de test Python (SAST) et une instance DVWA (DAST). La cohérence du mapping de sévérités entre les deux moteurs et le modèle interne a été vérifiée par comparaison avec les sorties brutes attendues.
 
+\subsection{Gestion des versions et commits}
+Ce sprint a été développé sur la branche \texttt{feature/sprint3-sast-dast}. Les workers SAST et DAST ont fait l'objet de tests unitaires avec mocking des sous-processus (Semgrep, Bandit) et de l'API ZAP. Les migrations Alembic ajoutant les tables \texttt{scans}, \texttt{vulnerabilities} et \texttt{risk\_scores} ont été versionnées et testées.
+
+% ───────────────────────────────────────────────────────────────────
 \section{Conclusion}
-Le Sprint 3 a permis d'intégrer la détection SAST/SCA et de normaliser les alertes. Cette base ouvre la voie au Sprint 4, centré sur la détection dynamique et l'orchestration avancée.
+Le Sprint 3 a intégré les deux piliers analytiques d'InvisiThreat : le SAST via Semgrep et Bandit, et le DAST via OWASP ZAP, tous deux orchestrés par Celery/Redis avec suivi temps réel Socket.IO. La normalisation unifiée des résultats et le calcul du \texttt{RiskScore} fournissent une vision priorisée du risque applicatif. Cette base technique solide ouvre la voie au Sprint 4, centré sur le workflow collaboratif de gestion des vulnérabilités.
+
+\section{Introduction}
+Ce sprint est dédié à l'intégration des analyses statiques (SAST) dans le pipeline InvisiThreat. Il vise à automatiser la détection précoce des vulnérabilités dans le code source via les moteurs Semgrep et Bandit, à normaliser les résultats vers un modèle interne commun et à exposer les alertes dans une interface filtrable par sévérité. L'infrastructure d'orchestration asynchrone (Celery/Redis) est introduite dans ce sprint pour prendre en charge les scans longs sans bloquer l'API, et sera étendue au DAST dans le Sprint 4.
+
+% ───────────────────────────────────────────────────────────────────
+\section{Objectifs du sprint et planification des tâches}
+
+\subsection{Objectifs attendus}
+À l'issue de ce sprint, la plateforme doit permettre de lancer un scan SAST sur un dépôt GitHub ou via le CLI, d'exécuter les moteurs Semgrep et Bandit de façon asynchrone, de normaliser les résultats vers le modèle \texttt{Vulnerability} et de présenter le rapport filtré par sévérité. Plus précisément :
+\begin{itemize}
+  \item intégrer les moteurs Semgrep (analyse polyglotte par règles) et Bandit (inspection Python) ;
+  \item mettre en place l'infrastructure d'orchestration asynchrone Celery/Redis ;
+  \item normaliser les sorties hétérogènes (SARIF, JSON Bandit) vers le modèle \texttt{Vulnerability} ;
+  \item exposer le rapport SAST normalisé filtrable par sévérité (\texttt{critical}/\texttt{high}/\texttt{medium}/\texttt{low}/\texttt{info}).
+\end{itemize}
+
+\subsection{Sprint Backlog}
+\begin{table}[H]
+\centering
+\caption{Sprint Backlog -- Sprint 3}
+\label{tab:sprint3-backlog}
+\small
+\renewcommand{\arraystretch}{1.3}
+\begin{tabularx}{\textwidth}{c X c X c}
+\hline
+\rowcolor{gray!15}
+\textbf{ID} & \textbf{User Story} & \textbf{ID Tâche} & \textbf{Tâche} & \textbf{Priorité} \\
+\hline
+S3-01 & En tant que développeur, je peux lancer un scan SAST sur un projet via Semgrep et Bandit.
+  & T3-01 & Implémenter l'endpoint \texttt{POST /scans} avec \texttt{method = "cli"} ou \texttt{"github"} et création d'un job Celery. & M \\
+\cline{3-5}
+  & & T3-02 & Développer les workers Celery pour Semgrep (\texttt{semgrep --json}) et Bandit (\texttt{bandit -f json}). & M \\
+\hline
+S3-02 & En tant que développeur, je peux consulter le rapport SAST normalisé filtré par sévérité.
+  & T3-03 & Normaliser les sorties Semgrep (SARIF) et Bandit (JSON) vers le modèle \texttt{Vulnerability} avec mapping des sévérités. & M \\
+\cline{3-5}
+  & & T3-04 & Exposer \texttt{GET /scans/\{id\}/vulnerabilities} avec paramètre de filtre \texttt{severity}. & M \\
+\hline
+S3-03 & En tant que Security Manager, je peux consulter les alertes normalisées d'un scan et les trier par criticité.
+  & T3-05 & Implémenter la vue tableau de bord SAST avec agrégation par sévérité (\texttt{VulnerabilitySeverity} enum). & M \\
+\hline
+S3-04 & En tant que développeur, je peux suivre la progression du scan en temps réel.
+  & T3-06 & Émettre des événements Socket.IO (namespaces scopés par \texttt{scan\_id}) depuis le worker Celery. & S \\
+\hline
+\end{tabularx}
+\end{table}
+
+% ───────────────────────────────────────────────────────────────────
+\section{Technologies et concepts utilisés}
+
+\subsection{Semgrep (analyse statique polyglotte)}
+
+\textbf{Description.} Semgrep est un outil d'analyse statique open source basé sur un moteur de correspondance de patterns AST (Abstract Syntax Tree). Il supporte plus de 30 langages et s'appuie sur des règles YAML définissant les patterns de code vulnérable à détecter. Il peut produire des sorties au format SARIF (Static Analysis Results Interchange Format), standard de l'industrie.
+
+\textbf{Utilisation dans InvisiThreat.} Semgrep est exécuté en sous-processus depuis le worker Celery avec la commande \texttt{semgrep --config auto --json}. Les résultats JSON sont parsés et normalisés vers le modèle \texttt{Vulnerability}. Des règles personnalisées configurables via le paramètre \texttt{custom\_rules} de la requête \texttt{POST /scans} permettent d'affiner la détection selon le contexte du projet.
+
+\textbf{Justification.} Semgrep couvre les projets Python, JavaScript, Java et d'autres langages présents dans le portefeuille Mobelite, contrairement à Bandit qui se limite à Python. La combinaison des deux moteurs maximise la couverture des vulnérabilités.
+
+\subsection{Bandit (inspection de sécurité Python)}
+
+\textbf{Description.} Bandit est un outil d'analyse statique spécialisé dans la détection de problèmes de sécurité dans les projets Python. Il inspecte l'AST Python à la recherche de patterns connus (utilisation d'algorithmes faibles, injections, secrets codés en dur, etc.) et classe les résultats par sévérité et confiance.
+
+\textbf{Utilisation dans InvisiThreat.} Bandit est exécuté via \texttt{bandit -r . -f json -q} sur le code Python du projet. Ses résultats JSON sont normalisés et fusionnés avec ceux de Semgrep pour les projets Python, éliminant les doublons par empreinte (\texttt{fingerprint}).
+
+\textbf{Justification.} Bandit complète Semgrep sur les projets Python avec une profondeur d'analyse spécifique au langage et des règles couvrant des vulnérabilités Python-spécifiques (ex. : \texttt{subprocess} shell injection, \texttt{pickle} désérialisation).
+
+\subsection{Celery et Redis (orchestration asynchrone)}
+
+\textbf{Description.} Celery est un système de file de tâches distribuées pour Python. Redis, utilisé ici comme broker de messages, gère la file d'attente des jobs Celery. Cette combinaison permet de déporter les traitements longs (scans de code) vers des workers indépendants sans bloquer l'API principale.
+
+\textbf{Utilisation dans InvisiThreat.} Lors de la création d'un scan (\texttt{POST /scans}), l'API crée immédiatement l'entité \texttt{Scan} avec \texttt{status = "pending"}, puis enqueue une tâche Celery. Le worker exécute Semgrep et Bandit, normalise les résultats, persiste les \texttt{Vulnerability} en base et met à jour le statut du scan (\texttt{running} → \texttt{completed} ou \texttt{failed}). Des événements Socket.IO sont émis à chaque étape pour le suivi temps réel.
+
+\textbf{Justification.} Les scans SAST sur de grands dépôts peuvent durer plusieurs minutes. L'approche asynchrone garantit que l'API reste réactive et que plusieurs scans peuvent être exécutés en parallèle sans dégradation de performance.
+
+% ───────────────────────────────────────────────────────────────────
+\section{Analyse et spécification des besoins}
+
+\subsection{Diagramme de cas d'utilisation du sprint}
+
+Le diagramme de cas d'utilisation du Sprint 3 (figure~\ref{fig:sprint3-use-case}) représente les interactions entre le \textbf{Developer} (déclenchement du scan, consultation des alertes) et le \textbf{Security Manager} (consultation des alertes normalisées, filtrage par criticité). Un acteur \textbf{CLI Scanner} représente les appels automatisés depuis un pipeline CI/CD via clé API. La communication avec les systèmes externes \textbf{Semgrep} et \textbf{Bandit} (exécutés en sous-processus par le worker Celery) est matérialisée par des relations \textit{include} depuis le cas \textit{Lancer un scan SAST}.
+
+\begin{figure}[H]
+\centering
+\fbox{\rule{0pt}{2in}\rule{0.9\linewidth}{0pt}}
+\caption{Diagramme de cas d'utilisation -- Sprint 3.}
+\label{fig:sprint3-use-case}
+\end{figure}
+
+\subsection{Description détaillée des cas d'utilisation}
+
+\paragraph{Cas d'utilisation : Lancer un scan SAST}
+\begin{table}[H]
+\centering
+\caption{Description du cas d'utilisation -- Lancer un scan SAST}
+\label{tab:uc-sast}
+\small
+\renewcommand{\arraystretch}{1.3}
+\begin{tabularx}{\textwidth}{>{\bfseries}p{3.5cm} X}
+\hline
+Titre & Lancer un scan SAST \\
+\hline
+Acteur & Développeur (\texttt{developer}), Administrateur (\texttt{admin}) \\
+\hline
+Résumé & Permet de soumettre un dépôt de code source pour analyse statique par Semgrep et Bandit, via l'interface web ou un appel CLI avec clé API. \\
+\hline
+Préconditions & L'utilisateur est authentifié et membre du projet. Le projet est configuré avec \texttt{analysis\_type = "sast"} ou \texttt{"both"}. Le dépôt est accessible (GitHub OAuth ou upload direct). \\
+\hline
+Postconditions & Un enregistrement \texttt{Scan} est créé avec \texttt{status = "pending"}, \texttt{method = "github"} ou \texttt{"cli"}. Une tâche Celery est enqueued sur Redis. Des \texttt{Vulnerability} sont persistées après exécution. \\
+\hline
+Scénario nominal &
+1. L'utilisateur soumet \texttt{POST /scans} avec \texttt{project\_id} et \texttt{method = "github"}. \newline
+2. Le système crée l'entité \texttt{Scan} avec \texttt{status = "pending"}. \newline
+3. Le système publie la tâche dans la file Redis. \newline
+4. Le worker Celery récupère la tâche, clone le dépôt et met à jour \texttt{status = "running"}. \newline
+5. Semgrep et Bandit sont exécutés séquentiellement sur le code. \newline
+6. Les résultats sont normalisés et persistés comme entités \texttt{Vulnerability}. \newline
+7. Le scan passe à \texttt{status = "completed"}. \newline
+8. Des événements Socket.IO sont émis pour chaque changement de statut (scopés par \texttt{scan\_id}). \\
+\hline
+Scénario alternatif &
+4.a Le dépôt est inaccessible (token révoqué ou dépôt supprimé) : le worker met le scan à \texttt{status = "failed"} et enregistre le message d'erreur dans \texttt{job\_state}. \newline
+5.a Semgrep échoue (timeout, dépôt trop grand) : le worker poursuit avec Bandit seul et journalise l'erreur partielle. \\
+\hline
+\end{tabularx}
+\end{table}
+
+\paragraph{Cas d'utilisation : Consulter le rapport SAST normalisé}
+\begin{table}[H]
+\centering
+\caption{Description du cas d'utilisation -- Consulter le rapport SAST normalisé}
+\label{tab:uc-sast-report}
+\small
+\renewcommand{\arraystretch}{1.3}
+\begin{tabularx}{\textwidth}{>{\bfseries}p{3.5cm} X}
+\hline
+Titre & Consulter le rapport SAST normalisé filtré par sévérité \\
+\hline
+Acteur & Développeur (\texttt{developer}), Security Manager (\texttt{security\_manager}) \\
+\hline
+Résumé & Permet de consulter les vulnérabilités détectées lors d'un scan SAST, filtrées par niveau de sévérité (\texttt{critical}/\texttt{high}/\texttt{medium}/\texttt{low}/\texttt{info}). \\
+\hline
+Préconditions & Le scan est dans l'état \texttt{completed}. L'utilisateur est membre du projet. \\
+\hline
+Postconditions & L'utilisateur obtient la liste paginée des vulnérabilités correspondant au filtre. \\
+\hline
+Scénario nominal &
+1. L'utilisateur accède à la page de résultats du scan. \newline
+2. Il sélectionne le filtre de sévérité (ex. : \texttt{severity=critical,high}). \newline
+3. Le système retourne \texttt{GET /scans/\{id\}/vulnerabilities?severity=critical,high}. \newline
+4. Les vulnérabilités sont affichées avec titre, description, fichier, ligne, score CVSS et CWE. \\
+\hline
+Scénario alternatif &
+3.a Aucune vulnérabilité ne correspond au filtre : le système retourne une liste vide avec HTTP 200 et un message informatif. \\
+\hline
+\end{tabularx}
+\end{table}
+
+% ───────────────────────────────────────────────────────────────────
+\section{Modélisation conceptuelle}
+
+\subsection{Diagramme de classes}
+
+Le diagramme de classes du Sprint 3 (figure~\ref{fig:sprint3-class}) modélise les entités du pipeline SAST. \texttt{Scan} est lié à \texttt{Project} (\(N..1\)) et constitue le conteneur des résultats d'analyse. \texttt{Vulnerability} est liée à \texttt{Scan} (\(1..N\)) et représente une faille individuelle détectée. Les enums \texttt{ScanMethod} (\texttt{cli}/\texttt{github}/\texttt{dast}/\texttt{exe}), \texttt{ScanStatus} (\texttt{pending}/\texttt{running}/\texttt{completed}/\texttt{failed}) et \texttt{VulnerabilitySeverity} (\texttt{critical}/\texttt{high}/\texttt{medium}/\texttt{low}/\texttt{info}) sont définis au niveau du modèle de données et contraignent les valeurs admissibles.
+
+\begin{figure}[H]
+\centering
+\fbox{\rule{0pt}{2in}\rule{0.9\linewidth}{0pt}}
+\caption{Diagramme de classes -- Sprint 3 (entités Scan, Vulnerability avec enums).}
+\label{fig:sprint3-class}
+\end{figure}
+
+\paragraph{Dictionnaire de données}
+
+\begin{table}[H]
+\centering
+\caption{Dictionnaire de données -- Sprint 3}
+\label{tab:dict-sprint3}
+\small
+\renewcommand{\arraystretch}{1.3}
+\begin{tabularx}{\textwidth}{>{\bfseries}p{2.8cm} p{3cm} X p{2.5cm}}
+\hline
+\rowcolor{gray!15}
+\textbf{Classe} & \textbf{Code} & \textbf{Désignation} & \textbf{Type} \\
+\hline
+Scan & id & Identifiant unique du scan & UUID \\
+Scan & project\_id & Référence au projet analysé & UUID (FK → Project) \\
+Scan & method & Méthode de déclenchement (\texttt{cli}/\texttt{github}/\texttt{dast}/\texttt{exe}) & String (enum) \\
+Scan & status & État du scan (\texttt{pending}/\texttt{running}/\texttt{completed}/\texttt{failed}) & String (enum) \\
+Scan & job\_state & Métadonnées de progression du job Celery (JSON) & JSON (nullable) \\
+Scan & created\_at & Horodatage de création du scan & DateTime \\
+\hline
+Vulnerability & id & Identifiant unique de la vulnérabilité & UUID \\
+Vulnerability & scan\_id & Référence au scan parent & UUID (FK → Scan) \\
+Vulnerability & title & Titre de la vulnérabilité (issue du moteur de scan) & String \\
+Vulnerability & description & Description textuelle de la vulnérabilité & Text \\
+Vulnerability & severity & Niveau de sévérité (\texttt{critical}/\texttt{high}/\texttt{medium}/\texttt{low}/\texttt{info}) & String (enum) \\
+Vulnerability & status & État de traitement (\texttt{open}/\texttt{in\_progress}/\texttt{resolved}/\texttt{false\_positive}/\texttt{risk\_accepted}) & String (enum) \\
+Vulnerability & cvss\_score & Score CVSS de la vulnérabilité (0.0--10.0) & Float (nullable) \\
+\hline
+\end{tabularx}
+\end{table}
+
+\subsection{Diagrammes de séquence}
+
+\paragraph{Diagramme DS-3a : Lancer un scan SAST (orchestration Celery/Redis)}
+
+Le diagramme DS-3a (figure~\ref{fig:sprint3-seq-sast}) modélise le flux de déclenchement et d'exécution d'un scan SAST selon la notation BCE. \textbf{ScanForm} (boundary — interface React ou CLI) soumet la requête à \textbf{ScanController} (control — endpoint FastAPI \texttt{POST /scans}). Le contrôleur crée l'entité \textbf{Scan} (entity) avec \texttt{status = "pending"}, puis enqueue la tâche dans la file \textbf{Redis Queue}. Le \textbf{CeleryWorker} (control) consomme la tâche, exécute Semgrep et Bandit, persiste les \textbf{Vulnerability} (entity) et émet des événements Socket.IO.
+
+\begin{figure}[H]
+\centering
+\fbox{\rule{0pt}{2in}\rule{0.9\linewidth}{0pt}}
+\caption{Diagramme de séquence DS-3a -- Lancer un scan SAST (orchestration Celery/Redis).}
+\label{fig:sprint3-seq-sast}
+\end{figure}
+
+\paragraph{Diagramme DS-3b : Suivi temps réel via Socket.IO}
+
+Le diagramme DS-3b (figure~\ref{fig:sprint3-seq-socket}) décrit le flux de notification temps réel. \textbf{ScanProgressUI} (boundary — composant React abonné au namespace Socket.IO \texttt{/scans/\{scan\_id\}}) reçoit les événements \texttt{scan.status\_changed} et \texttt{scan.vulnerability\_found} émis par le \textbf{SocketIOGateway} (control — python-socketio). La salle (\textit{room}) Socket.IO est scopée par \texttt{scan\_id} pour éviter les émissions croisées entre projets. Le \textbf{CeleryWorker} (control) publie les événements via le bus Redis.
+
+\begin{figure}[H]
+\centering
+\fbox{\rule{0pt}{2in}\rule{0.9\linewidth}{0pt}}
+\caption{Diagramme de séquence DS-3b -- Suivi temps réel Socket.IO (scopé par scan\_id).}
+\label{fig:sprint3-seq-socket}
+\end{figure}
+
+% ───────────────────────────────────────────────────────────────────
+\section{Réalisation}
+
+\subsection{Intégration SAST (Semgrep, Bandit)}
+Les workers Celery exécutent Semgrep (\texttt{semgrep --config auto --json}) et Bandit (\texttt{bandit -r . -f json -q}) en sous-processus isolés. Les sorties sont parsées et normalisées par des adaptateurs dédiés (un par moteur) qui mappent les sévérités natives vers l'enum \texttt{VulnerabilitySeverity} et calculent une empreinte (\texttt{fingerprint}) unique par vulnérabilité pour détecter les doublons lors des scans répétés. L'infrastructure Celery/Redis introduite dans ce sprint sera étendue au DAST (Sprint 4).
+
+% ───────────────────────────────────────────────────────────────────
+\section{Test et validation}
+
+\subsection{Tests réalisés}
+
+\begin{table}[H]
+\centering
+\caption{Tableau de test -- Lancer un scan SAST (Sprint 3)}
+\label{tab:test-sprint3}
+\small
+\renewcommand{\arraystretch}{1.3}
+\begin{tabularx}{\textwidth}{>{\bfseries}p{3.5cm} X}
+\hline
+Cas de Test & TC-S3-01 -- Scan SAST complet sur dépôt Python \\
+\hline
+Auteur du cas de test & Développeur / Testeur QA \\
+\hline
+Description & Vérifier qu'un scan SAST sur un dépôt Python contenant des vulnérabilités connues détecte correctement les failles et les persiste avec les sévérités attendues. \\
+\hline
+Précondition & Un projet Python est configuré. Un dépôt GitHub de test contenant des vulnérabilités connues (injection SQL, \texttt{subprocess} shell, secret codé en dur) est rattaché au projet. Un worker Celery est opérationnel. \\
+\hline
+Scénario &
+1. Envoyer \texttt{POST /scans} avec \texttt{project\_id} et \texttt{method = "github"}. \newline
+2. Vérifier que la réponse HTTP 201 contient un \texttt{scan\_id} et \texttt{status = "pending"}. \newline
+3. Observer les événements Socket.IO : \texttt{scan.status\_changed} de \texttt{pending} → \texttt{running} → \texttt{completed}. \newline
+4. Appeler \texttt{GET /scans/\{id\}/vulnerabilities} et vérifier que les vulnérabilités connues sont présentes avec les sévérités correctes (\texttt{critical}, \texttt{high}). \newline
+5. Vérifier que le mapping des sévérités Bandit (HIGH/MEDIUM/LOW) et Semgrep correspond à l'enum \texttt{VulnerabilitySeverity}. \\
+\hline
+Postcondition & Les vulnérabilités connues sont détectées et persistées. Le scan passe à \texttt{completed}. Les événements Socket.IO sont reçus dans l'ordre attendu. \\
+\hline
+\end{tabularx}
+\end{table}
+
+\subsection{Validation}
+La validation s'est appuyée sur un dépôt Python de test contenant des vulnérabilités intentionnelles (OWASP WebGoat Python adapté). Les résultats Semgrep et Bandit ont été comparés aux sorties attendues pour vérifier la fidélité du mapping de sévérités et l'absence de doublons après normalisation.
+
+\subsection{Gestion des versions et commits}
+Le Sprint 3 a été développé sur la branche \texttt{feature/sprint3-sast}. Les workers Celery et les adaptateurs de normalisation ont fait l'objet de tests unitaires (mocking des sous-processus Semgrep et Bandit). La couverture de tests est suivie via le pipeline CI.
+
+% ───────────────────────────────────────────────────────────────────
+\section{Conclusion}
+Le Sprint 3 a permis d'intégrer la détection SAST et de normaliser les alertes issues de Semgrep et Bandit. L'infrastructure d'orchestration asynchrone Celery/Redis, le suivi temps réel via Socket.IO et le modèle de données \texttt{Scan}/\texttt{Vulnerability} constituent la base technique du pipeline de sécurité. Ces fondations ouvrent la voie au Sprint 4, centré sur la détection dynamique DAST, le scoring de risque et l'assistance IA.

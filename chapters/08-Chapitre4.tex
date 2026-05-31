@@ -3,15 +3,18 @@
 % ═══════════════════════════════════════════════════════════════════
 
 \section{Introduction}
-Ce sprint est consacré à la gestion des projets et aux intégrations nécessaires pour connecter InvisiThreat à l'écosystème existant. L'objectif est de permettre la création de projets, la configuration des dépôts et l'automatisation des déclenchements via OAuth et clés API.
+Ce sprint est consacré à la gestion des projets et aux intégrations nécessaires pour connecter InvisiThreat à l'écosystème existant. L'objectif est de permettre la création de projets structurés, la connexion de dépôts GitHub via OAuth, la génération et la gestion de clés API pour les pipelines CI/CD, ainsi que la gestion des membres par projet. L'ensemble de ces fonctionnalités repose sur un chiffrement rigoureux des secrets et une séparation stricte des périmètres par projet.
 
+% ───────────────────────────────────────────────────────────────────
 \section{Objectifs du sprint et planification des tâches}
-\subsection{Objectifs du sprint}
+
+\subsection{Objectifs attendus}
+À l'issue de ce sprint, la plateforme doit permettre de créer et configurer des projets, de relier des dépôts GitHub (avec chiffrement du token d'accès), de générer des clés API pour l'authentification technique et d'ajouter des membres avec des rôles spécifiques au projet. Plus précisément :
 \begin{itemize}
-  \item permettre la création et la configuration des projets ;
-  \item intégrer les dépôts GitHub via OAuth ;
-  \item gérer les clés API pour les pipelines CI/CD ;
-  \item initialiser des notifications de base sur les scans.
+  \item permettre la création et la configuration des projets (\texttt{language}, \texttt{analysis\_type}, \texttt{visibility}) ;
+  \item intégrer les dépôts GitHub via OAuth avec chiffrement Fernet du token d'accès ;
+  \item générer et révoquer des clés API pour l'authentification depuis les pipelines CI/CD ;
+  \item gérer les membres d'un projet (rôles \texttt{owner}/\texttt{member}/\texttt{viewer}).
 \end{itemize}
 
 \subsection{Sprint Backlog}
@@ -20,65 +23,270 @@ Ce sprint est consacré à la gestion des projets et aux intégrations nécessai
 \caption{Sprint Backlog -- Sprint 2}
 \label{tab:sprint2-backlog}
 \small
-\renewcommand{\arraystretch}{1.2}
-\begin{tabularx}{\textwidth}{>{\bfseries}c X c}
+\renewcommand{\arraystretch}{1.3}
+\begin{tabularx}{\textwidth}{c X c X c}
 \hline
 \rowcolor{gray!15}
-ID & User Story & Priorité \\
+\textbf{ID} & \textbf{User Story} & \textbf{ID Tâche} & \textbf{Tâche} & \textbf{Priorité} \\
 \hline
-S2-01 & En tant qu'administrateur, je peux créer un projet et définir ses URLs cibles. & M \\
-S2-02 & En tant que développeur, je peux connecter un dépôt GitHub via OAuth. & S \\
-S2-03 & En tant que système CI/CD, je peux déclencher un scan via une clé API. & S \\
-S2-04 & En tant que Security Manager, je peux consulter des notifications de scan. & S \\
+S2-01 & En tant que développeur ou administrateur, je peux créer un projet et définir ses paramètres (langage, type d'analyse, visibilité).
+  & T2-01 & Implémenter l'endpoint \texttt{POST /projects} avec validation Pydantic v2 et persistance SQLAlchemy. & M \\
+\cline{3-5}
+  & & T2-02 & Exposer \texttt{GET /projects} paginé avec filtres par propriétaire et visibilité. & M \\
+\hline
+S2-02 & En tant que développeur, je peux connecter un dépôt GitHub via OAuth et conserver le token de manière sécurisée.
+  & T2-03 & Implémenter le flux GitHub OAuth (callback + échange de code contre token d'accès). & S \\
+\cline{3-5}
+  & & T2-04 & Chiffrer le token GitHub avec \texttt{cryptography.fernet.Fernet} avant persistance dans \texttt{encrypted\_token}. & M \\
+\hline
+S2-03 & En tant que développeur ou administrateur, je veux générer une clé API afin d'authentifier les appels depuis un pipeline CI/CD sans exposer mes identifiants.
+  & T2-05 & Générer une clé API aléatoire, hacher avec SHA-256, persister dans \texttt{user\_api\_keys}. & S \\
+\cline{3-5}
+  & & T2-06 & Exposer les endpoints \texttt{POST /api-keys} et \texttt{DELETE /api-keys/\{id\}} (révocation). & S \\
+\hline
+S2-04 & En tant que propriétaire de projet, je peux ajouter des membres et leur attribuer un rôle au sein du projet.
+  & T2-07 & Implémenter \texttt{POST /projects/\{id\}/members} avec gestion des rôles \texttt{owner}/\texttt{member}/\texttt{viewer}. & S \\
 \hline
 \end{tabularx}
 \end{table}
 
+% ───────────────────────────────────────────────────────────────────
 \section{Technologies et concepts utilisés}
-L'intégration GitHub s'appuie sur le flux OAuth2 afin d'autoriser l'accès aux dépôts sans exposer d'identifiants. Les clés API sont générées et stockées de manière sécurisée pour authentifier les appels automatisés. Le modèle de projet regroupe dépôts, URLs cibles et paramètres de scan afin de centraliser la configuration.
 
-\section{Analyse détaillée des besoins}
+\subsection{GitHub REST API v3 et OAuth2}
+
+\textbf{Description.} GitHub expose une API REST (version 3) permettant d'accéder aux dépôts, branches, commits et métadonnées d'organisation via un token d'accès personnel (PAT) ou un token OAuth. Le flux OAuth2 Authorization Code échange un code temporaire contre un token d'accès après consentement de l'utilisateur.
+
+\textbf{Utilisation dans InvisiThreat.} Le flux OAuth GitHub est déclenché lorsqu'un développeur clique sur "Connecter GitHub". Après consentement, GitHub retourne un code qui est échangé contre un token d'accès côté serveur. Ce token est utilisé pour récupérer les métadonnées du dépôt (\texttt{repo\_url}, \texttt{default\_branch}) et déclencher les scans SAST sur le contenu du dépôt.
+
+\textbf{Justification.} Le flux OAuth évite l'exposition de credentials statiques et permet la révocation du consentement depuis l'interface GitHub sans modifier la configuration d'InvisiThreat.
+
+\subsection{Chiffrement Fernet (\texttt{cryptography})}
+
+\textbf{Description.} Fernet est un schéma de chiffrement symétrique authentifié (AES-128-CBC + HMAC-SHA256) fourni par la bibliothèque Python \texttt{cryptography}. Il garantit à la fois la confidentialité et l'intégrité du message chiffré.
+
+\textbf{Utilisation dans InvisiThreat.} Le token GitHub OAuth, qui donne accès aux dépôts privés, est une donnée particulièrement sensible. Avant toute persistance dans la colonne \texttt{encrypted\_token} de \texttt{github\_repositories}, il est chiffré avec une clé Fernet dérivée d'un secret d'environnement (\texttt{FERNET\_KEY}). Lors d'un scan, le token est déchiffré en mémoire uniquement pour la durée nécessaire.
+
+\textbf{Justification.} Stocker le token en clair en base de données constituerait une vulnérabilité OWASP A02 (Cryptographic Failures). Fernet apporte le chiffrement authentifié en une seule opération, sans gestion complexe de IV ou de MAC.
+
+\subsection{SQLAlchemy Alembic (migrations)}
+
+\textbf{Description.} Alembic est un outil de migration de schéma de base de données pour SQLAlchemy. Il versionne les modifications du modèle de données et permet leur application ou leur annulation de manière reproductible.
+
+\textbf{Utilisation dans InvisiThreat.} L'ajout des tables \texttt{projects}, \texttt{github\_repositories}, \texttt{project\_members} et \texttt{user\_api\_keys} est géré via des scripts de migration Alembic versionnés dans le dépôt. Le pipeline CI exécute \texttt{alembic upgrade head} à chaque déploiement.
+
+\textbf{Justification.} Alembic garantit la cohérence du schéma entre les environnements de développement, de test et de production, en évitant les migrations manuelles source d'erreurs.
+
+% ───────────────────────────────────────────────────────────────────
+\section{Analyse et spécification des besoins}
+
 \subsection{Diagramme de cas d'utilisation du sprint}
+
+Le diagramme de cas d'utilisation du Sprint 2 (figure~\ref{fig:sprint2-use-case}) représente les interactions entre les acteurs \textbf{Developer} (utilisateur standard) et \textbf{Admin} avec les fonctionnalités de gestion de projets et d'intégrations. Le cas \textit{Créer un projet} inclut le cas \textit{S'authentifier} (relation \textit{include}). Le cas \textit{Connecter dépôt GitHub} étend \textit{Créer un projet} et implique une communication avec le système externe \textbf{GitHub OAuth}. Le cas \textit{Générer une clé API} est disponible pour \texttt{developer} et \texttt{admin}, tandis que \textit{Ajouter un membre} est réservé au propriétaire du projet.
+
 \begin{figure}[H]
 \centering
 \fbox{\rule{0pt}{2in}\rule{0.9\linewidth}{0pt}}
-\caption{Diagramme de cas d'utilisation -- Sprint 2 (placeholder).}
+\caption{Diagramme de cas d'utilisation -- Sprint 2.}
 \label{fig:sprint2-use-case}
 \end{figure}
 
 \subsection{Description détaillée des cas d'utilisation}
-Les cas d'utilisation couvrent la création d'un projet, l'association d'un dépôt GitHub, la génération d'une clé API et le paramétrage des URLs de scan. Chaque action est auditée et limitée au périmètre de l'utilisateur.
 
+\paragraph{Cas d'utilisation : Créer un projet}
+\begin{table}[H]
+\centering
+\caption{Description du cas d'utilisation -- Créer un projet}
+\label{tab:uc-create-project}
+\small
+\renewcommand{\arraystretch}{1.3}
+\begin{tabularx}{\textwidth}{>{\bfseries}p{3.5cm} X}
+\hline
+Titre & Créer un projet \\
+\hline
+Acteur & Développeur (\texttt{developer}) ou Administrateur (\texttt{admin}) \\
+\hline
+Résumé & Permet de créer un nouveau projet d'analyse en définissant ses paramètres (nom, description, langage, type d'analyse, visibilité). Le créateur est automatiquement désigné propriétaire. \\
+\hline
+Préconditions & L'utilisateur est authentifié. Son rôle est \texttt{developer} ou \texttt{admin}. \\
+\hline
+Postconditions & Un enregistrement \texttt{Project} est créé en base avec \texttt{owner\_id = user.id}. Un enregistrement \texttt{ProjectMember} est créé avec le rôle \texttt{owner}. Un \texttt{AuditLog} de type \textit{PROJECT\_CREATE} est enregistré. \\
+\hline
+Scénario nominal &
+1. L'utilisateur remplit le formulaire de création (nom, description, langage, type d'analyse : \texttt{sast}/\texttt{dast}/\texttt{both}, visibilité : \texttt{private}/\texttt{public}/\texttt{internal}). \newline
+2. Le système valide les données via Pydantic v2 (nom unique par propriétaire). \newline
+3. Le système persiste l'entité \texttt{Project} et crée l'entrée \texttt{ProjectMember} (rôle \texttt{owner}) dans la même transaction. \newline
+4. Le système retourne le projet créé avec son identifiant UUID. \\
+\hline
+Scénario alternatif &
+2.a Nom de projet déjà utilisé par cet utilisateur : le système retourne HTTP 409 avec un message d'erreur explicite. \newline
+2.b Données manquantes ou invalides : le système retourne HTTP 422 avec le détail des erreurs de validation Pydantic. \\
+\hline
+\end{tabularx}
+\end{table}
+
+\paragraph{Cas d'utilisation : Connecter un dépôt GitHub}
+\begin{table}[H]
+\centering
+\caption{Description du cas d'utilisation -- Connecter un dépôt GitHub}
+\label{tab:uc-github}
+\small
+\renewcommand{\arraystretch}{1.3}
+\begin{tabularx}{\textwidth}{>{\bfseries}p{3.5cm} X}
+\hline
+Titre & Connecter un dépôt GitHub \\
+\hline
+Acteur & Développeur (\texttt{developer}), Administrateur (\texttt{admin}) \\
+\hline
+Résumé & Permet d'associer un dépôt GitHub à un projet en réalisant le flux OAuth2, puis chiffre et stocke le token d'accès pour les scans ultérieurs. \\
+\hline
+Préconditions & L'utilisateur est propriétaire ou membre du projet. L'intégration GitHub OAuth est configurée sur la plateforme (client\_id, client\_secret). \\
+\hline
+Postconditions & Un enregistrement \texttt{GitHubRepository} est créé avec \texttt{encrypted\_token} (Fernet), \texttt{repo\_url} et \texttt{default\_branch}. \\
+\hline
+Scénario nominal &
+1. L'utilisateur clique sur "Connecter GitHub" depuis le panneau de configuration du projet. \newline
+2. Le système redirige vers GitHub avec le \texttt{client\_id} et un \texttt{state} CSRF. \newline
+3. L'utilisateur autorise l'accès sur GitHub. \newline
+4. GitHub redirige vers le callback avec le code d'autorisation. \newline
+5. Le serveur échange le code contre un token d'accès via l'API GitHub. \newline
+6. Le token est chiffré avec Fernet et persisté dans \texttt{encrypted\_token}. \newline
+7. Les métadonnées du dépôt (URL, branche par défaut) sont récupérées et stockées. \\
+\hline
+Scénario alternatif &
+5.a Échange du code échoue (code expiré ou invalide) : le système retourne HTTP 400 et invite à relancer le flux OAuth. \newline
+2.a Paramètre \texttt{state} invalide (attaque CSRF détectée) : le système retourne HTTP 403 et journalise l'événement. \\
+\hline
+\end{tabularx}
+\end{table}
+
+% ───────────────────────────────────────────────────────────────────
 \section{Modélisation conceptuelle}
+
 \subsection{Diagramme de classes}
+
+Le diagramme de classes du Sprint 2 (figure~\ref{fig:sprint2-class}) modélise les entités de gestion des projets. \texttt{Project} est l'agrégat central, lié à \texttt{User} via \texttt{owner\_id} (propriétaire) et via \texttt{ProjectMember} (membres du projet). \texttt{GitHubRepository} est lié à \texttt{Project} par une association \(0..1\) : un projet peut avoir au plus un dépôt GitHub rattaché. \texttt{UserAPIKey} est liée à \texttt{User} par une association \(0..N\) : un utilisateur peut posséder plusieurs clés API actives.
+
 \begin{figure}[H]
 \centering
 \fbox{\rule{0pt}{2in}\rule{0.9\linewidth}{0pt}}
-\caption{Diagramme de classes -- Sprint 2 (placeholder).}
+\caption{Diagramme de classes -- Sprint 2 (entités Project, GitHubRepository, ProjectMember, UserAPIKey).}
 \label{fig:sprint2-class}
 \end{figure}
 
+\paragraph{Dictionnaire de données}
+
+\begin{table}[H]
+\centering
+\caption{Dictionnaire de données -- Sprint 2}
+\label{tab:dict-sprint2}
+\small
+\renewcommand{\arraystretch}{1.3}
+\begin{tabularx}{\textwidth}{>{\bfseries}p{2.8cm} p{3cm} X p{2.5cm}}
+\hline
+\rowcolor{gray!15}
+\textbf{Classe} & \textbf{Code} & \textbf{Désignation} & \textbf{Type} \\
+\hline
+Project & id & Identifiant unique du projet (UUID) & UUID \\
+Project & name & Nom du projet (unique par propriétaire) & String \\
+Project & description & Description textuelle du projet & String (nullable) \\
+Project & owner\_id & Référence au propriétaire du projet & UUID (FK → User) \\
+Project & language & Langage principal du projet (enum : \texttt{python}, \texttt{javascript}, \texttt{java}, etc.) & String (enum) \\
+Project & analysis\_type & Type d'analyse configuré (enum : \texttt{sast}, \texttt{dast}, \texttt{both}) & String (enum) \\
+Project & visibility & Visibilité du projet (enum : \texttt{private}, \texttt{public}, \texttt{internal}) & String (enum) \\
+\hline
+ProjectMember & id & Identifiant unique de l'appartenance & UUID \\
+ProjectMember & project\_id & Référence au projet & UUID (FK → Project) \\
+ProjectMember & user\_id & Référence à l'utilisateur membre & UUID (FK → User) \\
+ProjectMember & role & Rôle dans le projet (\texttt{owner}/\texttt{member}/\texttt{viewer}) & String (enum) \\
+\hline
+GitHubRepository & id & Identifiant unique du dépôt rattaché & UUID \\
+GitHubRepository & project\_id & Référence au projet auquel le dépôt est rattaché & UUID (FK → Project) \\
+GitHubRepository & encrypted\_token & Token OAuth GitHub chiffré avec Fernet & String \\
+GitHubRepository & repo\_url & URL HTTPS du dépôt GitHub & String \\
+GitHubRepository & default\_branch & Branche par défaut utilisée pour les scans & String \\
+\hline
+UserAPIKey & id & Identifiant unique de la clé API & UUID \\
+UserAPIKey & user\_id & Référence à l'utilisateur propriétaire & UUID (FK → User) \\
+UserAPIKey & key\_hash & Hash SHA-256 de la clé API (jamais la clé en clair) & String \\
+UserAPIKey & name & Nom descriptif de la clé (ex. : « Pipeline GitLab CI ») & String \\
+UserAPIKey & is\_active & Indicateur d'activation de la clé & Boolean \\
+UserAPIKey & last\_used\_at & Horodatage de la dernière utilisation & DateTime (nullable) \\
+\hline
+\end{tabularx}
+\end{table}
+
 \subsection{Diagrammes de séquence}
+
+\paragraph{Diagramme DS-2a : Créer un projet}
+
+Le diagramme DS-2a (figure~\ref{fig:sprint2-seq-project}) décrit le flux de création de projet selon la notation BCE. \textbf{ProjectForm} (boundary — formulaire React) transmet les données à \textbf{ProjectController} (control — endpoint FastAPI \texttt{POST /projects}). La dépendance d'autorisation vérifie le rôle de l'appelant. Le contrôleur persiste les entités \textbf{Project} et \textbf{ProjectMember} (entity) dans une transaction atomique PostgreSQL.
+
 \begin{figure}[H]
 \centering
 \fbox{\rule{0pt}{2in}\rule{0.9\linewidth}{0pt}}
-\caption{Diagrammes de séquence -- Sprint 2 (placeholder).}
-\label{fig:sprint2-seq}
+\caption{Diagramme de séquence DS-2a -- Créer un projet.}
+\label{fig:sprint2-seq-project}
 \end{figure}
 
+\paragraph{Diagramme DS-2b : Connecter un dépôt GitHub (avec chiffrement Fernet)}
+
+Le diagramme DS-2b (figure~\ref{fig:sprint2-seq-github}) modélise le flux OAuth GitHub. \textbf{GitHubForm} (boundary) initie la redirection OAuth. Après retour du code d'autorisation, \textbf{ProjectController} (control) délègue l'échange du code à \textbf{EncryptionService} (control — module Fernet), qui chiffre le token avant que \textbf{GitHubRepository} (entity) ne soit persisté. Ce diagramme met en évidence la séparation de responsabilités entre le contrôle OAuth, le chiffrement et la persistance.
+
+\begin{figure}[H]
+\centering
+\fbox{\rule{0pt}{2in}\rule{0.9\linewidth}{0pt}}
+\caption{Diagramme de séquence DS-2b -- Connecter un dépôt GitHub (chiffrement Fernet du token).}
+\label{fig:sprint2-seq-github}
+\end{figure}
+
+% ───────────────────────────────────────────────────────────────────
 \section{Réalisation}
+
 \subsection{Gestion des projets et des dépôts}
-Le module projet centralise les métadonnées (nom, dépôt, URLs, paramètres) et sert de point d'entrée pour les scans. La configuration est persistée afin d'assurer la traçabilité et l'historisation.
+Le module projet centralise les métadonnées (nom, dépôt, type d'analyse, visibilité) et constitue le point d'entrée pour tous les scans. La table \texttt{projects} est versionnée par Alembic. Les endpoints exposent une API RESTful complète (\texttt{GET}, \texttt{POST}, \texttt{PUT}, \texttt{DELETE}) avec pagination et filtres. Les migrations Alembic garantissent la cohérence du schéma entre environnements.
 
 \subsection{Intégrations OAuth et clés API}
-L'intégration OAuth permet d'accéder aux dépôts GitHub pour récupérer les métadonnées et autoriser les scans. Les clés API offrent un mode d'authentification technique pour les pipelines CI/CD, avec rotation et révocation possibles.
+L'intégration GitHub OAuth est sécurisée par un paramètre \texttt{state} aléatoire anti-CSRF, vérifié à la réception du callback. Le token obtenu est immédiatement chiffré avec Fernet et jamais exposé en dehors du processus de scan. Les clés API (\texttt{UserAPIKey}) sont générées avec \texttt{secrets.token\_urlsafe(32)}, transmises une seule fois à l'utilisateur lors de la création, puis stockées uniquement sous forme de hash SHA-256.
 
+% ───────────────────────────────────────────────────────────────────
 \section{Test et validation}
+
 \subsection{Tests réalisés}
-Les tests incluent la création de projets, la connexion OAuth, la génération de clés API et la vérification des droits d'accès selon le rôle.
+
+\begin{table}[H]
+\centering
+\caption{Tableau de test -- Créer un projet (Sprint 2)}
+\label{tab:test-sprint2}
+\small
+\renewcommand{\arraystretch}{1.3}
+\begin{tabularx}{\textwidth}{>{\bfseries}p{3.5cm} X}
+\hline
+Cas de Test & TC-S2-01 -- Création de projet avec paramètres valides \\
+\hline
+Auteur du cas de test & Développeur / Testeur QA \\
+\hline
+Description & Vérifier qu'un développeur authentifié peut créer un projet et que les entités \texttt{Project} et \texttt{ProjectMember} (rôle \texttt{owner}) sont correctement persistées. \\
+\hline
+Précondition & Un utilisateur avec le rôle \texttt{developer} est authentifié (access token valide). \\
+\hline
+Scénario &
+1. Envoyer \texttt{POST /projects} avec \texttt{Authorization: Bearer <token>} et un corps JSON contenant \texttt{name}, \texttt{language = "python"}, \texttt{analysis\_type = "sast"}, \texttt{visibility = "private"}. \newline
+2. Vérifier la réponse HTTP 201 contenant l'UUID du projet créé. \newline
+3. Vérifier en base que \texttt{projects.owner\_id} correspond à l'UUID de l'utilisateur. \newline
+4. Vérifier qu'un enregistrement \texttt{ProjectMember} avec \texttt{role = "owner"} existe pour ce projet et cet utilisateur. \\
+\hline
+Postcondition & Le projet est créé. L'utilisateur est désigné propriétaire (\texttt{owner}) dans \texttt{project\_members}. \\
+\hline
+\end{tabularx}
+\end{table}
 
 \subsection{Validation}
-La validation s'appuie sur des scénarios CI/CD simulés déclenchant des scans et vérifiant la récupération correcte des projets et dépôts.
+La validation s'est appuyée sur des scénarios simulant des pipelines CI/CD déclenchant des scans via clé API, ainsi que sur des tests de sécurité vérifiant que le token GitHub ne peut pas être récupéré en clair depuis l'API ni depuis la base de données.
 
+\subsection{Gestion des versions et commits}
+Le Sprint 2 a été développé sur la branche \texttt{feature/sprint2-projects-integrations}. Les migrations Alembic ont été versionnées en parallèle du code métier. Les tests d'intégration du flux OAuth ont été moqués via \texttt{httpx.MockTransport} pour éviter les appels réels à GitHub dans le pipeline CI.
+
+% ───────────────────────────────────────────────────────────────────
 \section{Conclusion}
-Le Sprint 2 a permis d'ouvrir la plateforme aux intégrations essentielles. La gestion des projets, des dépôts et des clés API prépare le terrain pour les sprints orientés scanners et orchestration.
+Le Sprint 2 a permis d'ouvrir la plateforme aux intégrations essentielles. La gestion des projets, le chiffrement des tokens GitHub (Fernet), la génération sécurisée de clés API et la gestion des membres par projet préparent le terrain pour les sprints d'analyse SAST et DAST. Le respect des bonnes pratiques de sécurité (aucun secret en clair, validation CSRF, hash des clés API) garantit la conformité aux recommandations OWASP dès cette phase.

@@ -3,15 +3,18 @@
 % ═══════════════════════════════════════════════════════════════════
 
 \section{Introduction}
-Ce sprint vise à mettre en place le socle de sécurité et de gouvernance de la plateforme InvisiThreat. L'objectif est de garantir un accès sécurisé, une traçabilité complète des actions sensibles et un modèle d'autorisation cohérent pour les différents profils d'utilisateurs.
+Ce sprint vise à mettre en place le socle de sécurité et de gouvernance de la plateforme InvisiThreat. L'objectif est de garantir un accès sécurisé, une traçabilité complète des actions sensibles et un modèle d'autorisation cohérent pour les différents profils d'utilisateurs. Les modules développés au cours de ce sprint constituent le fondement sur lequel s'appuient l'ensemble des fonctionnalités des sprints ultérieurs.
 
+% ───────────────────────────────────────────────────────────────────
 \section{Objectifs du sprint et planification des tâches}
-\subsection{Objectifs du sprint}
+
+\subsection{Objectifs attendus}
+À l'issue de ce sprint, il convient de disposer d'une couche d'authentification opérationnelle, d'un système de contrôle d'accès par rôles et d'une traçabilité exhaustive des opérations sensibles. Plus précisément, les objectifs fixés sont les suivants :
 \begin{itemize}
-	\item mettre en place l'authentification JWT et la gestion des sessions ;
-	\item définir un modèle RBAC pour les rôles \textit{Admin}, \textit{Security Manager}, \textit{Développeur} et \textit{Viewer} ;
-	\item intégrer la 2FA TOTP pour les comptes sensibles ;
-	\item assurer la traçabilité via des audit logs.
+  \item mettre en place l'authentification JWT avec gestion des sessions (access token 30 min, refresh token révocable) ;
+  \item définir et implémenter un modèle RBAC pour les rôles \texttt{admin}, \texttt{developer}, \texttt{security\_manager} et \texttt{viewer} ;
+  \item intégrer l'authentification forte 2FA TOTP (via \texttt{pyotp}) pour les comptes à privilèges ;
+  \item assurer la traçabilité complète via des audit logs horodatés.
 \end{itemize}
 
 \subsection{Sprint Backlog}
@@ -20,121 +23,308 @@ Ce sprint vise à mettre en place le socle de sécurité et de gouvernance de la
 \caption{Sprint Backlog -- Sprint 1}
 \label{tab:sprint1-backlog}
 \small
-\renewcommand{\arraystretch}{1.2}
-\begin{tabularx}{\textwidth}{>{\bfseries}c X c}
+\renewcommand{\arraystretch}{1.3}
+\begin{tabularx}{\textwidth}{c X c X c}
 \hline
 \rowcolor{gray!15}
-ID & User Story & Priorité \\
+\textbf{ID} & \textbf{User Story} & \textbf{ID Tâche} & \textbf{Tâche} & \textbf{Priorité} \\
 \hline
-S1-01 & En tant qu'utilisateur, je peux m'authentifier et obtenir un jeton JWT. & M \\
-S1-02 & En tant qu'administrateur, je peux gérer les rôles et permissions (RBAC). & M \\
-S1-03 & En tant qu'administrateur, je peux activer la 2FA TOTP pour renforcer la sécurité. & M \\
-S1-04 & En tant que Security Manager, je peux consulter l'audit des actions sensibles. & M \\
+S1-01 & En tant qu'utilisateur, je peux m'authentifier et obtenir un jeton JWT.
+  & T1-01 & Implémenter l'endpoint \texttt{POST /auth/login} avec génération d'access token (30 min) et refresh token. & M \\
+\cline{3-5}
+  & & T1-02 & Implémenter l'endpoint \texttt{POST /auth/refresh} avec validation et révocation du refresh token. & M \\
+\hline
+S1-02 & En tant qu'administrateur, je peux gérer les rôles et permissions (RBAC).
+  & T1-03 & Modéliser et persister les entités \texttt{Role} et \texttt{User} avec SQLAlchemy. & M \\
+\cline{3-5}
+  & & T1-04 & Implémenter les dépendances FastAPI de vérification du rôle sur les endpoints protégés. & M \\
+\hline
+S1-03 & En tant qu'administrateur, je peux activer/désactiver la 2FA TOTP.
+  & T1-05 & Générer un secret TOTP par utilisateur (\texttt{pyotp.random\_base32}) et exposer le QR code. & M \\
+\cline{3-5}
+  & & T1-06 & Vérifier le code TOTP à chaque connexion si 2FA activée (\texttt{pyotp.TOTP.verify}). & M \\
+\hline
+S1-04 & En tant que Security Manager, je peux consulter l'audit des actions sensibles.
+  & T1-07 & Créer l'entité \texttt{AuditLog} et le middleware d'enregistrement automatique. & M \\
+\cline{3-5}
+  & & T1-08 & Exposer l'endpoint \texttt{GET /audit-logs} paginé avec filtres par acteur et par type d'action. & M \\
 \hline
 \end{tabularx}
 \end{table}
 
+% ───────────────────────────────────────────────────────────────────
 \section{Technologies et concepts utilisés}
-\subsection{JWT et OAuth2 (FastAPI Security)}
-L'authentification repose sur des jetons JWT signés côté serveur, avec un mécanisme de rafraîchissement contrôlé. L'usage d'OAuth2 dans FastAPI standardise les flux d'authentification et assure une intégration propre avec les endpoints sécurisés.
 
-\subsection{TOTP et RBAC}
-La 2FA TOTP ajoute un facteur de sécurité basé sur des codes temporaires, tandis que le RBAC définit une matrice de permissions fine par rôle. Cette combinaison garantit que chaque action critique est limitée au bon profil et journalisée.
+\subsection{JWT et FastAPI Security (\texttt{python-jose}, \texttt{OAuth2PasswordBearer})}
 
+\textbf{Description.} Le JSON Web Token (JWT) est un standard ouvert (RFC 7519) permettant l'échange sécurisé d'informations entre parties sous la forme d'un objet JSON signé. FastAPI intègre nativement le schéma \texttt{OAuth2PasswordBearer} qui extrait automatiquement le jeton \textit{Bearer} de l'en-tête HTTP \texttt{Authorization}.
+
+\textbf{Utilisation dans InvisiThreat.} L'access token JWT a une durée de validité de \textbf{30 minutes}, signé avec l'algorithme HS256 via la bibliothèque \texttt{python-jose}. Le refresh token, d'une durée plus longue, est stocké dans la table \texttt{auth\_tokens} (modèle \texttt{AuthToken}) sous forme de hash \texttt{SHA-256}, révocable individuellement ou en masse à la déconnexion. Toute requête authentifiée traverse le middleware de vérification du jeton avant d'atteindre l'endpoint cible.
+
+\textbf{Justification.} L'approche stateless du JWT élimine la nécessité d'un stockage côté serveur pour la session active, allégeant la charge sur la base de données en lecture. La durée limitée de l'access token (30 min) réduit la fenêtre d'exploitation en cas de fuite, tandis que le mécanisme de révocation du refresh token garantit la déconnexion effective.
+
+\subsection{Authentification forte TOTP (\texttt{pyotp})}
+
+\textbf{Description.} Le Time-based One-Time Password (TOTP) est défini par la RFC 6238. Il génère un code à six chiffres valable pendant 30 secondes, calculé à partir d'un secret partagé et de l'horodatage courant. La bibliothèque Python \texttt{pyotp} implémente ce standard et est compatible avec Google Authenticator et Authy.
+
+\textbf{Utilisation dans InvisiThreat.} Lorsqu'un utilisateur active la 2FA, un secret aléatoire (\texttt{pyotp.random\_base32()}) est généré, chiffré et stocké dans le champ \texttt{totp\_secret} du modèle \texttt{User}. À chaque connexion avec 2FA activée, le serveur vérifie le code saisi via \texttt{pyotp.TOTP(secret).verify(code)}.
+
+\textbf{Justification.} Le TOTP constitue le second facteur le plus répandu et le mieux supporté sur mobile. Son implémentation locale (sans SMS, sans service tiers) préserve la confidentialité et élimine les coûts opérationnels.
+
+\subsection{Contrôle d'accès RBAC (\texttt{bcrypt})}
+
+\textbf{Description.} Le Role-Based Access Control (RBAC) est un modèle de contrôle d'accès qui associe des permissions à des rôles, et des rôles à des utilisateurs. \texttt{bcrypt} est un algorithme de hachage adaptatif utilisé pour stocker les mots de passe de manière résistante aux attaques par force brute.
+
+\textbf{Utilisation dans InvisiThreat.} Quatre rôles sont définis : \texttt{admin} (gouvernance globale), \texttt{developer} (déclenchement de scans), \texttt{security\_manager} (pilotage du risque) et \texttt{viewer} (lecture seule). Les mots de passe sont hachés avec \texttt{bcrypt} (facteur de coût configurable) avant persistance dans \texttt{hashed\_password}. Les dépendances FastAPI vérifient le rôle à chaque requête entrante.
+
+\textbf{Justification.} Le RBAC applique le principe du moindre privilège : chaque rôle n'accède qu'aux fonctionnalités nécessaires à sa mission. \texttt{bcrypt} résiste aux attaques par tables arc-en-ciel et son facteur de coût est ajustable pour suivre l'évolution des capacités de calcul.
+
+% ───────────────────────────────────────────────────────────────────
 \section{Analyse et spécification des besoins}
+
 \subsection{Diagramme de cas d'utilisation du sprint}
+
+Le diagramme de cas d'utilisation du Sprint 1 (figure~\ref{fig:sprint1-use-case}) représente les interactions entre les acteurs du système et les fonctionnalités de sécurité et de gouvernance. Les deux acteurs principaux sont l'\textbf{Utilisateur} (tous rôles confondus, pour les cas d'accès général) et l'\textbf{Administrateur} (pour la gestion des rôles et de la 2FA). Le cas \textit{S'authentifier} est inclus dans tous les autres cas via une relation \textit{include}, matérialisant ainsi l'obligation de posséder une session valide. Le cas \textit{Activer la 2FA} étend \textit{S'authentifier} via une relation \textit{extend} conditionnelle, déclenchée uniquement si le flag \texttt{totp\_enabled} est positionné.
+
 \begin{figure}[H]
 \centering
 \fbox{\rule{0pt}{2in}\rule{0.9\linewidth}{0pt}}
-\caption{Diagramme de cas d'utilisation -- Sprint 1 (placeholder).}
+\caption{Diagramme de cas d'utilisation -- Sprint 1.}
 \label{fig:sprint1-use-case}
 \end{figure}
 
 \subsection{Description détaillée des cas d'utilisation}
-Les cas d'utilisation principaux concernent l'authentification (connexion, renouvellement de jeton), la gestion des rôles et permissions, l'activation de la 2FA et la consultation des journaux d'audit. Chaque action critique déclenche une trace horodatée associée à l'identité de l'utilisateur.
 
+\paragraph{Cas d'utilisation : S'authentifier}
+\begin{table}[H]
+\centering
+\caption{Description du cas d'utilisation -- S'authentifier}
+\label{tab:uc-auth}
+\small
+\renewcommand{\arraystretch}{1.3}
+\begin{tabularx}{\textwidth}{>{\bfseries}p{3.5cm} X}
+\hline
+Titre & S'authentifier \\
+\hline
+Acteur & Utilisateur (tous rôles : \texttt{admin}, \texttt{developer}, \texttt{security\_manager}, \texttt{viewer}) \\
+\hline
+Résumé & Permet à un utilisateur de se connecter à la plateforme InvisiThreat en soumettant ses identifiants et en obtenant un jeton JWT d'accès (30 min) ainsi qu'un refresh token. \\
+\hline
+Préconditions & L'utilisateur possède un compte actif (\texttt{is\_active = true}) et vérifié (\texttt{is\_verified = true}) dans la base de données. \\
+\hline
+Postconditions & L'utilisateur est authentifié. Un access token JWT (30 min) et un refresh token sont émis. Un enregistrement \texttt{AuthToken} est persisté. Un \texttt{AuditLog} de type \textit{LOGIN} est créé. \\
+\hline
+Scénario nominal &
+1. L'utilisateur soumet son adresse e-mail et son mot de passe via le formulaire de connexion. \newline
+2. Le système vérifie l'e-mail dans la base et compare le mot de passe au hash \texttt{bcrypt} stocké. \newline
+3. Si la 2FA est activée (\texttt{totp\_enabled = true}), le système demande le code TOTP. \newline
+4. L'utilisateur saisit le code temporaire à six chiffres. \newline
+5. Le système vérifie le code via \texttt{pyotp.TOTP.verify()}. \newline
+6. Le système génère un access token JWT signé HS256 (expiration 30 min) et un refresh token. \newline
+7. Le refresh token est haché (SHA-256) et persisté dans \texttt{auth\_tokens}. \newline
+8. Le système retourne les deux tokens et enregistre un \texttt{AuditLog} de connexion. \\
+\hline
+Scénario alternatif &
+2.a Identifiants incorrects : le système retourne HTTP 401 avec un message d'erreur générique (sans préciser si l'e-mail ou le mot de passe est erroné) et incrémente le compteur d'échecs. \newline
+4.a Code TOTP expiré ou incorrect : le système retourne HTTP 401 et invite l'utilisateur à saisir le code suivant. \newline
+2.b Compte inactif ou non vérifié : le système retourne HTTP 403 avec un message indiquant que le compte est suspendu ou en attente de vérification. \\
+\hline
+\end{tabularx}
+\end{table}
+
+\paragraph{Cas d'utilisation : Attribuer un rôle (RBAC)}
+\begin{table}[H]
+\centering
+\caption{Description du cas d'utilisation -- Attribuer un rôle}
+\label{tab:uc-rbac}
+\small
+\renewcommand{\arraystretch}{1.3}
+\begin{tabularx}{\textwidth}{>{\bfseries}p{3.5cm} X}
+\hline
+Titre & Attribuer un rôle (RBAC) \\
+\hline
+Acteur & Administrateur (\texttt{admin}) \\
+\hline
+Résumé & Permet à un administrateur de modifier le rôle d'un utilisateur existant, en lui assignant l'un des quatre rôles disponibles (\texttt{admin}, \texttt{developer}, \texttt{security\_manager}, \texttt{viewer}). \\
+\hline
+Préconditions & L'administrateur est authentifié. L'utilisateur cible existe dans le système. \\
+\hline
+Postconditions & Le champ \texttt{role\_id} de l'utilisateur cible est mis à jour en base. Un \texttt{AuditLog} de type \textit{ROLE\_ASSIGN} est créé avec l'identité de l'administrateur et le nouveau rôle. \\
+\hline
+Scénario nominal &
+1. L'administrateur accède au panneau de gestion des utilisateurs. \newline
+2. Il sélectionne l'utilisateur cible et choisit le nouveau rôle dans la liste déroulante. \newline
+3. Il confirme la modification. \newline
+4. Le système met à jour \texttt{role\_id} dans la table \texttt{users} via SQLAlchemy. \newline
+5. Le système enregistre un \texttt{AuditLog} horodaté avec \texttt{action = ROLE\_ASSIGN}, \texttt{resource\_type = User} et \texttt{resource\_id = user.id}. \newline
+6. Le système notifie l'utilisateur cible du changement de rôle. \\
+\hline
+Scénario alternatif &
+2.a Rôle identique au rôle actuel : le système retourne un message d'information sans effectuer de modification ni créer d'audit log. \newline
+4.a Erreur de persistance : le système retourne HTTP 500 et annule la transaction (rollback SQLAlchemy). \\
+\hline
+\end{tabularx}
+\end{table}
+
+% ───────────────────────────────────────────────────────────────────
 \section{Modélisation conceptuelle}
+
 \subsection{Diagramme de classes}
+
+Le diagramme de classes du Sprint 1 (figure~\ref{fig:sprint1-class}) modélise les entités impliquées dans la sécurité et la gouvernance. La classe centrale \texttt{User} est associée à \texttt{Role} par une relation de composition (\texttt{role\_id} clé étrangère) : un utilisateur possède exactement un rôle. \texttt{AuthToken} est liée à \texttt{User} par une association \(1..N\) : un utilisateur peut posséder plusieurs refresh tokens actifs (sessions multiples), chacun révocable individuellement. \texttt{AuditLog} est liée à \texttt{User} par une association de journalisation (\(1..N\)) : chaque entrée référence l'acteur responsable de l'action enregistrée.
+
 \begin{figure}[H]
 \centering
 \fbox{\rule{0pt}{2in}\rule{0.9\linewidth}{0pt}}
-\caption{Diagramme de classes -- Sprint 1 (placeholder).}
+\caption{Diagramme de classes -- Sprint 1 (entités User, Role, AuthToken, AuditLog).}
 \label{fig:sprint1-class}
 \end{figure}
 
+\paragraph{Dictionnaire de données}
+
+\begin{table}[H]
+\centering
+\caption{Dictionnaire de données -- Sprint 1}
+\label{tab:dict-sprint1}
+\small
+\renewcommand{\arraystretch}{1.3}
+\begin{tabularx}{\textwidth}{>{\bfseries}p{2.5cm} p{3cm} X p{2.5cm}}
+\hline
+\rowcolor{gray!15}
+\textbf{Classe} & \textbf{Code} & \textbf{Désignation} & \textbf{Type} \\
+\hline
+User & id & Identifiant unique de l'utilisateur (UUID) & UUID \\
+User & nom & Nom complet de l'utilisateur & String \\
+User & email & Adresse e-mail (identifiant de connexion, unique) & String \\
+User & hashed\_password & Mot de passe haché avec \texttt{bcrypt} & String \\
+User & is\_active & Indicateur d'activation du compte & Boolean \\
+User & is\_verified & Indicateur de vérification de l'adresse e-mail & Boolean \\
+User & totp\_secret & Secret TOTP chiffré (null si 2FA non activée) & String (nullable) \\
+User & totp\_enabled & Indicateur d'activation de la 2FA TOTP & Boolean \\
+User & role\_id & Référence au rôle RBAC de l'utilisateur & UUID (FK → Role) \\
+User & trial\_scans\_remaining & Nombre de scans restants en période d'essai & Integer \\
+\hline
+Role & id & Identifiant unique du rôle & UUID \\
+Role & name & Nom du rôle (\texttt{admin} / \texttt{developer} / \texttt{security\_manager} / \texttt{viewer}) & String (enum) \\
+\hline
+AuthToken & id & Identifiant unique du refresh token & UUID \\
+AuthToken & user\_id & Référence à l'utilisateur propriétaire du token & UUID (FK → User) \\
+AuthToken & token\_hash & Hash SHA-256 du refresh token (stocké, jamais le token en clair) & String \\
+AuthToken & expires\_at & Date et heure d'expiration du token & DateTime \\
+AuthToken & revoked & Indicateur de révocation du token & Boolean \\
+\hline
+AuditLog & id & Identifiant unique de l'entrée de journal & UUID \\
+AuditLog & user\_id & Référence à l'acteur ayant déclenché l'action & UUID (FK → User) \\
+AuditLog & action & Type d'action journalisée (\textit{LOGIN}, \textit{ROLE\_ASSIGN}, \textit{SCAN\_START}, etc.) & String \\
+AuditLog & resource\_type & Type de ressource affectée (\textit{User}, \textit{Scan}, \textit{Project}, etc.) & String \\
+AuditLog & resource\_id & Identifiant de la ressource affectée & UUID \\
+AuditLog & timestamp & Horodatage UTC de l'action & DateTime \\
+\hline
+\end{tabularx}
+\end{table}
+
 \subsection{Diagrammes de séquence}
+
+\paragraph{Diagramme DS-1a : S'authentifier avec JWT et TOTP}
+
+Le diagramme de séquence DS-1a (figure~\ref{fig:sprint1-seq-auth}) modélise le flux d'authentification selon la notation BCE (\textit{Boundary–Control–Entity}). La frontière \textbf{LoginPage} (composant React) collecte les identifiants et les transmet à \textbf{AuthController} (module FastAPI \texttt{/auth/login}), qui orchestre la vérification. La couche entité est composée de \textbf{User} (vérification des identifiants et du TOTP), \textbf{AuthToken} (persistance du refresh token) et \textbf{AuditLog} (journalisation de la connexion). La base de données PostgreSQL est représentée comme entité de stockage externe.
+
 \begin{figure}[H]
 \centering
 \fbox{\rule{0pt}{2in}\rule{0.9\linewidth}{0pt}}
-\caption{Diagrammes de séquence -- Sprint 1 (placeholder).}
-\label{fig:sprint1-seq}
+\caption{Diagramme de séquence DS-1a -- S'authentifier (JWT + TOTP optionnel).}
+\label{fig:sprint1-seq-auth}
 \end{figure}
 
+\paragraph{Diagramme DS-1b : Attribution de rôle par l'administrateur}
+
+Le diagramme de séquence DS-1b (figure~\ref{fig:sprint1-seq-rbac}) décrit l'attribution de rôle selon la notation BCE. \textbf{AdminPanel} (boundary — interface React d'administration) transmet la requête à \textbf{AuthController} (control — endpoint FastAPI \texttt{PUT /users/\{id\}/role}). La dépendance d'autorisation vérifie que l'appelant possède le rôle \texttt{admin} avant toute opération. Les entités \textbf{User} et \textbf{AuditLog} (SQLAlchemy) sont mises à jour en une seule transaction atomique.
+
+\begin{figure}[H]
+\centering
+\fbox{\rule{0pt}{2in}\rule{0.9\linewidth}{0pt}}
+\caption{Diagramme de séquence DS-1b -- Attribution de rôle (RBAC).}
+\label{fig:sprint1-seq-rbac}
+\end{figure}
+
+% ───────────────────────────────────────────────────────────────────
 \section{Réalisation}
+
 \subsection{Authentification JWT}
-La couche d'authentification fournit un mécanisme stateless avec génération et validation des jetons, ainsi qu'une politique d'expiration cohérente avec l'usage en CI/CD.
+La couche d'authentification repose sur un mécanisme stateless : l'access token JWT (durée de vie 30 minutes, signé HS256) encapsule l'identifiant de l'utilisateur et son rôle dans le payload. À chaque requête, le middleware FastAPI décode et valide le token sans consulter la base de données pour l'access token. La rotation du refresh token (stocké sous forme de hash SHA-256 dans \texttt{auth\_tokens}) est assurée à chaque renouvellement, invalidant le token précédent. La déconnexion révoque explicitement le refresh token en positionnant \texttt{revoked = true}.
 
 \subsection{RBAC et gestion des rôles}
-Les rôles sont modélisés dans une matrice de permissions appliquée à chaque requête. Les endpoints sensibles sont protégés par des garde-fous d'autorisation côté API.
+Les quatre rôles (\texttt{admin}, \texttt{developer}, \texttt{security\_manager}, \texttt{viewer}) sont persistés dans la table \texttt{roles}. La vérification du rôle est implémentée comme une dépendance FastAPI injectable (\texttt{Depends}) sur chaque endpoint protégé. La matrice de permissions garantit que, par exemple, seul \texttt{admin} peut modifier les rôles et que \texttt{viewer} ne peut qu'accéder aux ressources en lecture.
 
-\subsection{Audit logs et 2FA}
-Chaque action critique (connexion, changement d'état, configuration) génère un audit log. La 2FA TOTP est activable pour les comptes sensibles afin de limiter le risque de compromission.
+\subsection{2FA TOTP et audit logs}
+L'activation de la 2FA génère un secret \texttt{pyotp.random\_base32()} persisté chiffré dans \texttt{totp\_secret}. Un QR code est exposé à l'utilisateur pour enregistrement dans son application TOTP (Google Authenticator, Authy). Chaque action critique (connexion, changement de rôle, lancement de scan, révocation de token) génère automatiquement un enregistrement \texttt{AuditLog} via un middleware dédié, garantissant la traçabilité sans modifier la logique métier des endpoints.
 
+% ───────────────────────────────────────────────────────────────────
 \section{Test et validation}
+
 \subsection{Tests réalisés}
-Les tests incluent des scénarios unitaires de génération de jetons, des tests d'accès par rôle et des tests d'activation/désactivation de la 2FA.
+
+\begin{table}[H]
+\centering
+\caption{Tableau de test -- S'authentifier (Sprint 1)}
+\label{tab:test-sprint1-auth}
+\small
+\renewcommand{\arraystretch}{1.3}
+\begin{tabularx}{\textwidth}{>{\bfseries}p{3.5cm} X}
+\hline
+Cas de Test & TC-S1-01 -- Authentification réussie avec 2FA \\
+\hline
+Auteur du cas de test & Développeur / Testeur QA \\
+\hline
+Description & Vérifier que l'authentification JWT avec TOTP retourne un access token valide et crée un AuditLog. \\
+\hline
+Précondition & Un utilisateur avec \texttt{totp\_enabled = true} existe dans la base. Un code TOTP valide est généré à partir du secret partagé. \\
+\hline
+Scénario &
+1. Envoyer \texttt{POST /auth/login} avec e-mail et mot de passe corrects. \newline
+2. Répondre à la demande TOTP avec un code généré via \texttt{pyotp.TOTP(secret).now()}. \newline
+3. Recevoir la réponse HTTP 200 avec \texttt{access\_token} et \texttt{refresh\_token}. \newline
+4. Décoder le JWT et vérifier la présence des champs \texttt{sub} (user\_id) et \texttt{exp} (expiration à +30 min). \newline
+5. Vérifier la création d'un enregistrement \texttt{AuditLog} de type LOGIN dans la base. \\
+\hline
+Postcondition & L'access token est valide, le refresh token est persisté dans \texttt{auth\_tokens}, l'audit log est créé. \\
+\hline
+\end{tabularx}
+\end{table}
+
+\begin{table}[H]
+\centering
+\caption{Tableau de test -- Attribution de rôle (Sprint 1)}
+\label{tab:test-sprint1-rbac}
+\small
+\renewcommand{\arraystretch}{1.3}
+\begin{tabularx}{\textwidth}{>{\bfseries}p{3.5cm} X}
+\hline
+Cas de Test & TC-S1-02 -- Attribution de rôle par l'administrateur \\
+\hline
+Auteur du cas de test & Administrateur / Testeur QA \\
+\hline
+Description & Vérifier qu'un administrateur peut modifier le rôle d'un utilisateur et que l'action est correctement auditée. \\
+\hline
+Précondition & Un utilisateur authentifié avec le rôle \texttt{admin} dispose d'un access token valide. Un utilisateur cible avec le rôle \texttt{viewer} existe dans la base. \\
+\hline
+Scénario &
+1. Envoyer \texttt{PUT /users/\{id\}/role} avec \texttt{Authorization: Bearer <admin\_token>} et \texttt{\{"role": "developer"\}} dans le corps. \newline
+2. Vérifier la réponse HTTP 200 avec le profil utilisateur mis à jour. \newline
+3. Vérifier que \texttt{role\_id} de l'utilisateur cible est modifié en base. \newline
+4. Vérifier la création d'un \texttt{AuditLog} avec \texttt{action = ROLE\_ASSIGN} et les identifiants corrects. \\
+\hline
+Postcondition & Le rôle de l'utilisateur cible est mis à jour. L'audit log retrace l'action avec l'identité de l'administrateur et le nouveau rôle. \\
+\hline
+\end{tabularx}
+\end{table}
 
 \subsection{Validation des fonctionnalités}
-La validation s'appuie sur des scénarios de bout en bout : création d'un utilisateur, attribution d'un rôle, tentative d'accès aux endpoints et vérification des logs.
+La validation s'est appuyée sur des scénarios de bout en bout exécutés via Pytest et la suite \texttt{httpx.AsyncClient} de FastAPI. Les scénarios couvrent : la création d'un utilisateur, l'attribution d'un rôle, les tentatives d'accès aux endpoints protégés selon différents rôles et la vérification des entrées d'audit log produites. Les tests de régression garantissent que toute modification ultérieure de la couche d'autorisation n'introduit pas de permissions non intentionnelles.
 
-\subsection{Gestion des versions / commits}
-Le développement a été versionné par branches de fonctionnalités, avec des messages de commit structurés afin de retracer l'évolution du module de sécurité.
+\subsection{Gestion des versions et commits}
+Le développement du Sprint 1 a été versionné sur la branche \texttt{feature/sprint1-auth-rbac}, avec des messages de commit structurés (\texttt{feat:}, \texttt{fix:}, \texttt{test:}) conformes à la convention \textit{Conventional Commits}. Les merge requests vers \texttt{develop} ont fait l'objet d'une revue de code avant intégration, avec vérification automatique de la couverture de tests via le pipeline CI/CD GitHub Actions.
 
+% ───────────────────────────────────────────────────────────────────
 \section{Conclusion}
-Le Sprint 1 a posé le socle de gouvernance et de sécurité de la plateforme. Les modules d'authentification, de contrôle d'accès et d'audit garantissent une base solide pour les sprints fonctionnels suivants.
-
-\subsection{Diagramme IA/LLM}
-Ce diagramme détaille le flux \textit{Assist with AI} : sélection d'une vulnérabilité,
-appel au module Ollama, génération d'explications et restitution dans l'interface.
-\begin{figure}[H]
-\centering
-\fbox{\rule{0pt}{2in}\rule{0.9\linewidth}{0pt}}
-\caption{Diagramme IA/LLM (placeholder).}
-\label{fig:comp-ia}
-\end{figure}
-
-\subsection{Diagramme d'activités}
-Le diagramme d'activités couvre le cycle complet d'un scan : préparation, exécution
-asynchrone, normalisation, scoring et notification.
-\begin{figure}[H]
-\centering
-\fbox{\rule{0pt}{2in}\rule{0.9\linewidth}{0pt}}
-\caption{Diagramme d'activités (placeholder).}
-\label{fig:comp-activity}
-\end{figure}
-
-\section{Configuration du projet}
-La configuration repose sur des variables d'environnement pour isoler les secrets
-(clés JWT, identifiants base, URLs de scan) et éviter tout durcissement fragile dans le
-code source. Cette approche facilite la rotation des secrets et réduit les risques de
-fuite. Docker Compose joue un rôle central en orchestrant les conteneurs localement et
-en reproduisant un environnement CI/CD minimal : build, lancement des services et
-tests automatisés. Des scripts d'automatisation (Makefile ou scripts shell) permettent
-d'initialiser la base, d'exécuter les migrations et de lancer des scans de démonstration.
-
-\section{Bonnes pratiques}
-Le contrôle d'accès \textbf{RBAC} applique le principe du moindre privilège et limite
-la surface d'exposition des fonctions critiques. La gestion des secrets via des
-variables d'environnement, avec des mécanismes proches d'un coffre-fort, réduit le
-risque de compromission. Les scans asynchrones évitent le blocage de l'API et facilitent
-la mise en file des jobs lourds. Un \textbf{audit trail} complet garantit la traçabilité
-des actions sensibles et répond aux exigences de conformité. Enfin, les tests automatisés
-intégrés au pipeline DevSecOps sécurisent les évolutions et limitent les régressions
-fonctionnelles et sécurité.
-
-\section{Conclusion}
-Ce chapitre a présenté une étude technique détaillée, justifiant les choix d'outils,
-d'architecture et de configuration d'InvisiThreat. Les décisions prises assurent la
-cohérence entre automatisation des scans, sécurité des données et scalabilité. Cette
-base technique prépare la transition vers la conception détaillée et l'implémentation
-des modules critiques, en garantissant un alignement fort avec les objectifs DevSecOps.
+Le Sprint 1 a posé le socle de gouvernance et de sécurité de la plateforme InvisiThreat. Les modules d'authentification JWT (30 min, refresh révocable), de contrôle d'accès par rôles (\texttt{admin}, \texttt{developer}, \texttt{security\_manager}, \texttt{viewer}), d'authentification forte TOTP (\texttt{pyotp}) et de journalisation exhaustive constituent une base solide pour les sprints fonctionnels suivants. L'ensemble de ces mécanismes satisfait aux exigences OWASP relatives à la gestion des sessions, au contrôle d'accès et à la traçabilité.

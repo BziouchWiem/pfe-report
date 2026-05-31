@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.25 (MiKTeX 24.1) (preloaded format=pdflatex 2025.12.28)  27 MAY 2026 00:30
+This is pdfTeX, Version 3.141592653-2.6-1.40.25 (MiKTeX 24.1) (preloaded format=pdflatex 2025.12.28)  31 MAY 2026 15:31
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -1246,7 +1246,8 @@ File: l3backend-pdftex.def 2024-01-04 L3 backend support: PDF output (pdfTeX)
 \l__pdf_internal_box=\box95
 ) (main.aux (chapters/05-Chapitre1.aux) (chapters/06-Chapitre2.aux)
 (chapters/07-chapitre3.aux) (chapters/08-Chapitre4.aux)
-(chapters/09-Chapitre5.aux) (chapters/12-Chapitre6.aux))
+(chapters/09-Chapitre5.aux) (chapters/12-Chapitre6.aux)
+(chapters/13-Chapitre7.aux))
 \openout1 = `main.aux'.
 
 LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 15.
@@ -1367,10 +1368,7 @@ LaTeX Info: Redefining \microtypesetup on input line 15.
 Package microtype Info: Generating PDF output.
 Package microtype Info: Character protrusion enabled (level 2).
 Package microtype Info: Using default protrusion set `alltext'.
-Package microtype Info: Automatic font expansion enabled (level 2),
-(microtype)             stretch: 20, shrink: 20, step: 1, non-selected.
-Package microtype Info: Using default expansion set `alltext-nott'.
-Package microtype Info: Patching command `\showhyphens'.
+Package microtype Info: No font expansion.
 Package microtype Info: No adjustment of tracking.
 Package microtype Info: No adjustment of interword spacing.
 Package microtype Info: No adjustment of character kerning.
@@ -1416,7 +1414,7 @@ File: mt-ptm.cfg 2006/04/20 v1.7 microtype config. file: Times (RS)
 File: mt-cmr.cfg 2013/05/19 v2.2 microtype config. file: Computer Modern Roman 
 (RS)
 )
-<images/logo_isims.jpeg, id=566, 1493.58pt x 716.6775pt>
+<images/logo_isims.jpeg, id=894, 1493.58pt x 716.6775pt>
 File: images/logo_isims.jpeg Graphic file (type jpg)
 <use images/logo_isims.jpeg>
 Package pdftex.def Info: images/logo_isims.jpeg  used on input line 42.
@@ -1431,7 +1429,7 @@ Underfull \hbox (badness 10000) in paragraph at lines 106--110
 \T1/ptm/b/n/11 Exa-mi-na-teur : \T1/ptm/m/n/11 M./Mme \T1/ptm/m/it/11 Pré-nom
  []
 
-<images/logo_mobelite.jpeg, id=567, 299.1175pt x 87.32625pt>
+<images/logo_mobelite.jpeg, id=895, 299.1175pt x 87.32625pt>
 File: images/logo_mobelite.jpeg Graphic file (type jpg)
 <use images/logo_mobelite.jpeg>
 Package pdftex.def Info: images/logo_mobelite.jpeg  used on input line 139.
@@ -1481,33 +1479,85 @@ Underfull \hbox (badness 10000) in paragraph at lines 24--24
 (main.toc [4
 
 
-] [5] [6] [7])
+] [5]
+LaTeX Font Info:    Trying to load font information for T1+cmtt on input line 6
+5.
+
+(C:\Users\Wiem\AppData\Local\Programs\MiKTeX\tex/latex/base\t1cmtt.fd
+File: t1cmtt.fd 2023/04/13 v2.5m Standard LaTeX font definitions
+)
+Package microtype Info: Loading generic protrusion settings for font family
+(microtype)             `cmtt' (encoding: T1).
+(microtype)             For optimal results, create family-specific settings.
+(microtype)             See the microtype manual for details.
+ [6]
+[7] [8] [9])
 \tf@toc=\write6
 \openout6 = `main.toc'.
 
- [8]
+ [10]
 Underfull \hbox (badness 10000) in paragraph at lines 25--25
 
  []
 
-(main.lof)
+(main.lof
+Underfull \hbox (badness 4353) in paragraph at lines 22--22
+ [][] [][]\T1/ptm/m/n/12 Diagramme de classes -- Sprint 2 (en-ti-tés Pro-ject, 
+Gi-tHu-bRe-po-si-tory, 
+ []
+
+LaTeX Font Info:    Trying to load font information for TS1+ptm on input line 2
+8.
+(C:\Users\Wiem\AppData\Local\Programs\MiKTeX\tex/latex/psnfss\ts1ptm.fd
+File: ts1ptm.fd 2001/06/04 font definitions for TS1/ptm.
+)
+Underfull \hbox (badness 2884) in paragraph at lines 29--29
+ [][] [][]\T1/ptm/m/n/12 Diagramme de sé-quence DS-3b -- Lan-ce-ment DAST (OWAS
+P ZAP \TS1/ptm/m/n/12 · 
+ []
+
+[11
+
+]
+Underfull \hbox (badness 1596) in paragraph at lines 32--32
+ [][] [][]\T1/ptm/m/n/12 Diagramme de sé-quence DS-3a -- Lan-cer un scan SAST (
+or-ches-tra-tion 
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 36--36
+ [][] [][]\T1/ptm/m/n/12 Diagramme de classes -- Sprint 4 (Vul-ne-ra-bi-li-ty-T
+ask, 
+ []
+
+
+Underfull \hbox (badness 1803) in paragraph at lines 39--39
+ [][] [][]\T1/ptm/m/n/12 Diagramme de classes -- Sprint 4 (en-ti-tés RiskS-core
+, Vul-ne-ra-bi-li-ty-Task, 
+ []
+
+
+Underfull \hbox (badness 6078) in paragraph at lines 45--45
+ [][] [][]\T1/ptm/m/n/12 Diagramme de classes -- Sprint 5 (Re-com-men-da-tion, 
+Se-cu-ri-ty-Re-port, 
+ []
+
+)
 \tf@lof=\write7
 \openout7 = `main.lof'.
 
- [9
-
-]
+ [12]
 Underfull \hbox (badness 10000) in paragraph at lines 26--26
 
  []
 
-(main.lot)
+(main.lot [13
+
+])
 \tf@lot=\write8
 \openout8 = `main.lot'.
 
- [10
-
-] (chapters/04-IntroductionGeneral.tex
+ [14] (chapters/04-IntroductionGeneral.tex
 Underfull \hbox (badness 10000) in paragraph at lines 1--1
 
  []
@@ -1566,79 +1616,90 @@ File: images/logo_mobelite.jpeg Graphic file (type jpg)
 <use images/logo_mobelite.jpeg>
 Package pdftex.def Info: images/logo_mobelite.jpeg  used on input line 19.
 (pdftex.def)             Requested size: 113.81102pt x 33.22694pt.
+
+Underfull \hbox (badness 4048) in paragraph at lines 56--56
+[]|\T1/ptm/m/n/12 Conseil en stra-té-gie mo-bile, dé-ve-lop-pe-ment web et mo-b
+ile,
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 56--56
+\T1/ptm/m/n/12 dé-ve-lop-pe-ment hy-bride, dé-ve-lop-pe-ment iOS et An-droid,
+ []
+
 [2
 
 
 
 ]
-Underfull \hbox (badness 1616) in paragraph at lines 48--49
+Underfull \hbox (badness 1616) in paragraph at lines 64--65
 []\T1/ptm/m/n/12 L'accélération des cycles de li-vrai-son lo-gi-cielle im-pose 
 une ap-proche ra-di-ca-le-ment
  []
 
 [3]
-Underfull \hbox (badness 1448) in paragraph at lines 68--69
+Underfull \hbox (badness 1448) in paragraph at lines 83--84
 []\T1/ptm/m/n/12 La pro-blé-ma-tique cen-trale est donc : \T1/ptm/b/n/12 com-me
 nt or-ches-trer de ma-nière co-hé-rente
  []
 
 [4]
-<images/logos/sonarqube.png, id=875, 1706.375pt x 565.11125pt>
+<images/logos/sonarqube.png, id=1424, 1706.375pt x 565.11125pt>
 File: images/logos/sonarqube.png Graphic file (type png)
 <use images/logos/sonarqube.png>
-Package pdftex.def Info: images/logos/sonarqube.png  used on input line 111.
+Package pdftex.def Info: images/logos/sonarqube.png  used on input line 125.
 (pdftex.def)             Requested size: 113.81102pt x 37.69066pt.
-<images/logos/burpsuite.png, id=877, 3011.25pt x 2147.02126pt>
+<images/logos/burpsuite.png, id=1426, 3011.25pt x 2147.02126pt>
 File: images/logos/burpsuite.png Graphic file (type png)
 <use images/logos/burpsuite.png>
-Package pdftex.def Info: images/logos/burpsuite.png  used on input line 119.
+Package pdftex.def Info: images/logos/burpsuite.png  used on input line 133.
 (pdftex.def)             Requested size: 113.81102pt x 81.11589pt.
-<images/logos/checkmarx.png, id=878, 57.816pt x 7.9497pt>
+<images/logos/checkmarx.png, id=1427, 57.816pt x 7.9497pt>
 File: images/logos/checkmarx.png Graphic file (type png)
 <use images/logos/checkmarx.png>
-Package pdftex.def Info: images/logos/checkmarx.png  used on input line 127.
+Package pdftex.def Info: images/logos/checkmarx.png  used on input line 141.
 (pdftex.def)             Requested size: 113.81102pt x 15.64983pt.
-<images/logos/snyk.png, id=879, 4494.7925pt x 3370.5925pt>
+<images/logos/snyk.png, id=1428, 4494.7925pt x 3370.5925pt>
 File: images/logos/snyk.png Graphic file (type png)
 <use images/logos/snyk.png>
-Package pdftex.def Info: images/logos/snyk.png  used on input line 135.
+Package pdftex.def Info: images/logos/snyk.png  used on input line 149.
 (pdftex.def)             Requested size: 113.81102pt x 85.32408pt.
  [5 <./images/logos/sonarqube.png> <./images/logos/burpsuite.png> <./images/log
 os/checkmarx.png>]
-<images/logos/owaspzap.png, id=887, 3011.25pt x 1822.81pt>
+<images/logos/owaspzap.png, id=1436, 3011.25pt x 1822.81pt>
 File: images/logos/owaspzap.png Graphic file (type png)
 <use images/logos/owaspzap.png>
-Package pdftex.def Info: images/logos/owaspzap.png  used on input line 143.
+Package pdftex.def Info: images/logos/owaspzap.png  used on input line 157.
 (pdftex.def)             Requested size: 113.81102pt x 68.86697pt.
 
-Underfull \hbox (badness 10000) in alignment at lines 170--170
+Underfull \hbox (badness 10000) in alignment at lines 184--184
 [][][][][][] 
  []
 
 [6 <./images/logos/snyk.png> <./images/logos/owaspzap.png>]
-Underfull \hbox (badness 3128) in paragraph at lines 180--181
+Underfull \hbox (badness 3128) in paragraph at lines 194--195
 []\T1/ptm/m/n/12 Certaines so-lu-tions (OWASP ZAP, Sem-grep) sont open source e
 t gra-tui-te-ment
  []
 
 
-Underfull \hbox (badness 1400) in paragraph at lines 181--182
+Underfull \hbox (badness 1400) in paragraph at lines 195--196
 []\T1/ptm/m/n/12 Intégrations CI/CD dis-po-nibles pour les prin-ci-pales pla-te
 -formes (Gi-tHub, Git-Lab,
  []
 
 [7]
-Underfull \hbox (badness 10000) in paragraph at lines 234--234
+Underfull \hbox (badness 10000) in paragraph at lines 248--248
 []|\T1/ptm/m/n/12 Cycle en V /
  []
 
-<images/scrum.png, id=903, 702.625pt x 501.875pt>
+<images/scrum.png, id=1452, 702.625pt x 501.875pt>
 File: images/scrum.png Graphic file (type png)
 <use images/scrum.png>
-Package pdftex.def Info: images/scrum.png  used on input line 251.
+Package pdftex.def Info: images/scrum.png  used on input line 265.
 (pdftex.def)             Requested size: 455.24411pt x 325.18105pt.
 [8] [9 <./images/scrum.png (PNG copy)>])
-Underfull \hbox (badness 1292) in paragraph at lines 288--32
+Underfull \hbox (badness 1292) in paragraph at lines 302--32
 \T1/ptm/m/n/12 spé-ci-fi-ca-tion des be-soins fonc-tion-nels et non fonc-tion-n
 els, iden-ti-fi-ca-tion des ac-teurs et
  []
@@ -1686,305 +1747,290 @@ Underfull \hbox (badness 1389) in paragraph at lines 99--102
  []
 
 
-Underfull \hbox (badness 4403) in paragraph at lines 129--132
+Underfull \hbox (badness 4403) in paragraph at lines 130--133
 []\T1/ptm/b/n/12 Normalisation des vul-né-ra-bi-li-tés \T1/ptm/m/n/12 : har-mo-
 ni-sa-tion des sé-vé-ri-tés, clas-si-fi-ca-tions
  []
 
 [13]
-Underfull \hbox (badness 4899) in paragraph at lines 212--215
+Underfull \hbox (badness 4899) in paragraph at lines 213--216
 []\T1/ptm/b/n/12 Résilience et fia-bi-lité \T1/ptm/m/n/12 : trai-te-ment idem-p
 otent des tâches et mé-ca-nismes de
  []
 
 [14]
-Underfull \hbox (badness 1067) in paragraph at lines 271--274
+Underfull \hbox (badness 1067) in paragraph at lines 272--275
 []\T1/ptm/b/n/12 Business Va-lue \T1/ptm/m/n/12 : prio-rité aux fonc-tion-na-li
 -tés ap-por-tant le maxi-mum de va-leur à
  []
 
 [15]
-Underfull \hbox (badness 1997) in paragraph at lines 341--341
+Underfull \hbox (badness 1997) in paragraph at lines 342--342
 []|\T1/ptm/m/n/10.95 En tant qu'ad-mi-nis-tra-teur, je veux
  []
 
 
-Underfull \hbox (badness 3525) in paragraph at lines 341--341
+Underfull \hbox (badness 3525) in paragraph at lines 342--342
 \T1/ptm/m/n/10.95 m'au-then-ti-fier afin d'ac-cé-der à la
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 341--341
+Underfull \hbox (badness 10000) in paragraph at lines 342--342
 \T1/ptm/m/n/10.95 pla-te-forme et à l'en-semble des
  []
 
 
-Underfull \hbox (badness 2245) in paragraph at lines 341--341
+Underfull \hbox (badness 2245) in paragraph at lines 342--342
 []|\T1/ptm/m/n/10.95 En tant que dé-ve-lop-peur, je veux
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 341--341
+Underfull \hbox (badness 10000) in paragraph at lines 342--342
 \T1/ptm/m/n/10.95 m'au-then-ti-fier afin d'ac-cé-der
  []
 
 
-Underfull \hbox (badness 1997) in paragraph at lines 341--341
+Underfull \hbox (badness 1997) in paragraph at lines 342--342
 []|\T1/ptm/m/n/10.95 En tant qu'ad-mi-nis-tra-teur, je veux
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 341--341
+Underfull \hbox (badness 10000) in paragraph at lines 342--342
 \T1/ptm/m/n/10.95 ac-ti-ver l'au-then-ti-fi-ca-tion à deux
  []
 
 
-Underfull \hbox (badness 1997) in paragraph at lines 341--341
+Underfull \hbox (badness 1997) in paragraph at lines 342--342
 []|\T1/ptm/m/n/10.95 En tant qu'ad-mi-nis-tra-teur, je veux
  []
 
 
-Underfull \hbox (badness 2221) in paragraph at lines 341--341
+Underfull \hbox (badness 2221) in paragraph at lines 342--342
 \T1/ptm/m/n/10.95 per-mis-sions afin de cloi-son-ner les
  []
 
 
-Underfull \hbox (badness 2073) in paragraph at lines 341--341
+Underfull \hbox (badness 2073) in paragraph at lines 342--342
 []|\T1/ptm/m/n/10.95 En tant que Se-cu-rity Ma-na-ger, je
  []
 
 
-Underfull \hbox (badness 1997) in paragraph at lines 341--341
+Underfull \hbox (badness 1997) in paragraph at lines 342--342
 []|\T1/ptm/m/n/10.95 En tant qu'ad-mi-nis-tra-teur, je veux
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 341--341
+Underfull \hbox (badness 10000) in paragraph at lines 342--342
 \T1/ptm/m/n/10.95 créer un pro-jet et dé-fi-nir ses
  []
 
 
-Underfull \hbox (badness 1584) in paragraph at lines 341--341
+Underfull \hbox (badness 1584) in paragraph at lines 342--342
 \T1/ptm/m/n/10.95 URLs cibles afin de cen-tra-li-ser la
  []
 
 
-Underfull \hbox (badness 1997) in paragraph at lines 341--341
+Underfull \hbox (badness 1997) in paragraph at lines 342--342
 []|\T1/ptm/m/n/10.95 En tant qu'ad-mi-nis-tra-teur, je veux
  []
 
 
-Underfull \hbox (badness 1997) in paragraph at lines 341--341
+Underfull \hbox (badness 1997) in paragraph at lines 342--342
 []|\T1/ptm/m/n/10.95 En tant qu'ad-mi-nis-tra-teur, je veux
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 341--341
+Underfull \hbox (badness 10000) in paragraph at lines 342--342
 \T1/ptm/m/n/10.95 des rôles afin de struc-tu-rer la
  []
 
 
-Underfull \hbox (badness 2245) in paragraph at lines 341--341
+Underfull \hbox (badness 2245) in paragraph at lines 342--342
 []|\T1/ptm/m/n/10.95 En tant que dé-ve-lop-peur, je veux
  []
 
 
-Underfull \hbox (badness 3826) in paragraph at lines 341--341
+Underfull \hbox (badness 3826) in paragraph at lines 342--342
 \T1/ptm/m/n/10.95 afin d'au-to-ma-ti-ser la col-lecte des
  []
 
 [16]
-Underfull \hbox (badness 1577) in paragraph at lines 380--380
+Underfull \hbox (badness 1577) in paragraph at lines 378--378
 []|\T1/ptm/m/n/10.95 En tant que dé-ve-lop-peur, je veux
  []
 
 
-Underfull \hbox (badness 6825) in paragraph at lines 380--380
+Underfull \hbox (badness 6825) in paragraph at lines 378--378
 \T1/ptm/m/n/10.95 lan-cer une ana-lyse sta-tique afin
  []
 
 
-Underfull \hbox (badness 3623) in paragraph at lines 380--380
+Underfull \hbox (badness 3623) in paragraph at lines 378--378
 \T1/ptm/m/n/10.95 de dé-tec-ter les pat-terns de code
  []
 
 
-Underfull \hbox (badness 1442) in paragraph at lines 380--380
+Underfull \hbox (badness 1442) in paragraph at lines 378--378
 []|\T1/ptm/m/n/10.95 En tant que Se-cu-rity Ma-na-ger, je
  []
 
 
-Underfull \hbox (badness 6252) in paragraph at lines 380--380
+Underfull \hbox (badness 6252) in paragraph at lines 378--378
 \T1/ptm/m/n/10.95 veux ap-pli-quer des règles re-gex
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 380--380
+Underfull \hbox (badness 10000) in paragraph at lines 378--378
 \T1/ptm/m/n/10.95 per-son-na-li-sées afin d'adap-ter la
  []
 
 
-Underfull \hbox (badness 1590) in paragraph at lines 380--380
+Underfull \hbox (badness 1590) in paragraph at lines 378--378
 \T1/ptm/m/n/10.95 dé-tec-tion aux spé-ci-fi-ci-tés du code
  []
 
 
-Underfull \hbox (badness 1577) in paragraph at lines 380--380
-[]|\T1/ptm/m/n/10.95 En tant que dé-ve-lop-peur, je veux
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 380--380
-\T1/ptm/m/n/10.95 afin d'iden-ti-fier les com-po-sants
- []
-
-
-Underfull \hbox (badness 4429) in paragraph at lines 380--380
-\T1/ptm/m/n/10.95 tiers pré-sen-tant des vul-né-ra-bi-li-tés
- []
-
-
-Underfull \hbox (badness 5119) in paragraph at lines 380--380
+Underfull \hbox (badness 5119) in paragraph at lines 378--378
 []|\T1/ptm/m/n/10.95 En tant que sys-tème CI/CD, je
  []
 
 
-Underfull \hbox (badness 3989) in paragraph at lines 380--380
+Underfull \hbox (badness 3989) in paragraph at lines 378--378
 \T1/ptm/m/n/10.95 veux dé-clen-cher une ana-lyse via
  []
 
 
-Underfull \hbox (badness 7777) in paragraph at lines 380--380
+Underfull \hbox (badness 7777) in paragraph at lines 378--378
 \T1/ptm/m/n/10.95 la ligne de com-mande afin de
  []
 
 
-Underfull \hbox (badness 1577) in paragraph at lines 380--380
+Underfull \hbox (badness 1577) in paragraph at lines 378--378
 []|\T1/ptm/m/n/10.95 En tant que dé-ve-lop-peur, je veux
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 380--380
+Underfull \hbox (badness 10000) in paragraph at lines 378--378
 \T1/ptm/m/n/10.95 lan-cer une ana-lyse dy-na-mique
  []
 
 
-Underfull \hbox (badness 1117) in paragraph at lines 380--380
+Underfull \hbox (badness 1117) in paragraph at lines 378--378
 \T1/ptm/m/n/10.95 via OWASP ZAP afin de dé-tec-ter
  []
 
 
-Underfull \hbox (badness 3009) in paragraph at lines 380--380
+Underfull \hbox (badness 3009) in paragraph at lines 378--378
 \T1/ptm/m/n/10.95 les failles d'ex-po-si-tion réelles de
  []
 
 
-Underfull \hbox (badness 6559) in paragraph at lines 380--380
+Underfull \hbox (badness 6559) in paragraph at lines 378--378
 \T1/ptm/m/n/10.95 consul-ter des alertes nor-ma-li-sées
  []
 
 
-Underfull \hbox (badness 1546) in paragraph at lines 380--380
+Underfull \hbox (badness 1546) in paragraph at lines 378--378
 \T1/ptm/m/n/10.95 se-lon une sé-vé-rité uni-fiée afin de
  []
 
 [17]
-Underfull \hbox (badness 1577) in paragraph at lines 439--439
+Underfull \hbox (badness 1577) in paragraph at lines 437--437
 []|\T1/ptm/m/n/10.95 En tant que dé-ve-lop-peur, je veux
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 439--439
+Underfull \hbox (badness 10000) in paragraph at lines 437--437
 \T1/ptm/m/n/10.95 ob-te-nir une ex-pli-ca-tion et une
  []
 
 
-Underfull \hbox (badness 2189) in paragraph at lines 439--439
+Underfull \hbox (badness 2189) in paragraph at lines 437--437
 \T1/ptm/m/n/10.95 re-com-man-da-tion de cor-rec-tion via
  []
 
 
-Underfull \hbox (badness 2027) in paragraph at lines 439--439
+Underfull \hbox (badness 2027) in paragraph at lines 437--437
 \T1/ptm/m/it/10.95 As-sist with AI \T1/ptm/m/n/10.95 afin d'ac-cé-lé-rer la
  []
 
 
-Underfull \hbox (badness 1577) in paragraph at lines 439--439
+Underfull \hbox (badness 1577) in paragraph at lines 437--437
 []|\T1/ptm/m/n/10.95 En tant que dé-ve-lop-peur, je veux
  []
 
 
-Underfull \hbox (badness 4913) in paragraph at lines 439--439
+Underfull \hbox (badness 4913) in paragraph at lines 437--437
 \T1/ptm/m/n/10.95 chan-ger l'état d'une vul-né-ra-bi-lité
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 439--439
+Underfull \hbox (badness 10000) in paragraph at lines 437--437
 \T1/ptm/m/n/10.95 et l'as-si-gner à un res-pon-sable
  []
 
 
-Underfull \hbox (badness 1552) in paragraph at lines 439--439
+Underfull \hbox (badness 1552) in paragraph at lines 437--437
 \T1/ptm/m/n/10.95 afin de struc-tu-rer le pro-ces-sus de
  []
 
 
-Underfull \hbox (badness 1442) in paragraph at lines 439--439
+Underfull \hbox (badness 1442) in paragraph at lines 437--437
 []|\T1/ptm/m/n/10.95 En tant que Se-cu-rity Ma-na-ger, je
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 439--439
+Underfull \hbox (badness 10000) in paragraph at lines 437--437
 \T1/ptm/m/n/10.95 conso-lidé afin d'avoir une vue
  []
 
 
-Underfull \hbox (badness 1577) in paragraph at lines 439--439
+Underfull \hbox (badness 1577) in paragraph at lines 437--437
 []|\T1/ptm/m/n/10.95 En tant que dé-ve-lop-peur, je veux
  []
 
 
-Underfull \hbox (badness 1442) in paragraph at lines 439--439
+Underfull \hbox (badness 1442) in paragraph at lines 437--437
 []|\T1/ptm/m/n/10.95 En tant que Se-cu-rity Ma-na-ger, je
  []
 
 
-Underfull \hbox (badness 1881) in paragraph at lines 439--439
+Underfull \hbox (badness 1881) in paragraph at lines 437--437
 \T1/ptm/m/n/10.95 entre ver-sions afin de me-su-rer la
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 439--439
+Underfull \hbox (badness 10000) in paragraph at lines 437--437
 []|\T1/ptm/m/n/10.95 En tant que dé-ve-lop-peur, je
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 439--439
+Underfull \hbox (badness 10000) in paragraph at lines 437--437
 \T1/ptm/m/n/10.95 veux re-ce-voir des no-ti-fi-ca-tions
  []
 
 
-Underfull \hbox (badness 1442) in paragraph at lines 439--439
+Underfull \hbox (badness 1442) in paragraph at lines 437--437
 []|\T1/ptm/m/n/10.95 En tant que Se-cu-rity Ma-na-ger, je
  []
 
 
-Underfull \hbox (badness 2359) in paragraph at lines 439--439
+Underfull \hbox (badness 2359) in paragraph at lines 437--437
 \T1/ptm/m/n/10.95 re-ce-voir les alertes cri-tiques dans
  []
 
 
-Underfull \hbox (badness 1325) in paragraph at lines 439--439
+Underfull \hbox (badness 1325) in paragraph at lines 437--437
 \T1/ptm/m/n/10.95 un ca-nal Slack afin de cen-tra-li-ser
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 439--439
+Underfull \hbox (badness 10000) in paragraph at lines 437--437
 \T1/ptm/m/n/10.95 les no-ti-fi-ca-tions dans l'ou-til de
  []
 
 
-Underfull \hbox (badness 5681) in paragraph at lines 439--439
+Underfull \hbox (badness 5681) in paragraph at lines 437--437
 \T1/ptm/m/n/10.95 les plus ex-po-sés à l'échelle du
  []
 
@@ -1992,421 +2038,512 @@ Underfull \hbox (badness 5681) in paragraph at lines 439--439
 Overfull \vbox (152.8161pt too high) has occurred while \output is active []
 
 
-[19]
-Underfull \hbox (badness 10000) in paragraph at lines 509--509
+[19] (C:\Users\Wiem\AppData\Local\Programs\MiKTeX\tex/latex/base\ts1cmtt.fd)
+Underfull \hbox (badness 10000) in paragraph at lines 516--516
 []|\T1/ptm/b/n/10.95 Cadrage et
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 509--509
+Underfull \hbox (badness 10000) in paragraph at lines 516--516
 []|\T1/ptm/m/n/10.95 Initialisation du
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 509--509
+Underfull \hbox (badness 10000) in paragraph at lines 516--516
 \T1/ptm/m/n/10.95 dé-pôt, confi-gu-ra-tion
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 509--509
+Underfull \hbox (badness 10000) in paragraph at lines 516--516
 \T1/ptm/m/n/10.95 Do-cker Com-pose,
  []
 
 
-Underfull \hbox (badness 2689) in paragraph at lines 509--509
+Underfull \hbox (badness 2689) in paragraph at lines 516--516
 \T1/ptm/m/n/10.95 mo-dé-li-sa-tion de la base
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 509--509
+Underfull \hbox (badness 10000) in paragraph at lines 516--516
 []|\T1/ptm/m/n/10.95 Socle tech-nique
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 509--509
+Underfull \hbox (badness 10000) in paragraph at lines 516--516
 \T1/ptm/m/n/10.95 opé-ra-tion-nel, schéma
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 509--509
+Underfull \hbox (badness 10000) in paragraph at lines 516--516
 \T1/ptm/m/n/10.95 Post-greSQL va-lidé,
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 509--509
+Underfull \hbox (badness 10000) in paragraph at lines 516--516
 []|\T1/ptm/b/n/10.95 Sécurité et
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 509--509
+Underfull \hbox (badness 10000) in paragraph at lines 516--516
 []|\T1/ptm/m/n/10.95 Authentification JWT,
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 509--509
+Underfull \hbox (badness 10000) in paragraph at lines 516--516
 \T1/ptm/m/n/10.95 RBAC, 2FA TOTP,
  []
 
 
-Underfull \hbox (badness 1681) in paragraph at lines 509--509
+Underfull \hbox (badness 1681) in paragraph at lines 516--516
 \T1/ptm/m/n/10.95 au-dit logs, po-li-tiques de
  []
 
 
-Underfull \hbox (badness 1668) in paragraph at lines 509--509
+Underfull \hbox (badness 1668) in paragraph at lines 516--516
 \T1/ptm/m/n/10.95 sé-cu-risé et jour-na-li-sa-tion
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 509--509
+Underfull \hbox (badness 10000) in paragraph at lines 516--516
 []|\T1/ptm/b/n/10.95 Projets et
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 509--509
+Underfull \hbox (badness 10000) in paragraph at lines 516--516
 \T1/ptm/m/n/10.95 ges-tion des clés API,
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 509--509
+Underfull \hbox (badness 10000) in paragraph at lines 516--516
 []|\T1/ptm/m/n/10.95 Gestion de pro-jets
  []
 
 
-Underfull \hbox (badness 6364) in paragraph at lines 509--509
+Underfull \hbox (badness 6364) in paragraph at lines 516--516
 \T1/ptm/m/n/10.95 fonc-tion-nelle, in-té-gra-tion
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 509--509
+Underfull \hbox (badness 10000) in paragraph at lines 516--516
 \T1/ptm/m/n/10.95 Gi-tHub et clés API
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 509--509
-[]|\T1/ptm/m/n/10.95 Intégration Sem-grep
+Underfull \hbox (badness 10000) in paragraph at lines 516--516
+[]|\T1/ptm/m/n/10.95 Intégration Sem-grep et
  []
 
 
-Underfull \hbox (badness 6032) in paragraph at lines 509--509
-\T1/ptm/m/n/10.95 et Ban-dit, règles re-gex
+Underfull \hbox (badness 10000) in paragraph at lines 516--516
+\T1/ptm/m/n/10.95 Ban-dit, CLI scan-ner,
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 509--509
-\T1/ptm/m/n/10.95 in-ternes, ana-lyse
+Underfull \hbox (badness 1668) in paragraph at lines 516--516
+\T1/ptm/m/n/10.95 nor-ma-li-sa-tion des alertes
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 509--509
-\T1/ptm/m/n/10.95 OSV, CLI scan-ner,
+Underfull \hbox (badness 10000) in paragraph at lines 516--516
+\T1/ptm/m/n/10.95 SAST ; in-té-gra-tion
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 509--509
-[]|\T1/ptm/m/n/10.95 Pipeline SAST/SCA
+Underfull \hbox (badness 10000) in paragraph at lines 516--516
+\T1/ptm/m/n/10.95 OWASP ZAP en
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 509--509
-\T1/ptm/m/n/10.95 opé-ra-tion-nel, CLI
+Underfull \hbox (badness 10000) in paragraph at lines 516--516
+\T1/ptm/m/n/10.95 mode dae-mon, wor-kers
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 509--509
-[]|\T1/ptm/b/n/10.95 DAST,
+Underfull \hbox (badness 10000) in paragraph at lines 516--516
+[]|\T1/ptm/m/n/10.95 Pipeline SAST
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 509--509
-\T1/ptm/b/n/10.95 or-ches-tra-tion
+Underfull \hbox (badness 10000) in paragraph at lines 516--516
+\T1/ptm/m/n/10.95 opé-ra-tion-nel, pi-pe-line
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 509--509
-\T1/ptm/m/n/10.95 wor-kers Ce-lery/Redis,
+Underfull \hbox (badness 1406) in paragraph at lines 516--516
+\T1/ptm/m/n/10.95 DAST asyn-chrone, score
  []
 
 
-Underfull \hbox (badness 4316) in paragraph at lines 509--509
-\T1/ptm/m/n/10.95 de risque, work-flow de
+Underfull \hbox (badness 10000) in paragraph at lines 516--516
+[]|\T1/ptm/b/n/10.95 Workflow de
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 509--509
-\T1/ptm/m/n/10.95 vul-né-ra-bi-li-tés, as-sis-tant
+Underfull \hbox (badness 10000) in paragraph at lines 516--516
+[]|\T1/ptm/m/n/10.95 Synchronisation
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 509--509
-[]|\T1/ptm/m/n/10.95 Pipeline DAST
+Underfull \hbox (badness 10000) in paragraph at lines 516--516
+\T1/ptm/m/n/10.95 des tâches de
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 509--509
-\T1/ptm/m/n/10.95 asyn-chrone, sco-ring
+Underfull \hbox (badness 10000) in paragraph at lines 516--516
+\T1/ptm/m/n/10.95 re-mé-dia-tion, as-si-gna-tion
  []
 
 
-Underfull \hbox (badness 6396) in paragraph at lines 509--509
-\T1/ptm/m/n/10.95 de risque, work-flow et
+Underfull \hbox (badness 10000) in paragraph at lines 516--516
+\T1/ptm/m/n/10.95 aux dé-ve-lop-peurs,
  []
 
-[20]
+
+Underfull \hbox (badness 10000) in paragraph at lines 516--516
+\T1/ptm/m/n/10.95 ma-chine d'états
+ []
+
+
+Overfull \hbox (77.75618pt too wide) in paragraph at lines 516--516
+\T1/ptm/m/n/10.95 (\T1/cmtt/m/n/10.95 open\TS1/cmtt/m/n/10.95 ^^Y\T1/cmtt/m/n/1
+0.95 in_progress\TS1/cmtt/m/n/10.95 ^^Y\T1/cmtt/m/n/10.95 fixed\TS1/cmtt/m/n/10
+.95 ^^Y\T1/cmtt/m/n/10.95 verified\T1/ptm/m/n/10.95 ),
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 516--516
+\T1/ptm/m/n/10.95 com-men-taires
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 516--516
+[]|\T1/ptm/m/n/10.95 Système de ges-tion
+ []
+
+
+Underfull \hbox (badness 7291) in paragraph at lines 516--516
+\T1/ptm/m/n/10.95 des tâches opé-ra-tion-nel,
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 516--516
+\T1/ptm/m/n/10.95 no-ti-fi-ca-tions So-cket.IO
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 516--516
+[]|\T1/ptm/b/n/10.95 Dashboard,
+ []
+
+
+Overfull \hbox (3.05873pt too wide) in paragraph at lines 516--516
+\T1/ptm/b/n/10.95 Re-com-man-da-tion
+ []
+
+
+Underfull \hbox (badness 2856) in paragraph at lines 516--516
+[]|\T1/ptm/m/n/10.95 Tableau de bord agrégé
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 516--516
+\T1/ptm/m/n/10.95 (mé-triques, ten-dances) ;
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 516--516
+\T1/ptm/m/n/10.95 as-sis-tant IA lo-cal
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 516--516
+\T1/ptm/m/n/10.95 (\T1/ptm/m/it/10.95 As-sist with AI\T1/ptm/m/n/10.95 ) via
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 516--516
+\T1/ptm/m/n/10.95 Ol-lama (Mis-tral/Qwen) ;
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 516--516
+\T1/ptm/m/n/10.95 gé-né-ra-tion de rap-ports
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 516--516
+\T1/ptm/m/n/10.95 de sé-cu-rité PDF/JSON
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 516--516
+[]|\T1/ptm/m/n/10.95 Dashboard opé-ra-tion-nel,
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 516--516
+\T1/ptm/m/n/10.95 re-com-man-da-tions IA
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 516--516
+\T1/ptm/m/n/10.95 per-sis-tées, rap-ports
+ []
+
+[20] [21]
 File: images/logos/VSCode.png Graphic file (type png)
 <use images/logos/VSCode.png>
-Package pdftex.def Info: images/logos/VSCode.png  used on input line 611.
+Package pdftex.def Info: images/logos/VSCode.png  used on input line 618.
 (pdftex.def)             Requested size: 32.5223pt x 32.5223pt.
 File: images/logos/Git.png Graphic file (type png)
 <use images/logos/Git.png>
-Package pdftex.def Info: images/logos/Git.png  used on input line 611.
+Package pdftex.def Info: images/logos/Git.png  used on input line 618.
 (pdftex.def)             Requested size: 33.18658pt x 32.52286pt.
 File: images/logos/Docker.png Graphic file (type png)
 <use images/logos/Docker.png>
-Package pdftex.def Info: images/logos/Docker.png  used on input line 611.
+Package pdftex.def Info: images/logos/Docker.png  used on input line 618.
 (pdftex.def)             Requested size: 54.20499pt x 13.95778pt.
 
-Underfull \hbox (badness 10000) in paragraph at lines 611--611
+Underfull \hbox (badness 10000) in paragraph at lines 618--618
 []|\T1/ptm/m/n/12 Exécution lo-cale des conte-neurs pour re-pro-duire
  []
 
 
-Underfull \hbox (badness 5417) in paragraph at lines 611--611
+Underfull \hbox (badness 5417) in paragraph at lines 618--618
 \T1/ptm/m/n/12 fi-dè-le-ment l'en-vi-ron-ne-ment de pro-duc-tion et évi-ter
  []
 
 
-Underfull \hbox (badness 1062) in paragraph at lines 611--611
+Underfull \hbox (badness 1062) in paragraph at lines 618--618
 []|\T1/ptm/m/n/12 Test des end-points REST, va-li-da-tion des pay-loads et
  []
 
 
-Underfull \hbox (badness 1648) in paragraph at lines 611--611
+Underfull \hbox (badness 1648) in paragraph at lines 618--618
 \T1/ptm/m/n/12 re-pro-duc-tion des scé-na-rios de scan pour vé-ri-fier les
  []
 
 File: images/logos/Draw.png Graphic file (type png)
 <use images/logos/Draw.png>
-Package pdftex.def Info: images/logos/Draw.png  used on input line 611.
+Package pdftex.def Info: images/logos/Draw.png  used on input line 618.
 (pdftex.def)             Requested size: 54.20554pt x 13.61748pt.
 
-Underfull \hbox (badness 4673) in paragraph at lines 611--611
+Underfull \hbox (badness 4673) in paragraph at lines 618--618
 []|\T1/ptm/b/n/12 Trello / Jira /
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 611--611
+Underfull \hbox (badness 10000) in paragraph at lines 618--618
 []|\T1/ptm/b/n/12 Chrome
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 611--611
+Underfull \hbox (badness 10000) in paragraph at lines 618--618
 \T1/ptm/b/n/12 / Fi-re-fox
  []
 
 
-Underfull \hbox (badness 1565) in paragraph at lines 611--611
+Underfull \hbox (badness 1565) in paragraph at lines 618--618
 []|\T1/ptm/m/n/12 Isolation des dé-pen-dances Py-thon par en-vi-ron-ne-ment
  []
 
 File: images/logos/node.png Graphic file (type png)
 <use images/logos/node.png>
-Package pdftex.def Info: images/logos/node.png  used on input line 611.
+Package pdftex.def Info: images/logos/node.png  used on input line 618.
 (pdftex.def)             Requested size: 53.06984pt x 32.48935pt.
-[21]
-Underfull \hbox (badness 1721) in paragraph at lines 617--621
+[22]
+Underfull \hbox (badness 1721) in paragraph at lines 624--628
 []\T1/ptm/m/n/12 Le ta-bleau []2.8[] pré-sente la stack tech-nique dé-ployée po
 ur as-su-rer la dé-tec-tion, la
  []
 
-(C:\Users\Wiem\AppData\Local\Programs\MiKTeX\tex/latex/base\t1cmtt.fd)
 File: images/logos/python.png Graphic file (type png)
 <use images/logos/python.png>
-Package pdftex.def Info: images/logos/python.png  used on input line 726.
+Package pdftex.def Info: images/logos/python.png  used on input line 732.
 (pdftex.def)             Requested size: 54.14195pt x 15.71199pt.
 
-Underfull \hbox (badness 10000) in paragraph at lines 726--726
+Underfull \hbox (badness 10000) in paragraph at lines 732--732
 []|\T1/ptm/b/n/12 Python /
  []
 
 File: images/logos/react.png Graphic file (type png)
 <use images/logos/react.png>
-Package pdftex.def Info: images/logos/react.png  used on input line 726.
+Package pdftex.def Info: images/logos/react.png  used on input line 732.
 (pdftex.def)             Requested size: 36.29884pt x 32.48021pt.
 
-Underfull \hbox (badness 6493) in paragraph at lines 726--726
+Underfull \hbox (badness 6493) in paragraph at lines 732--732
 []|\T1/ptm/m/n/12 Bibliothèque de construc-tion d'in-ter-faces riches et
  []
 
 
-Underfull \hbox (badness 1584) in paragraph at lines 726--726
+Underfull \hbox (badness 1584) in paragraph at lines 732--732
 \T1/ptm/m/n/12 de scan. Son éco-sys-tème étendu et sa flexi-bi-lité de
  []
 
 File: images/logos/postgreSQL.png Graphic file (type png)
 <use images/logos/postgreSQL.png>
-Package pdftex.def Info: images/logos/postgreSQL.png  used on input line 726.
+Package pdftex.def Info: images/logos/postgreSQL.png  used on input line 732.
 (pdftex.def)             Requested size: 54.17719pt x 8.33495pt.
 
-Underfull \hbox (badness 2050) in paragraph at lines 726--726
+Underfull \hbox (badness 2050) in paragraph at lines 732--732
 []|\T1/ptm/m/n/12 Assure la per-sis-tance tran-sac-tion-nelle (ACID) et les
  []
 
 
-Underfull \hbox (badness 1596) in paragraph at lines 726--726
+Underfull \hbox (badness 1596) in paragraph at lines 732--732
 \T1/ptm/m/n/12 agré-ga-tions avan-cées né-ces-saires à l'his-to-ri-sa-tion des
  []
 
 
-Underfull \hbox (badness 1087) in paragraph at lines 726--726
+Underfull \hbox (badness 1087) in paragraph at lines 732--732
 \T1/ptm/m/n/12 une ri-chesse fonc-tion-nelle su-pé-rieure à MySQL pour
  []
 
 
-Underfull \hbox (badness 1509) in paragraph at lines 726--726
+Underfull \hbox (badness 1509) in paragraph at lines 732--732
 \T1/ptm/m/n/12 les re-quêtes ana-ly-tiques. La contrainte prin-ci-pale est
  []
 
 File: images/logos/redis.png Graphic file (type png)
 <use images/logos/redis.png>
-Package pdftex.def Info: images/logos/redis.png  used on input line 726.
+Package pdftex.def Info: images/logos/redis.png  used on input line 732.
 (pdftex.def)             Requested size: 54.19948pt x 17.2788pt.
 
-Underfull \hbox (badness 2922) in paragraph at lines 726--726
+Underfull \hbox (badness 2922) in paragraph at lines 732--732
 []|\T1/ptm/m/n/12 Utilisé comme bro-ker de mes-sages pour Ce-lery et
  []
 
 
-Underfull \hbox (badness 2027) in paragraph at lines 726--726
+Underfull \hbox (badness 2027) in paragraph at lines 732--732
 \T1/ptm/m/n/12 d'at-tente, ver-rous dis-tri-bués). Sa na-ture en mé-moire
  []
 
 
-Underfull \hbox (badness 2846) in paragraph at lines 726--726
+Underfull \hbox (badness 2846) in paragraph at lines 732--732
 \T1/ptm/m/n/12 ga-ran-tit des temps d'ac-cès très faibles et dé-charge
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 726--726
+Underfull \hbox (badness 10000) in paragraph at lines 732--732
 \T1/ptm/m/n/10.95 Orchestration
  []
 
 
-Underfull \hbox (badness 1122) in paragraph at lines 726--726
-\T1/ptm/m/n/12 wor-kers iso-lés sans blo-quer l'API prin-ci-pale. Four-nit
+Underfull \hbox (badness 10000) in paragraph at lines 732--732
+\T1/ptm/m/n/12 iso-lés sans blo-quer l'API prin-ci-pale. Four-nit un
  []
 
 
-Underfull \hbox (badness 3271) in paragraph at lines 726--726
+Underfull \hbox (badness 1748) in paragraph at lines 732--732
+\T1/ptm/m/n/12 mé-ca-nisme de file d'at-tente, de re-tries confi-gu-rables
+ []
+
+
+Underfull \hbox (badness 3271) in paragraph at lines 732--732
 \T1/ptm/m/n/12 et de suivi d'exé-cu-tion adapté aux tâches longues.
  []
 
 
-Underfull \hbox (badness 1320) in paragraph at lines 726--726
+Underfull \hbox (badness 1320) in paragraph at lines 732--732
 \T1/ptm/m/n/12 La su-per-vi-sion des wor-kers et la ges-tion fine de la
  []
 
 File: images/logos/Socket.IO.png Graphic file (type png)
 <use images/logos/Socket.IO.png>
-Package pdftex.def Info: images/logos/Socket.IO.png  used on input line 726.
+Package pdftex.def Info: images/logos/Socket.IO.png  used on input line 732.
 (pdftex.def)             Requested size: 32.52242pt x 32.52242pt.
 
-Underfull \hbox (badness 1194) in paragraph at lines 726--726
+Underfull \hbox (badness 1194) in paragraph at lines 732--732
 []|\T1/ptm/m/n/12 Assure la dif-fu-sion en temps réel des états de scan
  []
 
 File: images/logos/Docker.png Graphic file (type png)
 <use images/logos/Docker.png>
-Package pdftex.def Info: images/logos/Docker.png  used on input line 726.
+Package pdftex.def Info: images/logos/Docker.png  used on input line 732.
 (pdftex.def)             Requested size: 54.20499pt x 13.95778pt.
 
-Underfull \hbox (badness 7576) in paragraph at lines 726--726
+Underfull \hbox (badness 7576) in paragraph at lines 732--732
 []|\T1/ptm/m/n/12 Constitue le socle de dé-ploie-ment de l'en-semble
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 726--726
+Underfull \hbox (badness 10000) in paragraph at lines 732--732
 \T1/ptm/m/n/12 des ser-vices, ga-ran-tis-sant la re-pro-duc-ti-bi-lité des
  []
 
 File: images/logos/owaspzap.png Graphic file (type png)
 <use images/logos/owaspzap.png>
-Package pdftex.def Info: images/logos/owaspzap.png  used on input line 726.
+Package pdftex.def Info: images/logos/owaspzap.png  used on input line 732.
 (pdftex.def)             Requested size: 53.7131pt x 32.51433pt.
 
-Underfull \hbox (badness 4819) in paragraph at lines 726--726
+Underfull \hbox (badness 4819) in paragraph at lines 732--732
 \T1/ptm/m/n/12 com-plet. Plus ac-ces-sible et au-to-ma-ti-sable dans un
  []
 
 
-Underfull \hbox (badness 1019) in paragraph at lines 726--726
+Underfull \hbox (badness 1019) in paragraph at lines 732--732
 \T1/ptm/m/n/12 pi-pe-line CI/CD que Burp Suite Pro-fes-sio-nal, au prix
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 726--726
+Underfull \hbox (badness 10000) in paragraph at lines 732--732
 []|\T1/ptm/b/n/12 Semgrep /
  []
 
 
-Underfull \hbox (badness 1430) in paragraph at lines 726--726
+Underfull \hbox (badness 1430) in paragraph at lines 732--732
 \T1/ptm/m/n/12 pour la dé-tec-tion po-ly-glotte par règles confi-gu-rables,
  []
 
 
-Underfull \hbox (badness 2111) in paragraph at lines 726--726
-\T1/ptm/m/n/12 tiers pré-sen-tant des failles connues ali-gnées sur les
+Underfull \hbox (badness 10000) in paragraph at lines 732--732
+[]|\T1/ptm/b/n/12 Semgrep /
  []
 
 
-Underfull \hbox (badness 6252) in paragraph at lines 726--726
-\T1/ptm/m/n/12 iden-ti-fiants CVE. La fré-quence d'ac-tua-li-sa-tion des
+Underfull \hbox (badness 1430) in paragraph at lines 732--732
+\T1/ptm/m/n/12 pour la dé-tec-tion po-ly-glotte par règles confi-gu-rables,
  []
 
 
-Underfull \hbox (badness 1215) in paragraph at lines 726--726
-\T1/ptm/m/n/12 mé-ta-don-nées et la ges-tion des faux po-si-tifs sont les
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 726--726
+Underfull \hbox (badness 10000) in paragraph at lines 732--732
 \T1/ptm/m/n/12 les alertes et pro-po-ser des re-com-man-da-tions de
  []
 
 
-Underfull \hbox (badness 2302) in paragraph at lines 726--726
+Underfull \hbox (badness 2302) in paragraph at lines 732--732
 \T1/ptm/m/n/12 re-mé-dia-tion via l'ac-tion \T1/ptm/m/it/12 As-sist with AI\T1/
 ptm/m/n/12 , ga-ran-tis-sant
  []
 
 
-Underfull \hbox (badness 1859) in paragraph at lines 726--726
+Underfull \hbox (badness 1859) in paragraph at lines 732--732
 \T1/ptm/m/n/12 des ré-ponses se-lon le mo-dèle re-tenu consti-tuent les
  []
 
 
-Underfull \hbox (badness 3780) in paragraph at lines 726--726
+Underfull \hbox (badness 3780) in paragraph at lines 732--732
 \T1/ptm/m/n/12 ba-ckend, of-frant un mo-dèle de fix-tures flexible et
  []
 
 
-Underfull \hbox (badness 1509) in paragraph at lines 726--726
+Underfull \hbox (badness 1509) in paragraph at lines 732--732
 \T1/ptm/m/n/12 des as-ser-tions li-sibles, su-pé-rieur au mo-dule stan-dard
  []
 
-[22 <./images/logos/VSCode.png> <./images/logos/Git.png> <./images/logos/Docker
+[23 <./images/logos/VSCode.png> <./images/logos/Git.png> <./images/logos/Docker
 .png> <./images/logos/Draw.png> <./images/logos/node.png>]
-Overfull \vbox (668.5233pt too high) has occurred while \output is active []
+Overfull \vbox (654.0233pt too high) has occurred while \output is active []
 
 
-[23 <./images/logos/python.png> <./images/logos/react.png> <./images/logos/post
+[24 <./images/logos/python.png> <./images/logos/react.png> <./images/logos/post
 greSQL.png> <./images/logos/redis.png> <./images/logos/Socket.IO.png>]
-Underfull \hbox (badness 1231) in paragraph at lines 746--748
+Underfull \hbox (badness 1231) in paragraph at lines 752--754
 []\T1/ptm/b/n/12 Couche de pré-sen-ta-tion \T1/ptm/m/n/12 : in-ter-face React p
 our la vi-sua-li-sa-tion, le work-flow de
  []
 
-[24] [25]) [26]
+[25] [26]) [27]
 \openout2 = `chapters/07-chapitre3.aux'.
 
  (chapters/07-chapitre3.tex
@@ -2417,23 +2554,220 @@ Underfull \hbox (badness 10000) in paragraph at lines 2--2
  []
 
 
-Underfull \hbox (badness 5771) in paragraph at lines 39--40
-\T1/ptm/m/n/12 de ra-fraî-chis-se-ment contrôlé. L'usage d'OAuth2 dans Fas-tAPI
- stan-dar-dise les flux
+Underfull \hbox (badness 5036) in paragraph at lines 15--16
+[]\T1/ptm/m/n/12 définir et im-plé-men-ter un mo-dèle RBAC pour les rôles \T1/c
+mtt/m/n/12 admin\T1/ptm/m/n/12 , \T1/cmtt/m/n/12 developer\T1/ptm/m/n/12 ,
  []
 
-[27
 
-
-
-
-] [28] [29] [30] [31])
-Underfull \hbox (badness 1968) in paragraph at lines 136--34
-[]\T1/ptm/m/n/12 Ce cha-pitre a pré-senté une étude tech-nique dé-taillée, jus-
-ti-fiant les choix d'ou-tils,
+Underfull \hbox (badness 1281) in paragraph at lines 52--52
+[]|\T1/ptm/m/n/10.95 En tant qu'uti-li-sa-teur, je peux
  []
 
-[32]
+
+Underfull \hbox (badness 10000) in paragraph at lines 52--52
+[]|\T1/ptm/m/n/10.95 Implémenter l'end-point \T1/cmtt/m/n/10.95 POST
+ []
+
+
+Underfull \hbox (badness 4291) in paragraph at lines 52--52
+\T1/cmtt/m/n/10.95 /auth/login \T1/ptm/m/n/10.95 avec gé-né-ra-tion
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 52--52
+\T1/ptm/m/n/10.95 d'ac-cess to-ken (30 min) et
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 52--52
+[]|\T1/ptm/m/n/10.95 Implémenter l'end-point \T1/cmtt/m/n/10.95 POST
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 52--52
+[]|\T1/ptm/m/n/10.95 En tant qu'ad-mi-nis-tra-teur,
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 52--52
+\T1/ptm/m/n/10.95 je peux gé-rer les rôles et
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 52--52
+[]|\T1/ptm/m/n/10.95 Implémenter les dé-pen-dances
+ []
+
+
+Underfull \hbox (badness 6364) in paragraph at lines 52--52
+[]|\T1/ptm/m/n/10.95 En tant qu'ad-mi-nis-tra-teur, je
+ []
+
+
+Underfull \hbox (badness 1642) in paragraph at lines 52--52
+\T1/ptm/m/n/10.95 peux ac-ti-ver/désactiver la 2FA
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 52--52
+[]|\T1/ptm/m/n/10.95 Générer un se-cret
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 52--52
+\T1/ptm/m/n/10.95 TOTP par uti-li-sa-teur
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 52--52
+\T1/ptm/m/n/10.95 (\T1/cmtt/m/n/10.95 pyotp.random_base32\T1/ptm/m/n/10.95 ) et
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 52--52
+\T1/ptm/m/n/10.95 connexion si 2FA ac-ti-vée
+ []
+
+
+Underfull \hbox (badness 1783) in paragraph at lines 52--52
+[]|\T1/ptm/m/n/10.95 Créer l'en-tité \T1/cmtt/m/n/10.95 AuditLog \T1/ptm/m/n/10
+.95 et le
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 52--52
+\T1/ptm/m/n/10.95 midd-le-ware d'en-re-gis-tre-ment
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 52--52
+[]|\T1/ptm/m/n/10.95 Exposer l'end-point \T1/cmtt/m/n/10.95 GET
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 52--52
+\T1/cmtt/m/n/10.95 /audit-logs \T1/ptm/m/n/10.95 pa-giné avec
+ []
+
+
+Underfull \hbox (badness 2635) in paragraph at lines 52--52
+\T1/ptm/m/n/10.95 filtres par ac-teur et par type
+ []
+
+[28
+
+
+
+
+]
+LaTeX Font Info:    Font shape `T1/cmtt/bx/n' in size <14.4> not available
+(Font)              Font shape `T1/cmtt/m/n' tried instead on input line 58.
+ [29] [30]
+Underfull \hbox (badness 1496) in paragraph at lines 132--132
+[]|\T1/ptm/m/n/10.95 L'utilisateur pos-sède un compte ac-tif (\T1/cmtt/m/n/10.9
+5 is_active = true\T1/ptm/m/n/10.95 ) et vé-ri-fié
+ []
+
+[31]
+Underfull \hbox (badness 6252) in paragraph at lines 166--166
+\T1/ptm/m/n/10.95 5. Le sys-tème en-re-gistre un \T1/cmtt/m/n/10.95 AuditLog \T
+1/ptm/m/n/10.95 ho-ro-daté avec \T1/cmtt/m/n/10.95 action =
+ []
+
+
+Underfull \hbox (badness 1320) in paragraph at lines 166--166
+[]|\T1/ptm/m/n/10.95 2.a Rôle iden-tique au rôle ac-tuel : le sys-tème re-tourn
+e un mes-sage
+ []
+
+[32] [33]
+Underfull \hbox (badness 1142) in paragraph at lines 223--223
+[]|\T1/ptm/m/n/10.95 Indicateur de vé-ri-fi-ca-tion de l'adresse
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 223--223
+[]|\T1/ptm/m/n/10.95 String
+ []
+
+Package textcomp Info: Symbol \textrightarrow not provided by
+(textcomp)             font family ptm in TS1 encoding.
+(textcomp)             Default family used instead on input line 223.
+
+Underfull \hbox (badness 2635) in paragraph at lines 223--223
+[]|\T1/ptm/m/n/10.95 UUID (FK \TS1/cmr/m/n/10.95 ^^Y
+ []
+
+
+Overfull \hbox (11.35071pt too wide) in paragraph at lines 223--223
+[]|\T1/ptm/m/n/10.95 trial_scans_remaining| 
+ []
+
+
+Underfull \hbox (badness 1308) in paragraph at lines 223--223
+[]|\T1/ptm/m/n/10.95 Nombre de scans res-tants en pé-riode
+ []
+
+
+Underfull \hbox (badness 1622) in paragraph at lines 223--223
+[]|\T1/ptm/m/n/10.95 Nom du rôle (\T1/cmtt/m/n/10.95 admin \T1/ptm/m/n/10.95 / 
+\T1/cmtt/m/n/10.95 developer \T1/ptm/m/n/10.95 /
+ []
+
+Package textcomp Info: Symbol \textrightarrow not provided by
+(textcomp)             font family ptm in TS1 encoding.
+(textcomp)             Default family used instead on input line 223.
+
+Underfull \hbox (badness 2635) in paragraph at lines 223--223
+[]|\T1/ptm/m/n/10.95 UUID (FK \TS1/cmr/m/n/10.95 ^^Y
+ []
+
+
+Underfull \hbox (badness 2229) in paragraph at lines 223--223
+[]|\T1/ptm/m/n/10.95 Référence à l'ac-teur ayant dé-clen-ché
+ []
+
+Package textcomp Info: Symbol \textrightarrow not provided by
+(textcomp)             font family ptm in TS1 encoding.
+(textcomp)             Default family used instead on input line 223.
+
+Underfull \hbox (badness 2635) in paragraph at lines 223--223
+[]|\T1/ptm/m/n/10.95 UUID (FK \TS1/cmr/m/n/10.95 ^^Y
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 223--223
+[]|\T1/ptm/m/n/10.95 Type d'ac-tion jour-na-li-sée (\T1/ptm/m/it/10.95 LO-GIN\T
+1/ptm/m/n/10.95 ,
+ []
+
+[34] [35] [36]
+Underfull \hbox (badness 10000) in paragraph at lines 292--292
+\T1/ptm/m/n/10.95 2. Ré-pondre à la de-mande TOTP avec un code gé-néré via
+ []
+
+[37]
+Underfull \hbox (badness 5331) in paragraph at lines 319--319
+[]|\T1/ptm/m/n/10.95 1. En-voyer \T1/cmtt/m/n/10.95 PUT /users/{id}/role \T1/pt
+m/m/n/10.95 avec \T1/cmtt/m/n/10.95 Authorization: Bearer
+ []
+
+[38]
+Underfull \hbox (badness 10000) in paragraph at lines 326--327
+[]\T1/ptm/m/n/12 Le dé-ve-lop-pe-ment du Sprint 1 a été ver-sionné sur la branc
+he
+ []
+
+
+Underfull \hbox (badness 1127) in paragraph at lines 326--327
+\T1/cmtt/m/n/12 feature/sprint1-auth-rbac\T1/ptm/m/n/12 , avec des mes-sages de
+ com-mit struc-tu-rés (\T1/cmtt/m/n/12 feat:\T1/ptm/m/n/12 , \T1/cmtt/m/n/12 fi
+x:\T1/ptm/m/n/12 ,
+ []
+
+) [39]
 \openout2 = `chapters/08-Chapitre4.aux'.
 
  (chapters/08-Chapitre4.tex
@@ -2443,12 +2777,225 @@ Underfull \hbox (badness 10000) in paragraph at lines 2--2
 
  []
 
-[33
+
+Underfull \hbox (badness 1231) in paragraph at lines 14--15
+[]\T1/ptm/m/n/12 permettre la créa-tion et la confi-gu-ra-tion des pro-jets (\T
+1/cmtt/m/n/12 language\T1/ptm/m/n/12 , \T1/cmtt/m/n/12 analysis_type\T1/ptm/m/n
+/12 ,
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 50--50
+[]|\T1/ptm/m/n/10.95 En tant que dé-ve-lop-peur
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 50--50
+\T1/ptm/m/n/10.95 ou ad-mi-nis-tra-teur, je peux
+ []
+
+
+Underfull \hbox (badness 2080) in paragraph at lines 50--50
+\T1/ptm/m/n/10.95 créer un pro-jet et dé-fi-nir ses
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 50--50
+\T1/ptm/m/n/10.95 pa-ra-mètres (lan-gage, type
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 50--50
+[]|\T1/ptm/m/n/10.95 Implémenter l'end-point \T1/cmtt/m/n/10.95 POST
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 50--50
+\T1/cmtt/m/n/10.95 /projects \T1/ptm/m/n/10.95 avec va-li-da-tion
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 50--50
+\T1/ptm/m/n/10.95 Py-dan-tic v2 et per-sis-tance
+ []
+
+
+Underfull \hbox (badness 1442) in paragraph at lines 50--50
+\T1/ptm/m/n/10.95 avec filtres par pro-prié-taire et
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 50--50
+[]|\T1/ptm/m/n/10.95 Implémenter le flux Gi-tHub
+ []
+
+
+Overfull \hbox (2.56416pt too wide) in paragraph at lines 50--50
+\T1/cmtt/m/n/10.95 cryptography.fernet.Fernet
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 50--50
+\T1/ptm/m/n/10.95 avant per-sis-tance dans
+ []
+
+
+Underfull \hbox (badness 5050) in paragraph at lines 50--50
+[]|\T1/ptm/m/n/10.95 En tant que dé-ve-lop-peur ou
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 50--50
+[]|\T1/ptm/m/n/10.95 Exposer les end-points \T1/cmtt/m/n/10.95 POST
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 50--50
+\T1/cmtt/m/n/10.95 /api-keys \T1/ptm/m/n/10.95 et \T1/cmtt/m/n/10.95 DELETE
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 50--50
+[]|\T1/ptm/m/n/10.95 Implémenter \T1/cmtt/m/n/10.95 POST
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 50--50
+\T1/cmtt/m/n/10.95 /projects/{id}/members
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 50--50
+\T1/ptm/m/n/10.95 avec ges-tion des rôles
+ []
+
+[40
 
 
 
 
-] [34]) [35] [36]
+]
+Underfull \hbox (badness 2237) in paragraph at lines 62--63
+[]\T1/ptm/b/n/12 Justification. \T1/ptm/m/n/12 Le flux OAuth évite l'ex-po-si-t
+ion de cre-den-tials sta-tiques et per-met
+ []
+
+[41] [42]
+Underfull \hbox (badness 1057) in paragraph at lines 125--125
+\T1/ptm/m/n/10.95 (nom, des-crip-tion, lan-gage, type d'ana-lyse, vi-si-bi-lité
+). Le créa-teur est
+ []
+
+
+Underfull \hbox (badness 1406) in paragraph at lines 125--125
+\T1/ptm/m/n/10.95 Un en-re-gis-tre-ment \T1/cmtt/m/n/10.95 ProjectMember \T1/pt
+m/m/n/10.95 est créé avec le rôle \T1/cmtt/m/n/10.95 owner\T1/ptm/m/n/10.95 . U
+n
+ []
+
+
+Underfull \hbox (badness 1303) in paragraph at lines 125--125
+\T1/ptm/m/n/10.95 2. Le sys-tème va-lide les don-nées via Py-dan-tic v2 (nom un
+ique par
+ []
+
+
+Underfull \hbox (badness 1371) in paragraph at lines 160--160
+[]|\T1/ptm/m/n/10.95 1. L'uti-li-sa-teur clique sur "Connec-ter Gi-tHub" de-pui
+s le pan-neau de
+ []
+
+[43] [44]
+Underfull \hbox (badness 10000) in paragraph at lines 216--216
+[]|\T1/ptm/m/n/10.95 String
+ []
+
+Package textcomp Info: Symbol \textrightarrow not provided by
+(textcomp)             font family ptm in TS1 encoding.
+(textcomp)             Default family used instead on input line 216.
+
+Underfull \hbox (badness 2635) in paragraph at lines 216--216
+[]|\T1/ptm/m/n/10.95 UUID (FK \TS1/cmr/m/n/10.95 ^^Y
+ []
+
+Package textcomp Info: Symbol \textrightarrow not provided by
+(textcomp)             font family ptm in TS1 encoding.
+(textcomp)             Default family used instead on input line 216.
+
+Underfull \hbox (badness 2635) in paragraph at lines 216--216
+[]|\T1/ptm/m/n/10.95 UUID (FK \TS1/cmr/m/n/10.95 ^^Y
+ []
+
+Package textcomp Info: Symbol \textrightarrow not provided by
+(textcomp)             font family ptm in TS1 encoding.
+(textcomp)             Default family used instead on input line 216.
+
+Underfull \hbox (badness 2635) in paragraph at lines 216--216
+[]|\T1/ptm/m/n/10.95 UUID (FK \TS1/cmr/m/n/10.95 ^^Y
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 216--216
+[]|\T1/ptm/m/n/10.95 Rôle dans le pro-jet
+ []
+
+
+Overfull \hbox (7.32881pt too wide) in paragraph at lines 216--216
+[]|\T1/ptm/b/n/10.95 GitHubRepository| 
+ []
+
+
+Overfull \hbox (7.32881pt too wide) in paragraph at lines 216--216
+[]|\T1/ptm/b/n/10.95 GitHubRepository| 
+ []
+
+Package textcomp Info: Symbol \textrightarrow not provided by
+(textcomp)             font family ptm in TS1 encoding.
+(textcomp)             Default family used instead on input line 216.
+
+Underfull \hbox (badness 2635) in paragraph at lines 216--216
+[]|\T1/ptm/m/n/10.95 UUID (FK \TS1/cmr/m/n/10.95 ^^Y
+ []
+
+
+Overfull \hbox (7.32881pt too wide) in paragraph at lines 216--216
+[]|\T1/ptm/b/n/10.95 GitHubRepository| 
+ []
+
+
+Underfull \hbox (badness 3895) in paragraph at lines 216--216
+[]|\T1/ptm/m/n/10.95 Token OAuth Gi-tHub chif-fré avec
+ []
+
+
+Overfull \hbox (7.32881pt too wide) in paragraph at lines 216--216
+[]|\T1/ptm/b/n/10.95 GitHubRepository| 
+ []
+
+
+Overfull \hbox (7.32881pt too wide) in paragraph at lines 216--216
+[]|\T1/ptm/b/n/10.95 GitHubRepository| 
+ []
+
+Package textcomp Info: Symbol \textrightarrow not provided by
+(textcomp)             font family ptm in TS1 encoding.
+(textcomp)             Default family used instead on input line 216.
+
+Underfull \hbox (badness 2635) in paragraph at lines 216--216
+[]|\T1/ptm/m/n/10.95 UUID (FK \TS1/cmr/m/n/10.95 ^^Y
+ []
+
+
+Underfull \hbox (badness 2617) in paragraph at lines 216--216
+[]|\T1/ptm/m/n/10.95 Nom des-crip-tif de la clé (ex. : ^^S
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 216--216
+[]|\T1/ptm/m/n/10.95 DateTime
+ []
+
+[45] [46] [47] [48]) [49]
 \openout2 = `chapters/09-Chapitre5.aux'.
 
  (chapters/09-Chapitre5.tex
@@ -2458,12 +3005,452 @@ Underfull \hbox (badness 10000) in paragraph at lines 2--2
 
  []
 
-[37
+
+Underfull \hbox (badness 5519) in paragraph at lines 51--51
+[]|\T1/ptm/m/n/10.95 En tant que dé-ve-lop-peur, je
+ []
+
+
+Underfull \hbox (badness 2662) in paragraph at lines 51--51
+\T1/cmtt/m/n/10.95 method="github" \T1/ptm/m/n/10.95 et en-queue
+ []
+
+
+Underfull \hbox (badness 4168) in paragraph at lines 51--51
+\T1/ptm/m/n/10.95 Sem-grep (\T1/cmtt/m/n/10.95 semgrep --json\T1/ptm/m/n/10.95 
+) et
+ []
+
+
+Underfull \hbox (badness 5050) in paragraph at lines 51--51
+[]|\T1/ptm/m/n/10.95 En tant que dé-ve-lop-peur ou
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 51--51
+[]|\T1/ptm/m/n/10.95 Émettre des
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 51--51
+\T1/ptm/m/n/10.95 évé-ne-ments So-cket.IO
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 51--51
+\T1/ptm/m/n/10.95 (\T1/cmtt/m/n/10.95 scan.status_changed\T1/ptm/m/n/10.95 ,
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 51--51
+\T1/cmtt/m/n/10.95 scan.vuln_found\T1/ptm/m/n/10.95 ) de-puis
+ []
+
+
+Underfull \hbox (badness 3118) in paragraph at lines 51--51
+\T1/ptm/m/n/10.95 le wor-ker Ce-lery, sco-pés par
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 51--51
+\T1/cmtt/m/n/10.95 method="dast" \T1/ptm/m/n/10.95 et en-queue
+ []
+
+
+Underfull \hbox (badness 4792) in paragraph at lines 51--51
+[]|\T1/ptm/m/n/10.95 Développer le wor-ker Ce-lery
+ []
+
+
+Underfull \hbox (badness 1331) in paragraph at lines 51--51
+\T1/ptm/m/n/10.95 DAST : contexte ZAP, spi-der,
+ []
+
+
+Underfull \hbox (badness 5331) in paragraph at lines 51--51
+\T1/ptm/m/n/10.95 je peux consul-ter le rap-port
+ []
+
+
+Underfull \hbox (badness 6559) in paragraph at lines 51--51
+[]|\T1/ptm/m/n/10.95 Normaliser les sor-ties SAST
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 51--51
+\T1/ptm/m/n/10.95 (SA-RIF/JSON Ban-dit) et
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 51--51
+\T1/ptm/m/n/10.95 DAST (alertes ZAP) vers
+ []
+
+
+Underfull \hbox (badness 1337) in paragraph at lines 51--51
+\T1/cmtt/m/n/10.95 Vulnerability \T1/ptm/m/n/10.95 avec map-ping
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 51--51
+[]|\T1/ptm/m/n/10.95 Calculer et per-sis-ter le
+ []
+
+
+Underfull \hbox (badness 3701) in paragraph at lines 51--51
+\T1/cmtt/m/n/10.95 RiskScore \T1/ptm/m/n/10.95 (agré-ga-tion CVSS
+ []
+
+[50
 
 
 
 
-] [38]) [39] [40]
+] [51]
+Underfull \hbox (badness 6559) in paragraph at lines 75--76
+[]\T1/ptm/b/n/12 Utilisation dans In-vi-si-Threat. \T1/ptm/m/n/12 À la ré-cep-t
+ion d'un \T1/cmtt/m/n/12 POST /scans\T1/ptm/m/n/12 , l'API crée
+ []
+
+
+Underfull \hbox (badness 2799) in paragraph at lines 81--82
+\T1/ptm/m/n/12 of-frant une com-mu-ni-ca-tion bi-di-rec-tion-nelle temps réel v
+ia Web-So-cket (avec fall-back
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 83--84
+[]\T1/ptm/b/n/12 Utilisation dans In-vi-si-Threat. \T1/ptm/m/n/12 Les wor-kers 
+Ce-lery pu-blient des évé-ne-ments
+ []
+
+Package textcomp Info: Symbol \textrightarrow not provided by
+(textcomp)             font family ptm in TS1 encoding.
+(textcomp)             Default family used instead on input line 89.
+[52]
+Underfull \hbox (badness 1661) in paragraph at lines 139--139
+[]|\T1/cmtt/m/n/10.95 Scan \T1/ptm/m/n/10.95 créé avec \T1/cmtt/m/n/10.95 metho
+d="github" \T1/ptm/m/n/10.95 ou \T1/cmtt/m/n/10.95 "cli"\T1/ptm/m/n/10.95 , \T1
+/cmtt/m/n/10.95 status="completed"\T1/ptm/m/n/10.95 .
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 139--139
+[]|\T1/ptm/m/n/10.95 1. L'uti-li-sa-teur sou-met \T1/cmtt/m/n/10.95 POST /scans
+ \T1/ptm/m/n/10.95 avec \T1/cmtt/m/n/10.95 project_id \T1/ptm/m/n/10.95 et
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 139--139
+\T1/ptm/m/n/10.95 5. Le scan passe à \T1/cmtt/m/n/10.95 status="completed" \T1/
+ptm/m/n/10.95 ; So-cket.IO émet
+ []
+
+[53]
+Underfull \hbox (badness 10000) in paragraph at lines 173--173
+\T1/ptm/m/n/10.95 6. Le scan passe à \T1/cmtt/m/n/10.95 status="completed" \T1/
+ptm/m/n/10.95 ; So-cket.IO émet
+ []
+
+[54] [55]
+Package textcomp Info: Symbol \textrightarrow not provided by
+(textcomp)             font family ptm in TS1 encoding.
+(textcomp)             Default family used instead on input line 223.
+
+Underfull \hbox (badness 2635) in paragraph at lines 223--223
+[]|\T1/ptm/m/n/10.95 UUID (FK \TS1/cmr/m/n/10.95 ^^Y
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 223--223
+[]|\T1/ptm/m/n/10.95 Méthode de dé-clen-che-ment
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 223--223
+[]|\T1/ptm/m/n/10.95 État du scan
+ []
+
+
+Overfull \hbox (9.06982pt too wide) in paragraph at lines 223--223
+\T1/ptm/m/n/10.95 (\T1/cmtt/m/n/10.95 pending\T1/ptm/m/n/10.95 /\T1/cmtt/m/n/10
+.95 running\T1/ptm/m/n/10.95 /\T1/cmtt/m/n/10.95 completed\T1/ptm/m/n/10.95 /\T
+1/cmtt/m/n/10.95 failed\T1/ptm/m/n/10.95 )| 
+ []
+
+
+Underfull \hbox (badness 2409) in paragraph at lines 223--223
+[]|\T1/ptm/m/n/10.95 Métadonnées de pro-gres-sion Ce-lery
+ []
+
+Package textcomp Info: Symbol \textrightarrow not provided by
+(textcomp)             font family ptm in TS1 encoding.
+(textcomp)             Default family used instead on input line 223.
+
+Underfull \hbox (badness 2635) in paragraph at lines 223--223
+[]|\T1/ptm/m/n/10.95 UUID (FK \TS1/cmr/m/n/10.95 ^^Y
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 223--223
+[]|\T1/ptm/m/n/10.95 Sévérité nor-ma-li-sée
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 223--223
+[]|\T1/ptm/m/n/10.95 État de trai-te-ment
+ []
+
+
+Overfull \hbox (130.9396pt too wide) in paragraph at lines 223--223
+\T1/ptm/m/n/10.95 (\T1/cmtt/m/n/10.95 open\T1/ptm/m/n/10.95 /\T1/cmtt/m/n/10.95
+ in_progress\T1/ptm/m/n/10.95 /\T1/cmtt/m/n/10.95 resolved\T1/ptm/m/n/10.95 /\T
+1/cmtt/m/n/10.95 false_positive\T1/ptm/m/n/10.95 /\T1/cmtt/m/n/10.95 risk_accep
+ted\T1/ptm/m/n/10.95 )| 
+ []
+
+Package textcomp Info: Symbol \textrightarrow not provided by
+(textcomp)             font family ptm in TS1 encoding.
+(textcomp)             Default family used instead on input line 223.
+
+Underfull \hbox (badness 2635) in paragraph at lines 223--223
+[]|\T1/ptm/m/n/10.95 UUID (FK \TS1/cmr/m/n/10.95 ^^Y
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 223--223
+[]|\T1/ptm/m/n/10.95 Score agrégé pon-déré par CVSS
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 223--223
+[]|\T1/ptm/m/n/10.95 Niveau qua-li-ta-tif
+ []
+
+[56] [57]
+Underfull \hbox (badness 3333) in paragraph at lines 241--242
+[]\T1/ptm/m/n/12 Le dia-gramme DS-3b (fi-gure []5.4[]) dé-crit le flux DAST se-
+lon la no-ta-tion BCE.
+ []
+
+[58]
+Package textcomp Info: Symbol \textrightarrow not provided by
+(textcomp)             font family ptm in TS1 encoding.
+(textcomp)             Default family used instead on input line 291.
+Package textcomp Info: Symbol \textrightarrow not provided by
+(textcomp)             font family ptm in TS1 encoding.
+(textcomp)             Default family used instead on input line 291.
+
+Underfull \hbox (badness 3199) in paragraph at lines 291--291
+\T1/ptm/m/n/10.95 2. Ob-ser-ver les évé-ne-ments So-cket.IO : \T1/cmtt/m/n/10.9
+5 pending \TS1/cmr/m/n/10.95 ^^Y \T1/cmtt/m/n/10.95 running \TS1/cmr/m/n/10.95 
+^^Y
+ []
+
+
+Overfull \hbox (24.27704pt too wide) in paragraph at lines 291--291
+\T1/ptm/m/n/10.95 3. Ap-pe-ler \T1/cmtt/m/n/10.95 GET /scans/{id}/vulnerabiliti
+es?severity=critical,high\T1/ptm/m/n/10.95 . 
+ []
+
+[59]
+Underfull \hbox (badness 1365) in paragraph at lines 332--333
+[]\T1/ptm/m/n/12 Ce sprint est dé-dié à l'in-té-gra-tion des ana-lyses sta-tiqu
+es (SAST) dans le pi-pe-line
+ []
+
+[60]
+Underfull \hbox (badness 10000) in paragraph at lines 342--343
+[]\T1/ptm/m/n/12 normaliser les sor-ties hé-té-ro-gènes (SA-RIF, JSON Ban-dit) 
+vers le mo-dèle
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 343--344
+[]\T1/ptm/m/n/12 exposer le rap-port SAST nor-ma-lisé fil-trable par sé-vé-rité
+
+ []
+
+
+Underfull \hbox (badness 2080) in paragraph at lines 374--374
+\T1/ptm/m/n/10.95 lan-cer un scan SAST sur un
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 374--374
+[]|\T1/ptm/m/n/10.95 Implémenter l'end-point \T1/cmtt/m/n/10.95 POST
+ []
+
+
+Underfull \hbox (badness 5519) in paragraph at lines 374--374
+[]|\T1/ptm/m/n/10.95 En tant que dé-ve-lop-peur, je
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 374--374
+[]|\T1/ptm/m/n/10.95 Exposer \T1/cmtt/m/n/10.95 GET
+ []
+
+
+Overfull \hbox (7.6567pt too wide) in paragraph at lines 374--374
+\T1/cmtt/m/n/10.95 /scans/{id}/vulnerabilities
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 374--374
+\T1/ptm/m/n/10.95 avec pa-ra-mètre de filtre
+ []
+
+
+Underfull \hbox (badness 4582) in paragraph at lines 374--374
+\T1/ptm/m/n/10.95 je peux consul-ter les alertes
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 374--374
+[]|\T1/ptm/m/n/10.95 Implémenter la vue ta-bleau
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 374--374
+\T1/ptm/m/n/10.95 de bord SAST avec
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 374--374
+\T1/ptm/m/n/10.95 agré-ga-tion par sé-vé-rité
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 374--374
+\T1/ptm/m/n/10.95 (\T1/cmtt/m/n/10.95 VulnerabilitySeverity
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 374--374
+[]|\T1/ptm/m/n/10.95 Émettre des évé-ne-ments
+ []
+
+
+Underfull \hbox (badness 2781) in paragraph at lines 374--374
+\T1/ptm/m/n/10.95 So-cket.IO (na-mes-paces sco-pés
+ []
+
+[61] [62]
+Package textcomp Info: Symbol \textrightarrow not provided by
+(textcomp)             font family ptm in TS1 encoding.
+(textcomp)             Default family used instead on input line 400.
+ [63]
+Underfull \hbox (badness 1412) in paragraph at lines 453--453
+[]|\T1/ptm/m/n/10.95 1. L'uti-li-sa-teur sou-met \T1/cmtt/m/n/10.95 POST /scans
+ \T1/ptm/m/n/10.95 avec \T1/cmtt/m/n/10.95 project_id \T1/ptm/m/n/10.95 et \T1/
+cmtt/m/n/10.95 method =
+ []
+
+
+Overfull \hbox (76.48592pt too wide) in paragraph at lines 484--484
+\T1/ptm/m/n/10.95 3. Le sys-tème re-tourne \T1/cmtt/m/n/10.95 GET /scans/{id}/v
+ulnerabilities?severity=critical,high\T1/ptm/m/n/10.95 . 
+ []
+
+[64]
+Package textcomp Info: Symbol \textrightarrow not provided by
+(textcomp)             font family ptm in TS1 encoding.
+(textcomp)             Default family used instead on input line 529.
+
+Underfull \hbox (badness 2635) in paragraph at lines 529--529
+[]|\T1/ptm/m/n/10.95 UUID (FK \TS1/cmr/m/n/10.95 ^^Y
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 529--529
+[]|\T1/ptm/m/n/10.95 Méthode de dé-clen-che-ment
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 529--529
+[]|\T1/ptm/m/n/10.95 État du scan
+ []
+
+
+Overfull \hbox (9.06982pt too wide) in paragraph at lines 529--529
+\T1/ptm/m/n/10.95 (\T1/cmtt/m/n/10.95 pending\T1/ptm/m/n/10.95 /\T1/cmtt/m/n/10
+.95 running\T1/ptm/m/n/10.95 /\T1/cmtt/m/n/10.95 completed\T1/ptm/m/n/10.95 /\T
+1/cmtt/m/n/10.95 failed\T1/ptm/m/n/10.95 )| 
+ []
+
+
+Underfull \hbox (badness 1281) in paragraph at lines 529--529
+[]|\T1/ptm/m/n/10.95 Métadonnées de pro-gres-sion du job
+ []
+
+Package textcomp Info: Symbol \textrightarrow not provided by
+(textcomp)             font family ptm in TS1 encoding.
+(textcomp)             Default family used instead on input line 529.
+
+Underfull \hbox (badness 2635) in paragraph at lines 529--529
+[]|\T1/ptm/m/n/10.95 UUID (FK \TS1/cmr/m/n/10.95 ^^Y
+ []
+
+
+Underfull \hbox (badness 3312) in paragraph at lines 529--529
+[]|\T1/ptm/m/n/10.95 Titre de la vul-né-ra-bi-lité (is-sue du
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 529--529
+[]|\T1/ptm/m/n/10.95 Niveau de sé-vé-rité
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 529--529
+[]|\T1/ptm/m/n/10.95 État de trai-te-ment
+ []
+
+
+Overfull \hbox (130.9396pt too wide) in paragraph at lines 529--529
+\T1/ptm/m/n/10.95 (\T1/cmtt/m/n/10.95 open\T1/ptm/m/n/10.95 /\T1/cmtt/m/n/10.95
+ in_progress\T1/ptm/m/n/10.95 /\T1/cmtt/m/n/10.95 resolved\T1/ptm/m/n/10.95 /\T
+1/cmtt/m/n/10.95 false_positive\T1/ptm/m/n/10.95 /\T1/cmtt/m/n/10.95 risk_accep
+ted\T1/ptm/m/n/10.95 )| 
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 529--529
+[]|\T1/ptm/m/n/10.95 Score CVSS de la vul-né-ra-bi-lité
+ []
+
+[65] [66]
+Underfull \hbox (badness 2512) in paragraph at lines 547--548
+\T1/ptm/m/n/12 (boun-dary ^^V com-po-sant React abonné au na-mes-pace So-cket.I
+O \T1/cmtt/m/n/12 /scans/{scan_id}\T1/ptm/m/n/12 )
+ []
+
+
+Underfull \hbox (badness 1521) in paragraph at lines 560--561
+[]\T1/ptm/m/n/12 Les wor-kers Ce-lery exé-cutent Sem-grep (\T1/cmtt/m/n/12 semg
+rep --config auto --json\T1/ptm/m/n/12 ) et Ban-dit
+ []
+
+Package textcomp Info: Symbol \textrightarrow not provided by
+(textcomp)             font family ptm in TS1 encoding.
+(textcomp)             Default family used instead on input line 592.
+Package textcomp Info: Symbol \textrightarrow not provided by
+(textcomp)             font family ptm in TS1 encoding.
+(textcomp)             Default family used instead on input line 592.
+
+Underfull \hbox (badness 2951) in paragraph at lines 592--592
+\T1/ptm/m/n/10.95 3. Ob-ser-ver les évé-ne-ments So-cket.IO : \T1/cmtt/m/n/10.9
+5 scan.status_changed \T1/ptm/m/n/10.95 de
+ []
+
+
+Underfull \hbox (badness 2591) in paragraph at lines 592--592
+\T1/ptm/m/n/10.95 4. Ap-pe-ler \T1/cmtt/m/n/10.95 GET /scans/{id}/vulnerabiliti
+es \T1/ptm/m/n/10.95 et vé-ri-fier que les
+ []
+
+[67]) [68] [69]
 \openout2 = `chapters/12-Chapitre6.aux'.
 
  (chapters/12-Chapitre6.tex
@@ -2473,68 +3460,1463 @@ Underfull \hbox (badness 10000) in paragraph at lines 2--2
 
  []
 
-[41
+Package textcomp Info: Symbol \textrightarrow not provided by
+(textcomp)             font family ptm in TS1 encoding.
+(textcomp)             Default family used instead on input line 15.
+Package textcomp Info: Symbol \textrightarrow not provided by
+(textcomp)             font family ptm in TS1 encoding.
+(textcomp)             Default family used instead on input line 15.
+Package textcomp Info: Symbol \textrightarrow not provided by
+(textcomp)             font family ptm in TS1 encoding.
+(textcomp)             Default family used instead on input line 15.
 
-
-
-
-] [42])
-Underfull \hbox (badness 4739) in paragraph at lines 81--37
-[]\T1/ptm/m/n/12 Le Sprint 4 clô-ture la chaîne Dev-Se-cOps en conso-li-dant l'
-ana-lyse dy-na-mique,
+Underfull \hbox (badness 1354) in paragraph at lines 17--18
+[]\T1/ptm/m/n/12 émettre des no-ti-fi-ca-tions (\T1/cmtt/m/n/12 Notification\T1
+/ptm/m/n/12 ) sur chaque évé-ne-ment clé (as-si-gna-tion,
  []
 
-[43] [44] (chapters/14-ConclusionGenerale.tex
+
+Underfull \hbox (badness 5133) in paragraph at lines 53--53
+\T1/ptm/m/n/10.95 je peux créer une tâche de
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 53--53
+\T1/ptm/m/n/10.95 re-mé-dia-tion à par-tir d'une
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 53--53
+\T1/ptm/m/n/10.95 vul-né-ra-bi-lité dé-tec-tée et
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 53--53
+[]|\T1/ptm/m/n/10.95 Implémenter \T1/cmtt/m/n/10.95 POST
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 53--53
+\T1/cmtt/m/n/10.95 /vulnerability-tasks
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 53--53
+\T1/ptm/m/n/10.95 avec créa-tion de
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 53--53
+\T1/cmtt/m/n/10.95 VulnerabilityTask \T1/ptm/m/n/10.95 liée
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 53--53
+\T1/ptm/m/n/10.95 à une \T1/cmtt/m/n/10.95 Vulnerability \T1/ptm/m/n/10.95 par
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 53--53
+[]|\T1/ptm/m/n/10.95 Implémenter l'as-si-gna-tion
+ []
+
+
+Underfull \hbox (badness 7704) in paragraph at lines 53--53
+\T1/ptm/m/n/10.95 (\T1/cmtt/m/n/10.95 assignee_id\T1/ptm/m/n/10.95 , \T1/cmtt/m
+/n/10.95 due_date\T1/ptm/m/n/10.95 ) et
+ []
+
+
+Underfull \hbox (badness 7522) in paragraph at lines 53--53
+\T1/ptm/m/n/10.95 dé-clen-cher la créa-tion d'une
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 53--53
+[]|\T1/ptm/m/n/10.95 Exposer \T1/cmtt/m/n/10.95 GET
+ []
+
+
+Overfull \hbox (52.92366pt too wide) in paragraph at lines 53--53
+\T1/cmtt/m/n/10.95 /vulnerability-tasks?assignee_id=me
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 53--53
+\T1/ptm/m/n/10.95 et \T1/cmtt/m/n/10.95 PUT
+ []
+
+
+Overfull \hbox (38.68604pt too wide) in paragraph at lines 53--53
+\T1/cmtt/m/n/10.95 /vulnerability-tasks/{id}/status\T1/ptm/m/n/10.95 .| 
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 53--53
+[]|\T1/ptm/m/n/10.95 Valider les tran-si-tions
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 53--53
+\T1/ptm/m/n/10.95 d'état au-to-ri-sées
+ []
+
+
+Overfull \hbox (37.05363pt too wide) in paragraph at lines 53--53
+\T1/ptm/m/n/10.95 (\T1/cmtt/m/n/10.95 open\TS1/cmtt/m/n/10.95 ^^Y\T1/cmtt/m/n/1
+0.95 in_progress\TS1/cmtt/m/n/10.95 ^^Y\T1/cmtt/m/n/10.95 fixed\TS1/cmtt/m/n/10
+.95 ^^Y\T1/cmtt/m/n/10.95 verified\T1/ptm/m/n/10.95 )
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 53--53
+[]|\T1/ptm/m/n/10.95 Implémenter \T1/cmtt/m/n/10.95 POST
+ []
+
+
+Overfull \hbox (47.26529pt too wide) in paragraph at lines 53--53
+\T1/cmtt/m/n/10.95 /vulnerability-tasks/{id}/comments
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 53--53
+\T1/ptm/m/n/10.95 avec créa-tion de
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 53--53
+\T1/ptm/m/n/10.95 des no-ti-fi-ca-tions temps réel
+ []
+
+
+Underfull \hbox (badness 3907) in paragraph at lines 53--53
+\T1/ptm/m/n/10.95 pour les évé-ne-ments qui me
+ []
+
+
+Underfull \hbox (badness 1533) in paragraph at lines 53--53
+[]|\T1/ptm/m/n/10.95 Exposer \T1/cmtt/m/n/10.95 GET /notifications
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 53--53
+[]|\T1/ptm/m/n/10.95 Émettre des évé-ne-ments
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 53--53
+\T1/ptm/m/n/10.95 So-cket.IO (\T1/cmtt/m/n/10.95 task.assigned\T1/ptm/m/n/10.95
+ ,
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 53--53
+\T1/cmtt/m/n/10.95 task.status_changed\T1/ptm/m/n/10.95 ,
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 53--53
+\T1/cmtt/m/n/10.95 task.commented\T1/ptm/m/n/10.95 ) vers la
+ []
+
+[70
+
+
+
+
+] [71]
+Package textcomp Info: Symbol \textrightarrow not provided by
+(textcomp)             font family ptm in TS1 encoding.
+(textcomp)             Default family used instead on input line 63.
+
+Underfull \hbox (badness 5607) in paragraph at lines 71--72
+[]\T1/ptm/b/n/12 Utilisation dans In-vi-si-Threat. \T1/ptm/m/n/12 Chaque évé-ne
+-ment clé (as-si-gna-tion d'une tâche,
+ []
+
+
+Underfull \hbox (badness 2080) in paragraph at lines 71--72
+\T1/ptm/m/n/12 chan-ge-ment d'état, nou-veau com-men-taire, fin de scan) crée u
+ne ou plu-sieurs en-ti-tés
+ []
+
+[72]
+Underfull \hbox (badness 4001) in paragraph at lines 125--125
+\T1/ptm/m/n/10.95 2. Il crée une tâche (\T1/cmtt/m/n/10.95 POST /vulnerability-
+tasks\T1/ptm/m/n/10.95 ) en spé-ci-fiant
+ []
+
+
+Underfull \hbox (badness 4886) in paragraph at lines 158--158
+[]|\T1/ptm/m/n/10.95 Faire évo-luer le sta-tut d'une \T1/cmtt/m/n/10.95 Vulnera
+bilityTask \T1/ptm/m/n/10.95 se-lon le cycle
+ []
+
+
+Underfull \hbox (badness 1308) in paragraph at lines 158--158
+[]|\T1/ptm/m/n/10.95 Statut mis à jour. \T1/cmtt/m/n/10.95 VulnerabilityTaskCom
+ment \T1/ptm/m/n/10.95 créé si com-men-taire.
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 158--158
+\T1/ptm/m/n/10.95 2. Il ajoute un com-men-taire ex-pli-quant son ap-proche (\T1
+/cmtt/m/n/10.95 POST
+ []
+
+[73]
+Underfull \hbox (badness 6542) in paragraph at lines 166--167
+\T1/ptm/m/n/12 col-la-bo-ra-tif. \T1/cmtt/m/n/12 VulnerabilityTask \T1/ptm/m/n/
+12 est l'en-tité cen-trale, liée à \T1/cmtt/m/n/12 Vulnerability \T1/ptm/m/n/12
+ (via
+ []
+
+
+Underfull \hbox (badness 2173) in paragraph at lines 166--167
+\T1/cmtt/m/n/12 fingerprint\T1/ptm/m/n/12 ) et à \T1/cmtt/m/n/12 User \T1/ptm/m
+/n/12 (via \T1/cmtt/m/n/12 assignee_id\T1/ptm/m/n/12 ). \T1/cmtt/m/n/12 Vulnera
+bilityTaskComment \T1/ptm/m/n/12 est lié à
+ []
+
+[74]
+Overfull \hbox (4.10956pt too wide) in paragraph at lines 211--211
+[]|\T1/ptm/b/n/10.95 VulnerabilityTask| 
+ []
+
+
+Overfull \hbox (4.10956pt too wide) in paragraph at lines 211--211
+[]|\T1/ptm/b/n/10.95 VulnerabilityTask| 
+ []
+
+Package textcomp Info: Symbol \textrightarrow not provided by
+(textcomp)             font family ptm in TS1 encoding.
+(textcomp)             Default family used instead on input line 211.
+
+Underfull \hbox (badness 2635) in paragraph at lines 211--211
+[]|\T1/ptm/m/n/10.95 UUID (FK \TS1/cmr/m/n/10.95 ^^Y
+ []
+
+
+Overfull \hbox (4.10956pt too wide) in paragraph at lines 211--211
+[]|\T1/ptm/b/n/10.95 VulnerabilityTask| 
+ []
+
+Package textcomp Info: Symbol \textrightarrow not provided by
+(textcomp)             font family ptm in TS1 encoding.
+(textcomp)             Default family used instead on input line 211.
+
+Underfull \hbox (badness 2635) in paragraph at lines 211--211
+[]|\T1/ptm/m/n/10.95 UUID (FK \TS1/cmr/m/n/10.95 ^^Y
+ []
+
+
+Overfull \hbox (4.10956pt too wide) in paragraph at lines 211--211
+[]|\T1/ptm/b/n/10.95 VulnerabilityTask| 
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 211--211
+[]|\T1/ptm/m/n/10.95 Empreinte de la vul-né-ra-bi-lité
+ []
+
+
+Overfull \hbox (4.10956pt too wide) in paragraph at lines 211--211
+[]|\T1/ptm/b/n/10.95 VulnerabilityTask| 
+ []
+
+
+Overfull \hbox (4.10956pt too wide) in paragraph at lines 211--211
+[]|\T1/ptm/b/n/10.95 VulnerabilityTask| 
+ []
+
+
+Underfull \hbox (badness 1226) in paragraph at lines 211--211
+[]|\T1/ptm/m/n/10.95 Sévérité hé-ri-tée de la vul-né-ra-bi-lité
+ []
+
+
+Overfull \hbox (4.10956pt too wide) in paragraph at lines 211--211
+[]|\T1/ptm/b/n/10.95 VulnerabilityTask| 
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 211--211
+[]|\T1/ptm/m/n/10.95 État de la tâche
+ []
+
+
+Overfull \hbox (9.10191pt too wide) in paragraph at lines 211--211
+\T1/ptm/m/n/10.95 (\T1/cmtt/m/n/10.95 open\T1/ptm/m/n/10.95 /\T1/cmtt/m/n/10.95
+ in_progress\T1/ptm/m/n/10.95 /\T1/cmtt/m/n/10.95 fixed\T1/ptm/m/n/10.95 /\T1/c
+mtt/m/n/10.95 verified\T1/ptm/m/n/10.95 )| 
+ []
+
+
+Overfull \hbox (4.10956pt too wide) in paragraph at lines 211--211
+[]|\T1/ptm/b/n/10.95 VulnerabilityTask| 
+ []
+
+Package textcomp Info: Symbol \textrightarrow not provided by
+(textcomp)             font family ptm in TS1 encoding.
+(textcomp)             Default family used instead on input line 211.
+
+Underfull \hbox (badness 2635) in paragraph at lines 211--211
+[]|\T1/ptm/m/n/10.95 UUID (FK \TS1/cmr/m/n/10.95 ^^Y
+ []
+
+
+Overfull \hbox (4.10956pt too wide) in paragraph at lines 211--211
+[]|\T1/ptm/b/n/10.95 VulnerabilityTask| 
+ []
+
+
+Overfull \hbox (50.32916pt too wide) in paragraph at lines 211--211
+[]|\T1/ptm/b/n/10.95 VulnerabilityTaskComment| 
+ []
+
+
+Overfull \hbox (50.32916pt too wide) in paragraph at lines 211--211
+[]|\T1/ptm/b/n/10.95 VulnerabilityTaskComment| 
+ []
+
+Package textcomp Info: Symbol \textrightarrow not provided by
+(textcomp)             font family ptm in TS1 encoding.
+(textcomp)             Default family used instead on input line 211.
+
+Underfull \hbox (badness 2635) in paragraph at lines 211--211
+[]|\T1/ptm/m/n/10.95 UUID (FK \TS1/cmr/m/n/10.95 ^^Y
+ []
+
+
+Overfull \hbox (10.10513pt too wide) in paragraph at lines 211--211
+\T1/ptm/m/n/10.95 Vul-ne-ra-bi-li-ty-Task)| 
+ []
+
+
+Overfull \hbox (50.32916pt too wide) in paragraph at lines 211--211
+[]|\T1/ptm/b/n/10.95 VulnerabilityTaskComment| 
+ []
+
+Package textcomp Info: Symbol \textrightarrow not provided by
+(textcomp)             font family ptm in TS1 encoding.
+(textcomp)             Default family used instead on input line 211.
+
+Underfull \hbox (badness 2635) in paragraph at lines 211--211
+[]|\T1/ptm/m/n/10.95 UUID (FK \TS1/cmr/m/n/10.95 ^^Y
+ []
+
+
+Overfull \hbox (50.32916pt too wide) in paragraph at lines 211--211
+[]|\T1/ptm/b/n/10.95 VulnerabilityTaskComment| 
+ []
+
+
+Overfull \hbox (50.32916pt too wide) in paragraph at lines 211--211
+[]|\T1/ptm/b/n/10.95 VulnerabilityTaskComment| 
+ []
+
+Package textcomp Info: Symbol \textrightarrow not provided by
+(textcomp)             font family ptm in TS1 encoding.
+(textcomp)             Default family used instead on input line 211.
+
+Underfull \hbox (badness 2635) in paragraph at lines 211--211
+[]|\T1/ptm/m/n/10.95 UUID (FK \TS1/cmr/m/n/10.95 ^^Y
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 211--211
+[]|\T1/ptm/m/n/10.95 Type (\T1/ptm/m/it/10.95 task_assigned\T1/ptm/m/n/10.95 ,
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 211--211
+\T1/ptm/m/it/10.95 task_status_changed\T1/ptm/m/n/10.95 ,
+ []
+
+[75] [76]
+Underfull \hbox (badness 1521) in paragraph at lines 231--232
+\T1/ptm/m/n/12 côté API : seules les tran-si-tions au-to-ri-sées (\T1/cmtt/m/n/
+12 open\TS1/cmtt/m/n/12 ^^Y\T1/cmtt/m/n/12 in_progress\T1/ptm/m/n/12 , \T1/cmtt
+/m/n/12 in_progress\TS1/cmtt/m/n/12 ^^Y\T1/cmtt/m/n/12 fixed\T1/ptm/m/n/12 ,
+ []
+
+
+Underfull \hbox (badness 5189) in paragraph at lines 234--235
+[]\T1/ptm/m/n/12 L'ajout d'un com-men-taire (\T1/cmtt/m/n/12 VulnerabilityTaskC
+omment\T1/ptm/m/n/12 ) no-ti-fie au-to-ma-ti-que-ment
+ []
+
+Package textcomp Info: Symbol \textrightarrow not provided by
+(textcomp)             font family ptm in TS1 encoding.
+(textcomp)             Default family used instead on input line 268.
+Package textcomp Info: Symbol \textrightarrow not provided by
+(textcomp)             font family ptm in TS1 encoding.
+(textcomp)             Default family used instead on input line 268.
+Package textcomp Info: Symbol \textrightarrow not provided by
+(textcomp)             font family ptm in TS1 encoding.
+(textcomp)             Default family used instead on input line 268.
+
+Underfull \hbox (badness 1406) in paragraph at lines 268--268
+[]|\T1/ptm/m/n/10.95 1. Se-cu-rity Ma-na-ger : \T1/cmtt/m/n/10.95 POST /vulnera
+bility-tasks \T1/ptm/m/n/10.95 (as-si-gna-tion au
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 268--268
+\T1/ptm/m/n/10.95 2. Vé-ri-fier \T1/cmtt/m/n/10.95 Notification \T1/ptm/m/n/10.
+95 créée pour le dé-ve-lop-peur
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 268--268
+\T1/ptm/m/n/10.95 3. Dé-ve-lop-peur : \T1/cmtt/m/n/10.95 PUT /vulnerability-tas
+ks/{id}/status \TS1/cmr/m/n/10.95 ^^Y
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 268--268
+\T1/ptm/m/n/10.95 4. Dé-ve-lop-peur : \T1/cmtt/m/n/10.95 POST /vulnerability-ta
+sks/{id}/comments
+ []
+
+
+Underfull \hbox (badness 3068) in paragraph at lines 268--268
+[]|\T1/ptm/m/n/10.95 Tâche à l'état \T1/cmtt/m/n/10.95 verified\T1/ptm/m/n/10.9
+5 . Toutes les no-ti-fi-ca-tions créées. Tous les
+ []
+
+[77]
+Underfull \hbox (badness 10000) in paragraph at lines 275--276
+[]\T1/ptm/m/n/12 Ce sprint a été dé-ve-loppé sur la branche \T1/cmtt/m/n/12 fea
+ture/sprint4-vuln-workflow\T1/ptm/m/n/12 .
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 275--276
+\T1/ptm/m/n/12 Les mi-gra-tions Alem-bic ajou-tant les tables \T1/cmtt/m/n/12 v
+ulnerability_tasks\T1/ptm/m/n/12 ,
+ []
+
+
+Underfull \hbox (badness 1796) in paragraph at lines 279--280
+[]\T1/ptm/m/n/12 Le Sprint 4 a mis en place le sys-tème col-la-bo-ra-tif de ges
+-tion des vul-né-ra-bi-li-tés
+ []
+
+[78]
+Underfull \hbox (badness 2762) in paragraph at lines 291--292
+[]\T1/ptm/m/n/12 étendre l'or-ches-tra-tion Ce-lery/Redis au DAST et cal-cu-ler
+ le sco-ring de risque
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 332--332
+[]|\T1/ptm/m/n/10.95 Implémenter l'end-point \T1/cmtt/m/n/10.95 POST
+ []
+
+
+Underfull \hbox (badness 7944) in paragraph at lines 332--332
+\T1/ptm/m/n/10.95 et dé-clen-che-ment du wor-ker
+ []
+
+
+Underfull \hbox (badness 4792) in paragraph at lines 332--332
+[]|\T1/ptm/m/n/10.95 Développer le wor-ker Ce-lery
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 332--332
+[]|\T1/ptm/m/n/10.95 Calculer le \T1/cmtt/m/n/10.95 RiskScore
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 332--332
+\T1/ptm/m/n/10.95 (agré-ga-tion CVSS pon-dé-rée
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 332--332
+[]|\T1/ptm/m/n/10.95 Exposer \T1/cmtt/m/n/10.95 GET
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 332--332
+\T1/cmtt/m/n/10.95 /scans/{id}/risk-score
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 332--332
+\T1/ptm/m/n/10.95 ou dé-ve-lop-peur, je peux
+ []
+
+
+Underfull \hbox (badness 4341) in paragraph at lines 332--332
+\T1/ptm/m/n/10.95 gé-rer le cycle de vie d'une
+ []
+
+
+Underfull \hbox (badness 3907) in paragraph at lines 332--332
+\T1/ptm/m/n/10.95 vul-né-ra-bi-lité (état, as-si-gna-tion,
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 332--332
+[]|\T1/ptm/m/n/10.95 Implémenter les
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 332--332
+\T1/ptm/m/n/10.95 end-points CRUD pour
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 332--332
+\T1/cmtt/m/n/10.95 VulnerabilityTask
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 332--332
+\T1/ptm/m/n/10.95 avec tran-si-tions d'état
+ []
+
+
+Overfull \hbox (32.68163pt too wide) in paragraph at lines 332--332
+\T1/ptm/m/n/10.95 (\T1/cmtt/m/n/10.95 open\T1/ptm/m/n/10.95 /\T1/cmtt/m/n/10.95
+ in_progress\T1/ptm/m/n/10.95 /\T1/cmtt/m/n/10.95 fixed\T1/ptm/m/n/10.95 /\T1/c
+mtt/m/n/10.95 verified\T1/ptm/m/n/10.95 ).| 
+ []
+
+
+Underfull \hbox (badness 2435) in paragraph at lines 332--332
+[]|\T1/ptm/m/n/10.95 Implémenter les com-men-taires
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 332--332
+\T1/ptm/m/n/10.95 (\T1/cmtt/m/n/10.95 VulnerabilityTaskComment\T1/ptm/m/n/10.95
+ )
+ []
+
+
+Underfull \hbox (badness 5050) in paragraph at lines 332--332
+[]|\T1/ptm/m/n/10.95 En tant que dé-ve-lop-peur ou
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 332--332
+\T1/ptm/m/n/10.95 Se-cu-rity Ma-na-ger, je peux
+ []
+
+
+Underfull \hbox (badness 3229) in paragraph at lines 332--332
+\T1/ptm/m/n/10.95 re-mé-dia-tion via l'as-sis-tant IA
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 332--332
+[]|\T1/ptm/m/n/10.95 Intégrer l'adap-ta-teur Ol-lama
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 332--332
+\T1/ptm/m/n/10.95 (mo-dèles Mis-tral/Qwen) pour
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 332--332
+[]|\T1/ptm/m/n/10.95 Persister la re-com-man-da-tion
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 332--332
+\T1/ptm/m/n/10.95 IA dans \T1/cmtt/m/n/10.95 Recommendation
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 332--332
+\T1/ptm/m/n/10.95 (ex-pli-ca-tion, exemple de
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 332--332
+[]|\T1/ptm/m/n/10.95 Implémenter la gé-né-ra-tion
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 332--332
+\T1/ptm/m/n/10.95 de \T1/cmtt/m/n/10.95 SecurityReport \T1/ptm/m/n/10.95 avec
+ []
+
+[79] [80]
+Package textcomp Info: Symbol \textrightarrow not provided by
+(textcomp)             font family ptm in TS1 encoding.
+(textcomp)             Default family used instead on input line 342.
+
+Underfull \hbox (badness 3229) in paragraph at lines 348--349
+[]\T1/ptm/b/n/12 Description. \T1/ptm/m/n/12 python-socketio est l'im-plé-men-t
+a-tion Py-thon du pro-to-cole So-cket.IO,
+ []
+
+
+Underfull \hbox (badness 2027) in paragraph at lines 350--351
+\T1/ptm/m/n/12 (\T1/cmtt/m/n/12 scan.status_changed\T1/ptm/m/n/12 , \T1/cmtt/m/
+n/12 vulnerability.found\T1/ptm/m/n/12 , \T1/cmtt/m/n/12 task.assigned\T1/ptm/m
+/n/12 ) via un ca-nal Re-dis
+ []
+
+
+Underfull \hbox (badness 2012) in paragraph at lines 360--361
+[]\T1/ptm/b/n/12 Justification. \T1/ptm/m/n/12 L'uti-li-sa-tion d'un LLM lo-cal
+ (Ol-lama) est un dif-fé-ren-cia-teur ma-jeur
+ []
+
+
+Underfull \hbox (badness 1189) in paragraph at lines 360--361
+\T1/ptm/m/n/12 sen-sible sans risque de fuite vers des four-nis-seurs cloud, ré
+-pon-dant aux exi-gences de
+ []
+
+[81]
+Underfull \hbox (badness 10000) in paragraph at lines 364--365
+[]\T1/ptm/b/n/12 Description. \T1/ptm/m/n/12 Re-port-Lab est une bi-blio-thèque
+ Py-thon per-met-tant la gé-né-ra-tion
+ []
+
+
+Underfull \hbox (badness 1024) in paragraph at lines 364--365
+\T1/ptm/m/n/12 pro-gram-ma-tique de do-cu-ments PDF, avec sup-port des ta-bleau
+x, gra-phiques et mise en
+ []
+
+
+Underfull \hbox (badness 1270) in paragraph at lines 416--416
+\T1/ptm/m/n/10.95 5. Les alertes ZAP sont col-lec-tées, nor-ma-li-sées et per-s
+is-tées comme
+ []
+
+[82]
+Package textcomp Info: Symbol \textrightarrow not provided by
+(textcomp)             font family ptm in TS1 encoding.
+(textcomp)             Default family used instead on input line 450.
+Package textcomp Info: Symbol \textrightarrow not provided by
+(textcomp)             font family ptm in TS1 encoding.
+(textcomp)             Default family used instead on input line 450.
+Package textcomp Info: Symbol \textrightarrow not provided by
+(textcomp)             font family ptm in TS1 encoding.
+(textcomp)             Default family used instead on input line 450.
+ [83]
+Underfull \hbox (badness 1635) in paragraph at lines 482--482
+\T1/ptm/m/n/10.95 pour une vul-né-ra-bi-lité don-née, via un LLM lo-cal (Ol-lam
+a, mo-dèles
+ []
+
+[84] [85]
+Package textcomp Info: Symbol \textrightarrow not provided by
+(textcomp)             font family ptm in TS1 encoding.
+(textcomp)             Default family used instead on input line 552.
+
+Underfull \hbox (badness 2635) in paragraph at lines 552--552
+[]|\T1/ptm/m/n/10.95 UUID (FK \TS1/cmr/m/n/10.95 ^^Y
+ []
+
+
+Underfull \hbox (badness 2772) in paragraph at lines 552--552
+[]|\T1/ptm/m/n/10.95 Score de risque agrégé (0.0--10.0,
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 552--552
+[]|\T1/ptm/m/n/10.95 Niveau de risque qua-li-ta-tif
+ []
+
+
+Overfull \hbox (4.10956pt too wide) in paragraph at lines 552--552
+[]|\T1/ptm/b/n/10.95 VulnerabilityTask| 
+ []
+
+
+Underfull \hbox (badness 2884) in paragraph at lines 552--552
+[]|\T1/ptm/m/n/10.95 Identifiant unique de la tâche de
+ []
+
+
+Overfull \hbox (4.10956pt too wide) in paragraph at lines 552--552
+[]|\T1/ptm/b/n/10.95 VulnerabilityTask| 
+ []
+
+Package textcomp Info: Symbol \textrightarrow not provided by
+(textcomp)             font family ptm in TS1 encoding.
+(textcomp)             Default family used instead on input line 552.
+
+Underfull \hbox (badness 2635) in paragraph at lines 552--552
+[]|\T1/ptm/m/n/10.95 UUID (FK \TS1/cmr/m/n/10.95 ^^Y
+ []
+
+
+Overfull \hbox (4.10956pt too wide) in paragraph at lines 552--552
+[]|\T1/ptm/b/n/10.95 VulnerabilityTask| 
+ []
+
+Package textcomp Info: Symbol \textrightarrow not provided by
+(textcomp)             font family ptm in TS1 encoding.
+(textcomp)             Default family used instead on input line 552.
+
+Underfull \hbox (badness 2635) in paragraph at lines 552--552
+[]|\T1/ptm/m/n/10.95 UUID (FK \TS1/cmr/m/n/10.95 ^^Y
+ []
+
+
+Overfull \hbox (4.10956pt too wide) in paragraph at lines 552--552
+[]|\T1/ptm/b/n/10.95 VulnerabilityTask| 
+ []
+
+
+Overfull \hbox (4.10956pt too wide) in paragraph at lines 552--552
+[]|\T1/ptm/b/n/10.95 VulnerabilityTask| 
+ []
+
+
+Overfull \hbox (4.10956pt too wide) in paragraph at lines 552--552
+[]|\T1/ptm/b/n/10.95 VulnerabilityTask| 
+ []
+
+
+Underfull \hbox (badness 1226) in paragraph at lines 552--552
+[]|\T1/ptm/m/n/10.95 Sévérité hé-ri-tée de la vul-né-ra-bi-lité
+ []
+
+
+Overfull \hbox (4.10956pt too wide) in paragraph at lines 552--552
+[]|\T1/ptm/b/n/10.95 VulnerabilityTask| 
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 552--552
+[]|\T1/ptm/m/n/10.95 État de la tâche
+ []
+
+
+Overfull \hbox (9.10191pt too wide) in paragraph at lines 552--552
+\T1/ptm/m/n/10.95 (\T1/cmtt/m/n/10.95 open\T1/ptm/m/n/10.95 /\T1/cmtt/m/n/10.95
+ in_progress\T1/ptm/m/n/10.95 /\T1/cmtt/m/n/10.95 fixed\T1/ptm/m/n/10.95 /\T1/c
+mtt/m/n/10.95 verified\T1/ptm/m/n/10.95 )| 
+ []
+
+
+Overfull \hbox (4.10956pt too wide) in paragraph at lines 552--552
+[]|\T1/ptm/b/n/10.95 VulnerabilityTask| 
+ []
+
+Package textcomp Info: Symbol \textrightarrow not provided by
+(textcomp)             font family ptm in TS1 encoding.
+(textcomp)             Default family used instead on input line 552.
+
+Underfull \hbox (badness 2635) in paragraph at lines 552--552
+[]|\T1/ptm/m/n/10.95 UUID (FK \TS1/cmr/m/n/10.95 ^^Y
+ []
+
+
+Overfull \hbox (4.10956pt too wide) in paragraph at lines 552--552
+[]|\T1/ptm/b/n/10.95 VulnerabilityTask| 
+ []
+
+
+Overfull \hbox (50.32916pt too wide) in paragraph at lines 552--552
+[]|\T1/ptm/b/n/10.95 VulnerabilityTaskComment| 
+ []
+
+
+Overfull \hbox (50.32916pt too wide) in paragraph at lines 552--552
+[]|\T1/ptm/b/n/10.95 VulnerabilityTaskComment| 
+ []
+
+Package textcomp Info: Symbol \textrightarrow not provided by
+(textcomp)             font family ptm in TS1 encoding.
+(textcomp)             Default family used instead on input line 552.
+
+Underfull \hbox (badness 2635) in paragraph at lines 552--552
+[]|\T1/ptm/m/n/10.95 UUID (FK \TS1/cmr/m/n/10.95 ^^Y
+ []
+
+
+Overfull \hbox (10.10513pt too wide) in paragraph at lines 552--552
+\T1/ptm/m/n/10.95 Vul-ne-ra-bi-li-ty-Task)| 
+ []
+
+
+Overfull \hbox (50.32916pt too wide) in paragraph at lines 552--552
+[]|\T1/ptm/b/n/10.95 VulnerabilityTaskComment| 
+ []
+
+Package textcomp Info: Symbol \textrightarrow not provided by
+(textcomp)             font family ptm in TS1 encoding.
+(textcomp)             Default family used instead on input line 552.
+
+Underfull \hbox (badness 2635) in paragraph at lines 552--552
+[]|\T1/ptm/m/n/10.95 UUID (FK \TS1/cmr/m/n/10.95 ^^Y
+ []
+
+
+Overfull \hbox (50.32916pt too wide) in paragraph at lines 552--552
+[]|\T1/ptm/b/n/10.95 VulnerabilityTaskComment| 
+ []
+
+
+Overfull \hbox (50.32916pt too wide) in paragraph at lines 552--552
+[]|\T1/ptm/b/n/10.95 VulnerabilityTaskComment| 
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 552--552
+[]|\T1/ptm/m/n/10.95 Horodatage de créa-tion du
+ []
+
+
+Overfull \hbox (2.44547pt too wide) in paragraph at lines 552--552
+[]|\T1/ptm/b/n/10.95 Recommendation| 
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 552--552
+[]|\T1/ptm/m/n/10.95 Identifiant unique de la
+ []
+
+
+Overfull \hbox (2.44547pt too wide) in paragraph at lines 552--552
+[]|\T1/ptm/b/n/10.95 Recommendation| 
+ []
+
+Package textcomp Info: Symbol \textrightarrow not provided by
+(textcomp)             font family ptm in TS1 encoding.
+(textcomp)             Default family used instead on input line 552.
+
+Underfull \hbox (badness 2635) in paragraph at lines 552--552
+[]|\T1/ptm/m/n/10.95 UUID (FK \TS1/cmr/m/n/10.95 ^^Y
+ []
+
+
+Overfull \hbox (2.44547pt too wide) in paragraph at lines 552--552
+[]|\T1/ptm/b/n/10.95 Recommendation| 
+ []
+
+
+Overfull \hbox (2.44547pt too wide) in paragraph at lines 552--552
+[]|\T1/ptm/b/n/10.95 Recommendation| 
+ []
+
+
+Overfull \hbox (2.44547pt too wide) in paragraph at lines 552--552
+[]|\T1/ptm/b/n/10.95 Recommendation| 
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 552--552
+[]|\T1/ptm/m/n/10.95 Référence CWE as-so-ciée à la
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 552--552
+[]|\T1/ptm/m/n/10.95 String
+ []
+
+Package textcomp Info: Symbol \textrightarrow not provided by
+(textcomp)             font family ptm in TS1 encoding.
+(textcomp)             Default family used instead on input line 552.
+
+Underfull \hbox (badness 2635) in paragraph at lines 552--552
+[]|\T1/ptm/m/n/10.95 UUID (FK \TS1/cmr/m/n/10.95 ^^Y
+ []
+
+
+Underfull \hbox (badness 6708) in paragraph at lines 552--552
+[]|\T1/ptm/m/n/10.95 Identifiant unique du rap-port de
+ []
+
+Package textcomp Info: Symbol \textrightarrow not provided by
+(textcomp)             font family ptm in TS1 encoding.
+(textcomp)             Default family used instead on input line 552.
+
+Underfull \hbox (badness 2635) in paragraph at lines 552--552
+[]|\T1/ptm/m/n/10.95 UUID (FK \TS1/cmr/m/n/10.95 ^^Y
+ []
+
+Package textcomp Info: Symbol \textrightarrow not provided by
+(textcomp)             font family ptm in TS1 encoding.
+(textcomp)             Default family used instead on input line 552.
+
+Underfull \hbox (badness 2635) in paragraph at lines 552--552
+[]|\T1/ptm/m/n/10.95 UUID (FK \TS1/cmr/m/n/10.95 ^^Y
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 552--552
+[]|\T1/ptm/m/n/10.95 Données du rap-port sé-ria-li-sées
+ []
+
+[86] [87]
+Overfull \vbox (308.3172pt too high) has occurred while \output is active []
+
+
+[88]
+Underfull \hbox (badness 1577) in paragraph at lines 559--560
+[]\T1/ptm/m/n/12 Le dia-gramme DS-4a (fi-gure []6.6[]) mo-dé-lise le flux DAST 
+se-lon la no-ta-tion BCE.
+ []
+
+
+Underfull \hbox (badness 1231) in paragraph at lines 559--560
+\T1/ptm/m/n/12 Après créa-tion de l'en-tité \T1/ptm/b/n/12 Scan \T1/ptm/m/n/12 
+(en-tity), le contrô-leur pu-blie la tâche dans Re-dis. Le
+ []
+
+
+Underfull \hbox (badness 1571) in paragraph at lines 570--571
+\T1/ptm/b/n/12 Vul-ne-ra-bi-li-ty-Pa-nel \T1/ptm/m/n/12 (boun-dary) sou-met les
+ ac-tions à \T1/ptm/b/n/12 Vuln-Work-flow-Con-trol-ler \T1/ptm/m/n/12 (control
+ []
+
+
+Underfull \hbox (badness 4242) in paragraph at lines 570--571
+\T1/ptm/m/n/12 ^^V end-points \T1/cmtt/m/n/12 POST/PUT /vulnerability-tasks\T1/
+ptm/m/n/12 ). Le contrô-leur met à jour l'en-tité
+ []
+
+
+Underfull \hbox (badness 1142) in paragraph at lines 570--571
+\T1/ptm/b/n/12 Vul-ne-ra-bi-li-ty-Task \T1/ptm/m/n/12 (en-tity), crée le \T1/pt
+m/b/n/12 Vul-ne-ra-bi-li-ty-Task-Comment \T1/ptm/m/n/12 (en-tity) et per-siste 
+une
+ []
+
+
+Underfull \hbox (badness 6775) in paragraph at lines 581--582
+\T1/ptm/m/n/12 (boun-dary) dé-clenche la re-quête vers \T1/ptm/b/n/12 LLM-Con-t
+rol-ler \T1/ptm/m/n/12 (control ^^V end-point \T1/cmtt/m/n/12 POST
+ []
+
+[89]
+Underfull \hbox (badness 1622) in paragraph at lines 594--595
+\T1/ptm/m/n/12 puis le scan ac-tif. Les alertes ZAP sont col-lec-tées après le 
+scan et nor-ma-li-sées par
+ []
+
+Package textcomp Info: Symbol \textrightarrow not provided by
+(textcomp)             font family ptm in TS1 encoding.
+(textcomp)             Default family used instead on input line 597.
+Package textcomp Info: Symbol \textrightarrow not provided by
+(textcomp)             font family ptm in TS1 encoding.
+(textcomp)             Default family used instead on input line 597.
+Package textcomp Info: Symbol \textrightarrow not provided by
+(textcomp)             font family ptm in TS1 encoding.
+(textcomp)             Default family used instead on input line 597.
+
+Underfull \hbox (badness 1221) in paragraph at lines 597--598
+[]\T1/ptm/m/n/12 Les \T1/cmtt/m/n/12 VulnerabilityTask \T1/ptm/m/n/12 mo-dé-lis
+ent le cycle de vie de la re-mé-dia-tion : \T1/cmtt/m/n/12 open \TS1/cmr/m/n/12
+ ^^Y
+ []
+
+
+Underfull \hbox (badness 1648) in paragraph at lines 597--598
+\T1/cmtt/m/n/12 in_progress \TS1/cmr/m/n/12 ^^Y \T1/cmtt/m/n/12 fixed \TS1/cmr/
+m/n/12 ^^Y \T1/cmtt/m/n/12 verified\T1/ptm/m/n/12 . L'as-si-gna-tion dé-clenche
+ une \T1/cmtt/m/n/12 Notification \T1/ptm/m/n/12 et
+ []
+
+Package textcomp Info: Symbol \textrightarrow not provided by
+(textcomp)             font family ptm in TS1 encoding.
+(textcomp)             Default family used instead on input line 631.
+Package textcomp Info: Symbol \textrightarrow not provided by
+(textcomp)             font family ptm in TS1 encoding.
+(textcomp)             Default family used instead on input line 631.
+
+Underfull \hbox (badness 3199) in paragraph at lines 631--631
+\T1/ptm/m/n/10.95 2. Ob-ser-ver les évé-ne-ments So-cket.IO : \T1/cmtt/m/n/10.9
+5 pending \TS1/cmr/m/n/10.95 ^^Y \T1/cmtt/m/n/10.95 running \TS1/cmr/m/n/10.95 
+^^Y
+ []
+
+[90] [91]
+Underfull \hbox (badness 5260) in paragraph at lines 667--668
+[]\T1/ptm/m/n/12 Le Sprint 4 a été dé-ve-loppé sur la branche \T1/cmtt/m/n/12 f
+eature/sprint4-dast-ia\T1/ptm/m/n/12 . Les
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 667--668
+\T1/ptm/m/n/12 mi-gra-tions Alem-bic ajou-tant les tables \T1/cmtt/m/n/12 risk_
+scores\T1/ptm/m/n/12 , \T1/cmtt/m/n/12 vulnerability_tasks\T1/ptm/m/n/12 ,
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 667--668
+\T1/cmtt/m/n/12 vulnerability_task_comments\T1/ptm/m/n/12 , \T1/cmtt/m/n/12 rec
+ommendations\T1/ptm/m/n/12 , \T1/cmtt/m/n/12 notifications \T1/ptm/m/n/12 et
+ []
+
+) [92]
+\openout2 = `chapters/13-Chapitre7.aux'.
+
+ (chapters/13-Chapitre7.tex
+Chapitre 7.
+
+Underfull \hbox (badness 10000) in paragraph at lines 2--2
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 2--2
+| \T1/ptm/b/n/26 Sprint 5 -- Da-sh-board,
+ []
+
+
+Underfull \hbox (badness 1087) in paragraph at lines 48--48
+\T1/ptm/m/n/10.95 dé-ve-lop-peur, je peux consul-ter
+ []
+
+
+Underfull \hbox (badness 3179) in paragraph at lines 48--48
+\T1/ptm/m/n/10.95 un ta-bleau de bord avec les
+ []
+
+
+Underfull \hbox (badness 2065) in paragraph at lines 48--48
+\T1/ptm/m/n/10.95 mé-triques de sé-cu-rité de mes
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 48--48
+[]|\T1/ptm/m/n/10.95 Implémenter \T1/cmtt/m/n/10.95 GET
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 48--48
+\T1/cmtt/m/n/10.95 /dashboard/stats \T1/ptm/m/n/10.95 avec
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 48--48
+\T1/ptm/m/n/10.95 agré-ga-tion des \T1/cmtt/m/n/10.95 RiskScore\T1/ptm/m/n/10.9
+5 ,
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 48--48
+[]|\T1/ptm/m/n/10.95 Implémenter \T1/cmtt/m/n/10.95 GET
+ []
+
+
+Underfull \hbox (badness 5050) in paragraph at lines 48--48
+[]|\T1/ptm/m/n/10.95 En tant que dé-ve-lop-peur ou
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 48--48
+\T1/ptm/m/n/10.95 Se-cu-rity Ma-na-ger, je peux
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 48--48
+\T1/ptm/m/n/10.95 ob-te-nir une re-com-man-da-tion
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 48--48
+\T1/ptm/m/n/10.95 IA contex-tua-li-sée pour une
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 48--48
+[]|\T1/ptm/m/n/10.95 Implémenter l'adap-ta-teur
+ []
+
+
+Underfull \hbox (badness 6625) in paragraph at lines 48--48
+\T1/ptm/m/n/10.95 avec construc-tion du prompt
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 48--48
+[]|\T1/ptm/m/n/10.95 Exposer \T1/cmtt/m/n/10.95 POST
+ []
+
+
+Overfull \hbox (13.31506pt too wide) in paragraph at lines 48--48
+\T1/cmtt/m/n/10.95 /vulnerabilities/{id}/assist
+ []
+
+
+Underfull \hbox (badness 6608) in paragraph at lines 48--48
+\T1/ptm/m/n/10.95 et per-sis-ter la ré-ponse dans
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 48--48
+[]|\T1/ptm/m/n/10.95 Implémenter la gé-né-ra-tion
+ []
+
+
+Underfull \hbox (badness 2538) in paragraph at lines 48--48
+\T1/ptm/m/n/10.95 PDF avec Re-port-Lab (ré-sumé
+ []
+
+
+Underfull \hbox (badness 1087) in paragraph at lines 48--48
+\T1/ptm/m/n/10.95 exé-cu-tif, score de risque, liste
+ []
+
+
+Underfull \hbox (badness 1721) in paragraph at lines 48--48
+\T1/ptm/m/n/10.95 des vul-né-ra-bi-li-tés par sé-vé-rité,
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 48--48
+[]|\T1/ptm/m/n/10.95 Implémenter la sé-ria-li-sa-tion
+ []
+
+
+Underfull \hbox (badness 8132) in paragraph at lines 48--48
+[]|\T1/ptm/m/n/10.95 Persister le \T1/cmtt/m/n/10.95 SecurityReport
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 48--48
+\T1/ptm/m/n/10.95 et ex-po-ser \T1/cmtt/m/n/10.95 GET
+ []
+
+
+Overfull \hbox (123.5616pt too wide) in paragraph at lines 48--48
+\T1/cmtt/m/n/10.95 /security-reports/{id}/download?format=pdf|json\T1/ptm/m/n/1
+0.95 .| 
+ []
+
+[93
+
+
+
+
+] [94]
+Underfull \hbox (badness 1275) in paragraph at lines 60--61
+[]\T1/ptm/b/n/12 Justification. \T1/ptm/m/n/12 L'uti-li-sa-tion d'un LLM lo-cal
+ (Ol-lama) est le dif-fé-ren-cia-teur prin-ci-pal
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 64--65
+[]\T1/ptm/b/n/12 Description. \T1/ptm/m/n/12 Re-port-Lab est une bi-blio-thèque
+ Py-thon per-met-tant la gé-né-ra-tion
+ []
+
+
+Underfull \hbox (badness 1960) in paragraph at lines 64--65
+\T1/ptm/m/n/12 pro-gram-ma-tique de do-cu-ments PDF, avec sup-port des ta-bleau
+x, gra-phiques vec-to-riels,
+ []
+
+
+Underfull \hbox (badness 1540) in paragraph at lines 72--73
+[]\T1/ptm/b/n/12 Description. \T1/ptm/m/n/12 Les mé-triques du ta-bleau de bord
+ (scores de risque, ten-dances, taux
+ []
+
+
+Underfull \hbox (badness 1635) in paragraph at lines 72--73
+\T1/ptm/m/n/12 de re-mé-dia-tion) re-quièrent des re-quêtes SQL agré-gées ef-fi
+-caces sur les tables \T1/cmtt/m/n/12 scans\T1/ptm/m/n/12 ,
+ []
+
+[95]
+Underfull \hbox (badness 10000) in paragraph at lines 122--122
+[]|\T1/ptm/m/n/10.95 Développeur (\T1/cmtt/m/n/10.95 developer\T1/ptm/m/n/10.95
+ ), Se-cu-rity Ma-na-ger (\T1/cmtt/m/n/10.95 security_manager\T1/ptm/m/n/10.95 
+),
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 122--122
+[]|\T1/ptm/m/n/10.95 1. L'uti-li-sa-teur ac-cède au ta-bleau de bord (\T1/cmtt/
+m/n/10.95 GET
+ []
+
+
+Underfull \hbox (badness 1728) in paragraph at lines 155--155
+[]|\T1/ptm/m/n/10.95 Obtenir une ex-pli-ca-tion contex-tuelle et un exemple de 
+code cor-rigé
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 155--155
+[]|\T1/cmtt/m/n/10.95 Recommendation \T1/ptm/m/n/10.95 per-sis-tée avec \T1/cmt
+t/m/n/10.95 explanation\T1/ptm/m/n/10.95 , \T1/cmtt/m/n/10.95 fix_example \T1/p
+tm/m/n/10.95 et
+ []
+
+
+Underfull \hbox (badness 1028) in paragraph at lines 155--155
+[]|\T1/ptm/m/n/10.95 3.a Ti-meout Ol-lama (mo-dèle non chargé ou sur-charge) : 
+HTTP 503,
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 155--155
+\T1/ptm/m/n/10.95 3.b Re-com-man-da-tion déjà exis-tante : le sys-tème re-tourn
+e la
+ []
+
+[96]
+Underfull \hbox (badness 1783) in paragraph at lines 188--188
+[]|\T1/ptm/m/n/10.95 Entité \T1/cmtt/m/n/10.95 SecurityReport \T1/ptm/m/n/10.95
+ créée. Fi-chier PDF ou JSON dis-po-nible au
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 188--188
+[]|\T1/ptm/m/n/10.95 1. Le Se-cu-rity Ma-na-ger sou-met \T1/cmtt/m/n/10.95 POST
+ /security-reports \T1/ptm/m/n/10.95 avec
+ []
+
+
+Underfull \hbox (badness 2376) in paragraph at lines 188--188
+\T1/ptm/m/n/10.95 3. Si PDF : Re-port-Lab gé-nère le do-cu-ment struc-turé et l
+e stocke
+ []
+
+[97]
+Underfull \hbox (badness 1127) in paragraph at lines 196--197
+[]\T1/ptm/m/n/12 Le dia-gramme de classes du Sprint 5 (fi-gure []7.2[]) mo-dé-l
+ise les en-ti-tés ana-ly-tiques.
+ []
+
+[98]
+Overfull \hbox (2.44547pt too wide) in paragraph at lines 243--243
+[]|\T1/ptm/b/n/10.95 Recommendation| 
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 243--243
+[]|\T1/ptm/m/n/10.95 Identifiant unique de la
+ []
+
+
+Overfull \hbox (2.44547pt too wide) in paragraph at lines 243--243
+[]|\T1/ptm/b/n/10.95 Recommendation| 
+ []
+
+Package textcomp Info: Symbol \textrightarrow not provided by
+(textcomp)             font family ptm in TS1 encoding.
+(textcomp)             Default family used instead on input line 243.
+
+Underfull \hbox (badness 2635) in paragraph at lines 243--243
+[]|\T1/ptm/m/n/10.95 UUID (FK \TS1/cmr/m/n/10.95 ^^Y
+ []
+
+
+Overfull \hbox (2.44547pt too wide) in paragraph at lines 243--243
+[]|\T1/ptm/b/n/10.95 Recommendation| 
+ []
+
+
+Overfull \hbox (2.44547pt too wide) in paragraph at lines 243--243
+[]|\T1/ptm/b/n/10.95 Recommendation| 
+ []
+
+
+Overfull \hbox (2.44547pt too wide) in paragraph at lines 243--243
+[]|\T1/ptm/b/n/10.95 Recommendation| 
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 243--243
+[]|\T1/ptm/m/n/10.95 Référence CWE as-so-ciée à la
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 243--243
+[]|\T1/ptm/m/n/10.95 String
+ []
+
+
+Overfull \hbox (2.44547pt too wide) in paragraph at lines 243--243
+[]|\T1/ptm/b/n/10.95 Recommendation| 
+ []
+
+
+Overfull \hbox (2.44547pt too wide) in paragraph at lines 243--243
+[]|\T1/ptm/b/n/10.95 Recommendation| 
+ []
+
+Package textcomp Info: Symbol \textrightarrow not provided by
+(textcomp)             font family ptm in TS1 encoding.
+(textcomp)             Default family used instead on input line 243.
+
+Underfull \hbox (badness 2635) in paragraph at lines 243--243
+[]|\T1/ptm/m/n/10.95 UUID (FK \TS1/cmr/m/n/10.95 ^^Y
+ []
+
+Package textcomp Info: Symbol \textrightarrow not provided by
+(textcomp)             font family ptm in TS1 encoding.
+(textcomp)             Default family used instead on input line 243.
+
+Underfull \hbox (badness 2635) in paragraph at lines 243--243
+[]|\T1/ptm/m/n/10.95 UUID (FK \TS1/cmr/m/n/10.95 ^^Y
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 243--243
+[]|\T1/ptm/m/n/10.95 Données du rap-port sé-ria-li-sées
+ []
+
+
+Underfull \hbox (badness 4060) in paragraph at lines 243--243
+[]|\T1/ptm/m/n/10.95 Score de risque du der-nier scan
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 243--243
+[]|\T1/ptm/m/n/10.95 Niveau qua-li-ta-tif
+ []
+
+
+Underfull \hbox (badness 3375) in paragraph at lines 243--243
+[]|\T1/ptm/m/n/10.95 Nombre de vul-né-ra-bi-li-tés à l'état
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 243--243
+[]|\T1/ptm/m/n/10.95 Décompte par sé-vé-rité (JSON :
+ []
+
+[99]
+Underfull \hbox (badness 1331) in paragraph at lines 250--251
+\T1/ptm/m/n/12 L'ac-tion \T1/ptm/m/it/12 As-sist with AI \T1/ptm/m/n/12 de-puis
+ \T1/ptm/b/n/12 Vuln-De-tail-Pa-nel \T1/ptm/m/n/12 (boun-dary) dé-clenche \T1/p
+tm/b/n/12 LLM-Con-trol-ler
+ []
+
+
+Underfull \hbox (badness 5637) in paragraph at lines 250--251
+\T1/ptm/m/n/12 (boun-dary) dé-clenche \T1/ptm/b/n/12 Re-port-Con-trol-ler \T1/p
+tm/m/n/12 (control ^^V \T1/cmtt/m/n/12 POST /security-reports\T1/ptm/m/n/12 ) q
+ui
+ []
+
+[100]
+Underfull \hbox (badness 3108) in paragraph at lines 263--264
+[]\T1/ptm/m/n/12 Les end-points du ta-bleau de bord agrègent les don-nées des e
+n-ti-tés \T1/cmtt/m/n/12 RiskScore\T1/ptm/m/n/12 ,
+ []
+
+
+Underfull \hbox (badness 3942) in paragraph at lines 269--270
+[]\T1/ptm/m/n/12 Le mo-dule de gé-né-ra-tion de rap-ports prend en en-trée les 
+filtres (\T1/cmtt/m/n/12 project_id\T1/ptm/m/n/12 ,
+ []
+
+[101]
+Underfull \hbox (badness 2005) in paragraph at lines 300--300
+\T1/ptm/m/n/10.95 avec les champs re-quis, et que les ap-pels re-don-dants re-t
+ournent la
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 300--300
+[]|\T1/ptm/m/n/10.95 1. En-voyer \T1/cmtt/m/n/10.95 POST /vulnerabilities/{id}/
+assist \T1/ptm/m/n/10.95 avec
+ []
+
+
+Underfull \hbox (badness 2556) in paragraph at lines 300--300
+\T1/ptm/m/n/10.95 3. Vé-ri-fier la créa-tion d'une en-tité \T1/cmtt/m/n/10.95 R
+ecommendation \T1/ptm/m/n/10.95 en base avec
+ []
+
+[102]) [103] (chapters/14-ConclusionGenerale.tex
 Underfull \hbox (badness 10000) in paragraph at lines 1--1
 
  []
 
-) (chapters/11-Bibliographie.tex [45
+
+Underfull \hbox (badness 7151) in paragraph at lines 7--8
+\T1/ptm/b/n/12 Bilan tech-nique. \T1/ptm/m/n/12 Sur le plan tech-nique, la pla-
+te-forme re-pose sur un en-semble
+ []
+
+
+Underfull \hbox (badness 2772) in paragraph at lines 7--8
+\T1/ptm/m/n/12 co-hé-rent de com-po-sants : une API REST asyn-chrone Fas-tAPI e
+x-po-sant plus d'une
+ []
+
+
+Underfull \hbox (badness 1117) in paragraph at lines 7--8
+\T1/cmtt/m/n/12 Scan\T1/ptm/m/n/12 , \T1/cmtt/m/n/12 Vulnerability\T1/ptm/m/n/1
+2 , \T1/cmtt/m/n/12 VulnerabilityTask\T1/ptm/m/n/12 , \T1/cmtt/m/n/12 Vulnerabi
+lityTaskComment\T1/ptm/m/n/12 , \T1/cmtt/m/n/12 RiskScore\T1/ptm/m/n/12 ,
+ []
+
+
+Underfull \hbox (badness 1194) in paragraph at lines 10--11
+\T1/ptm/m/n/12 source ana-lysé, sans trans-mis-sion vers des ser-veurs ex-terne
+s. Les re-com-man-da-tions de
+ []
+
+[104
 
 
 
-] (main.bbl
+]) (chapters/11-Bibliographie.tex [105] (main.bbl
 Underfull \hbox (badness 10000) in paragraph at lines 1--1
 
  []
 
-)) (chapters/10-DosDuRapport.tex [46
+)) (chapters/10-DosDuRapport.tex [106
 
 
-]) [47
+]) [107
 
 ]
-runsystem(latexminted cleantemp  --timestamp 20260527003006 FAD58DE7366495DB465
+runsystem(latexminted cleantemp  --timestamp 20260531153144 FAD58DE7366495DB465
 0CFEFAC2FCD61)...disabled (restricted).
 
  (main.aux
 (chapters/05-Chapitre1.aux) (chapters/06-Chapitre2.aux)
 (chapters/07-chapitre3.aux) (chapters/08-Chapitre4.aux)
-(chapters/09-Chapitre5.aux) (chapters/12-Chapitre6.aux))
+(chapters/09-Chapitre5.aux) (chapters/12-Chapitre6.aux)
+(chapters/13-Chapitre7.aux))
  ***********
 LaTeX2e <2023-11-01> patch level 1
 L3 programming layer <2024-01-04>
  ***********
 Package rerunfilecheck Info: File `main.out' has not changed.
-(rerunfilecheck)             Checksum: 4EC738C5AB572D632803008B918AA7A2;25524.
+(rerunfilecheck)             Checksum: ADBD335B3EFC3F0C6B701E77B8F84148;43901.
  ) 
 Here is how much of TeX's memory you used:
- 38938 strings out of 474486
- 791085 string characters out of 5744226
- 1956542 words of memory out of 5000000
- 60194 multiletter control sequences out of 15000+600000
- 647526 words of font info for 130 fonts, out of 8000000 for 9000
+ 39391 strings out of 474486
+ 798993 string characters out of 5744226
+ 1963542 words of memory out of 5000000
+ 60404 multiletter control sequences out of 15000+600000
+ 652993 words of font info for 129 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 100i,15n,108p,1003b,962s stack positions out of 10000i,1000n,20000p,200000b,200000s
- <C:\Users\Wiem\AppData\Local\MiKTeX\fonts/pk/ljfour/jknappen/ec/dpi600\ectt1
-200.pk><C:/Users/Wiem/AppData/Local/Programs/MiKTeX/fonts/type1/urw/times/utmb8
-a.pfb><C:/Users/Wiem/AppData/Local/Programs/MiKTeX/fonts/type1/urw/times/utmr8a
-.pfb><C:/Users/Wiem/AppData/Local/Programs/MiKTeX/fonts/type1/urw/times/utmri8a
-.pfb><C:/Users/Wiem/AppData/Local/Programs/MiKTeX/fonts/type1/urw/zapfding/uzdr
-.pfb>
-Output written on main.pdf (58 pages, 2193354 bytes).
+ 100i,15n,108p,1121b,962s stack positions out of 10000i,1000n,20000p,200000b,200000s
+ <C:\Users\Wiem\AppData\Local\MiKTeX\fonts/pk/ljfour/jknappen/ec/dpi600\tctt1
+200.pk> <C:\Users\Wiem\AppData\Local\MiKTeX\fonts/pk/ljfour/jknappen/ec/dpi600\
+tcrm1200.pk> <C:\Users\Wiem\AppData\Local\MiKTeX\fonts/pk/ljfour/jknappen/ec/dp
+i600\tcrm1095.pk> <C:\Users\Wiem\AppData\Local\MiKTeX\fonts/pk/ljfour/jknappen/
+ec/dpi600\ectt1440.pk> <C:\Users\Wiem\AppData\Local\MiKTeX\fonts/pk/ljfour/jkna
+ppen/ec/dpi600\tctt1095.pk> <C:\Users\Wiem\AppData\Local\MiKTeX\fonts/pk/ljfour
+/jknappen/ec/dpi600\ectt1095.pk> <C:\Users\Wiem\AppData\Local\MiKTeX\fonts/pk/l
+jfour/jknappen/ec/dpi600\ectt1200.pk><C:/Users/Wiem/AppData/Local/Programs/MiKT
+eX/fonts/type1/public/amsfonts/cm/cmmi12.pfb><C:/Users/Wiem/AppData/Local/Progr
+ams/MiKTeX/fonts/type1/public/amsfonts/cm/cmr12.pfb><C:/Users/Wiem/AppData/Loca
+l/Programs/MiKTeX/fonts/type1/urw/times/utmb8a.pfb><C:/Users/Wiem/AppData/Local
+/Programs/MiKTeX/fonts/type1/urw/times/utmbi8a.pfb><C:/Users/Wiem/AppData/Local
+/Programs/MiKTeX/fonts/type1/urw/times/utmr8a.pfb><C:/Users/Wiem/AppData/Local/
+Programs/MiKTeX/fonts/type1/urw/times/utmri8a.pfb><C:/Users/Wiem/AppData/Local/
+Programs/MiKTeX/fonts/type1/urw/zapfding/uzdr.pfb>
+Output written on main.pdf (122 pages, 2537270 bytes).
 PDF statistics:
- 1185 PDF objects out of 1200 (max. 8388607)
- 263 named destinations out of 1000 (max. 500000)
- 30919 words of extra memory for PDF output out of 35830 (max. 10000000)
+ 2298 PDF objects out of 2487 (max. 8388607)
+ 506 named destinations out of 1000 (max. 500000)
+ 26455 words of extra memory for PDF output out of 29859 (max. 10000000)
 

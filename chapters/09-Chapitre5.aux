@@ -1,35 +1,104 @@
 \relax 
 \providecommand\hyper@newdestlabel[2]{}
-\@writefile{toc}{\contentsline {chapter}{\numberline {5}Sprint 3 -- SAST et SCA}{37}{chapter.5}\protected@file@percent }
+\@writefile{toc}{\contentsline {chapter}{\numberline {5}Sprint 3 -- SAST et DAST}{50}{chapter.5}\protected@file@percent }
 \@writefile{lof}{\addvspace {10\p@ }}
 \@writefile{lot}{\addvspace {10\p@ }}
-\@writefile{toc}{\contentsline {section}{\numberline {5.1}Introduction}{37}{section.5.1}\protected@file@percent }
-\@writefile{toc}{\contentsline {section}{\numberline {5.2}Objectifs du sprint et planification des tâches}{37}{section.5.2}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{\numberline {5.2.1}Objectifs du sprint}{37}{subsection.5.2.1}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{\numberline {5.2.2}Sprint Backlog}{37}{subsection.5.2.2}\protected@file@percent }
-\@writefile{lot}{\contentsline {table}{\numberline {5.1}{\ignorespaces Sprint Backlog -- Sprint 3}}{37}{table.caption.40}\protected@file@percent }
-\newlabel{tab:sprint3-backlog}{{5.1}{37}{Sprint Backlog -- Sprint 3}{table.caption.40}{}}
-\@writefile{toc}{\contentsline {section}{\numberline {5.3}Analyse détaillée des besoins}{38}{section.5.3}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{\numberline {5.3.1}Diagramme de cas d'utilisation du sprint}{38}{subsection.5.3.1}\protected@file@percent }
-\@writefile{lof}{\contentsline {figure}{\numberline {5.1}{\ignorespaces Diagramme de cas d'utilisation -- Sprint 3 (placeholder).}}{38}{figure.caption.41}\protected@file@percent }
-\newlabel{fig:sprint3-use-case}{{5.1}{38}{Diagramme de cas d'utilisation -- Sprint 3 (placeholder)}{figure.caption.41}{}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {5.3.2}Description textuelle des cas d'utilisation}{38}{subsection.5.3.2}\protected@file@percent }
-\@writefile{toc}{\contentsline {section}{\numberline {5.4}Modélisation conceptuelle}{38}{section.5.4}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{\numberline {5.4.1}Diagramme de classes}{38}{subsection.5.4.1}\protected@file@percent }
-\@writefile{lof}{\contentsline {figure}{\numberline {5.2}{\ignorespaces Diagramme de classes -- Sprint 3 (placeholder).}}{38}{figure.caption.42}\protected@file@percent }
-\newlabel{fig:sprint3-class}{{5.2}{38}{Diagramme de classes -- Sprint 3 (placeholder)}{figure.caption.42}{}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {5.4.2}Diagrammes de séquence}{39}{subsection.5.4.2}\protected@file@percent }
-\@writefile{lof}{\contentsline {figure}{\numberline {5.3}{\ignorespaces Diagrammes de séquence -- Sprint 3 (placeholder).}}{39}{figure.caption.43}\protected@file@percent }
-\newlabel{fig:sprint3-seq}{{5.3}{39}{Diagrammes de séquence -- Sprint 3 (placeholder)}{figure.caption.43}{}}
-\@writefile{toc}{\contentsline {section}{\numberline {5.5}Réalisation}{39}{section.5.5}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{\numberline {5.5.1}Intégration SAST (Semgrep, Bandit)}{39}{subsection.5.5.1}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{\numberline {5.5.2}Intégration SCA (OSV)}{39}{subsection.5.5.2}\protected@file@percent }
-\@writefile{toc}{\contentsline {section}{\numberline {5.6}Test et validation}{39}{section.5.6}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{\numberline {5.6.1}Tests réalisés}{39}{subsection.5.6.1}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{\numberline {5.6.2}Validation}{39}{subsection.5.6.2}\protected@file@percent }
-\@writefile{toc}{\contentsline {section}{\numberline {5.7}Conclusion}{40}{section.5.7}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {5.1}Introduction}{50}{section.5.1}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {5.2}Objectifs du sprint et planification des tâches}{50}{section.5.2}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {5.2.1}Objectifs attendus}{50}{subsection.5.2.1}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {5.2.2}Sprint Backlog}{51}{subsection.5.2.2}\protected@file@percent }
+\@writefile{lot}{\contentsline {table}{\numberline {5.1}{\ignorespaces Sprint Backlog -- Sprint 3}}{51}{table.caption.49}\protected@file@percent }
+\newlabel{tab:sprint3-backlog}{{5.1}{51}{Sprint Backlog -- Sprint 3}{table.caption.49}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {5.3}Technologies et concepts utilisés}{51}{section.5.3}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {5.3.1}Semgrep (analyse statique polyglotte)}{51}{subsection.5.3.1}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {5.3.2}Bandit (inspection de sécurité Python)}{52}{subsection.5.3.2}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {5.3.3}Celery et Redis (orchestration asynchrone)}{52}{subsection.5.3.3}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {5.3.4}Socket.IO — \texttt  {python-socketio} (temps réel)}{52}{subsection.5.3.4}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {5.3.5}OWASP ZAP (analyse dynamique, mode daemon)}{52}{subsection.5.3.5}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {5.4}Analyse et spécification des besoins}{53}{section.5.4}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {5.4.1}Diagramme de cas d'utilisation du sprint}{53}{subsection.5.4.1}\protected@file@percent }
+\@writefile{lof}{\contentsline {figure}{\numberline {5.1}{\ignorespaces Diagramme de cas d'utilisation -- Sprint 3 (SAST et DAST).}}{53}{figure.caption.50}\protected@file@percent }
+\newlabel{fig:sprint3-use-case}{{5.1}{53}{Diagramme de cas d'utilisation -- Sprint 3 (SAST et DAST)}{figure.caption.50}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {5.4.2}Description détaillée des cas d'utilisation}{54}{subsection.5.4.2}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{\numberline {a)}Cas d'utilisation : Lancer un scan SAST}{54}{paragraph.5.4.2.0.1}\protected@file@percent }
+\@writefile{lot}{\contentsline {table}{\numberline {5.2}{\ignorespaces Description du cas d'utilisation -- Lancer un scan SAST}}{54}{table.caption.51}\protected@file@percent }
+\newlabel{tab:uc-sast}{{5.2}{54}{Description du cas d'utilisation -- Lancer un scan SAST}{table.caption.51}{}}
+\@writefile{toc}{\contentsline {paragraph}{\numberline {b)}Cas d'utilisation : Lancer un scan DAST}{55}{paragraph.5.4.2.0.2}\protected@file@percent }
+\@writefile{lot}{\contentsline {table}{\numberline {5.3}{\ignorespaces Description du cas d'utilisation -- Lancer un scan DAST}}{55}{table.caption.52}\protected@file@percent }
+\newlabel{tab:uc-dast}{{5.3}{55}{Description du cas d'utilisation -- Lancer un scan DAST}{table.caption.52}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {5.5}Modélisation conceptuelle}{55}{section.5.5}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {5.5.1}Diagramme de classes}{55}{subsection.5.5.1}\protected@file@percent }
+\@writefile{lof}{\contentsline {figure}{\numberline {5.2}{\ignorespaces Diagramme de classes -- Sprint 3 (Scan, Vulnerability, RiskScore avec enums).}}{56}{figure.caption.53}\protected@file@percent }
+\newlabel{fig:sprint3-class}{{5.2}{56}{Diagramme de classes -- Sprint 3 (Scan, Vulnerability, RiskScore avec enums)}{figure.caption.53}{}}
+\@writefile{toc}{\contentsline {paragraph}{\numberline {a)}Dictionnaire de données}{57}{paragraph.5.5.1.0.1}\protected@file@percent }
+\@writefile{lot}{\contentsline {table}{\numberline {5.4}{\ignorespaces Dictionnaire de données -- Sprint 3}}{57}{table.caption.54}\protected@file@percent }
+\newlabel{tab:dict-sprint3}{{5.4}{57}{Dictionnaire de données -- Sprint 3}{table.caption.54}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {5.5.2}Diagrammes de séquence}{57}{subsection.5.5.2}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{\numberline {a)}Diagramme DS-3a : Lancement SAST — Celery worker et Socket.IO}{57}{paragraph.5.5.2.0.1}\protected@file@percent }
+\@writefile{lof}{\contentsline {figure}{\numberline {5.3}{\ignorespaces Diagramme de séquence DS-3a -- Lancement SAST (Celery worker · Semgrep · Bandit · Socket.IO).}}{58}{figure.caption.55}\protected@file@percent }
+\newlabel{fig:sprint3-seq-sast}{{5.3}{58}{Diagramme de séquence DS-3a -- Lancement SAST (Celery worker · Semgrep · Bandit · Socket.IO)}{figure.caption.55}{}}
+\@writefile{toc}{\contentsline {paragraph}{\numberline {b)}Diagramme DS-3b : Lancement DAST — OWASP ZAP et score de risque}{58}{paragraph.5.5.2.0.2}\protected@file@percent }
+\@writefile{lof}{\contentsline {figure}{\numberline {5.4}{\ignorespaces Diagramme de séquence DS-3b -- Lancement DAST (OWASP ZAP · normalisation · score de risque).}}{58}{figure.caption.56}\protected@file@percent }
+\newlabel{fig:sprint3-seq-dast}{{5.4}{58}{Diagramme de séquence DS-3b -- Lancement DAST (OWASP ZAP · normalisation · score de risque)}{figure.caption.56}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {5.6}Réalisation}{58}{section.5.6}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {5.6.1}Pipeline SAST (Semgrep + Bandit)}{58}{subsection.5.6.1}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {5.6.2}Pipeline DAST (OWASP ZAP)}{59}{subsection.5.6.2}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {5.6.3}Suivi temps réel (Socket.IO)}{59}{subsection.5.6.3}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {5.7}Test et validation}{59}{section.5.7}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {5.7.1}Tests réalisés}{59}{subsection.5.7.1}\protected@file@percent }
+\@writefile{lot}{\contentsline {table}{\numberline {5.5}{\ignorespaces Tableau de test -- Scan SAST complet (Sprint 3)}}{59}{table.caption.57}\protected@file@percent }
+\newlabel{tab:test-sprint3-sast}{{5.5}{59}{Tableau de test -- Scan SAST complet (Sprint 3)}{table.caption.57}{}}
+\@writefile{lot}{\contentsline {table}{\numberline {5.6}{\ignorespaces Tableau de test -- Scan DAST et score de risque (Sprint 3)}}{60}{table.caption.58}\protected@file@percent }
+\newlabel{tab:test-sprint3-dast}{{5.6}{60}{Tableau de test -- Scan DAST et score de risque (Sprint 3)}{table.caption.58}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {5.7.2}Validation}{60}{subsection.5.7.2}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {5.7.3}Gestion des versions et commits}{60}{subsection.5.7.3}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {5.8}Conclusion}{60}{section.5.8}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {5.9}Introduction}{60}{section.5.9}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {5.10}Objectifs du sprint et planification des tâches}{61}{section.5.10}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {5.10.1}Objectifs attendus}{61}{subsection.5.10.1}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {5.10.2}Sprint Backlog}{62}{subsection.5.10.2}\protected@file@percent }
+\@writefile{lot}{\contentsline {table}{\numberline {5.7}{\ignorespaces Sprint Backlog -- Sprint 3}}{62}{table.caption.59}\protected@file@percent }
+\newlabel{tab:sprint3-backlog}{{5.7}{62}{Sprint Backlog -- Sprint 3}{table.caption.59}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {5.11}Technologies et concepts utilisés}{62}{section.5.11}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {5.11.1}Semgrep (analyse statique polyglotte)}{62}{subsection.5.11.1}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {5.11.2}Bandit (inspection de sécurité Python)}{63}{subsection.5.11.2}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {5.11.3}Celery et Redis (orchestration asynchrone)}{63}{subsection.5.11.3}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {5.12}Analyse et spécification des besoins}{63}{section.5.12}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {5.12.1}Diagramme de cas d'utilisation du sprint}{63}{subsection.5.12.1}\protected@file@percent }
+\@writefile{lof}{\contentsline {figure}{\numberline {5.5}{\ignorespaces Diagramme de cas d'utilisation -- Sprint 3.}}{64}{figure.caption.60}\protected@file@percent }
+\newlabel{fig:sprint3-use-case}{{5.5}{64}{Diagramme de cas d'utilisation -- Sprint 3}{figure.caption.60}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {5.12.2}Description détaillée des cas d'utilisation}{64}{subsection.5.12.2}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{\numberline {a)}Cas d'utilisation : Lancer un scan SAST}{64}{paragraph.5.12.2.0.1}\protected@file@percent }
+\@writefile{lot}{\contentsline {table}{\numberline {5.8}{\ignorespaces Description du cas d'utilisation -- Lancer un scan SAST}}{64}{table.caption.61}\protected@file@percent }
+\newlabel{tab:uc-sast}{{5.8}{64}{Description du cas d'utilisation -- Lancer un scan SAST}{table.caption.61}{}}
+\@writefile{toc}{\contentsline {paragraph}{\numberline {b)}Cas d'utilisation : Consulter le rapport SAST normalisé}{65}{paragraph.5.12.2.0.2}\protected@file@percent }
+\@writefile{lot}{\contentsline {table}{\numberline {5.9}{\ignorespaces Description du cas d'utilisation -- Consulter le rapport SAST normalisé}}{65}{table.caption.62}\protected@file@percent }
+\newlabel{tab:uc-sast-report}{{5.9}{65}{Description du cas d'utilisation -- Consulter le rapport SAST normalisé}{table.caption.62}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {5.13}Modélisation conceptuelle}{65}{section.5.13}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {5.13.1}Diagramme de classes}{65}{subsection.5.13.1}\protected@file@percent }
+\@writefile{lof}{\contentsline {figure}{\numberline {5.6}{\ignorespaces Diagramme de classes -- Sprint 3 (entités Scan, Vulnerability avec enums).}}{65}{figure.caption.63}\protected@file@percent }
+\newlabel{fig:sprint3-class}{{5.6}{65}{Diagramme de classes -- Sprint 3 (entités Scan, Vulnerability avec enums)}{figure.caption.63}{}}
+\@writefile{toc}{\contentsline {paragraph}{\numberline {a)}Dictionnaire de données}{66}{paragraph.5.13.1.0.1}\protected@file@percent }
+\@writefile{lot}{\contentsline {table}{\numberline {5.10}{\ignorespaces Dictionnaire de données -- Sprint 3}}{66}{table.caption.64}\protected@file@percent }
+\newlabel{tab:dict-sprint3}{{5.10}{66}{Dictionnaire de données -- Sprint 3}{table.caption.64}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {5.13.2}Diagrammes de séquence}{66}{subsection.5.13.2}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{\numberline {a)}Diagramme DS-3a : Lancer un scan SAST (orchestration Celery/Redis)}{66}{paragraph.5.13.2.0.1}\protected@file@percent }
+\@writefile{lof}{\contentsline {figure}{\numberline {5.7}{\ignorespaces Diagramme de séquence DS-3a -- Lancer un scan SAST (orchestration Celery/Redis).}}{67}{figure.caption.65}\protected@file@percent }
+\newlabel{fig:sprint3-seq-sast}{{5.7}{67}{Diagramme de séquence DS-3a -- Lancer un scan SAST (orchestration Celery/Redis)}{figure.caption.65}{}}
+\@writefile{toc}{\contentsline {paragraph}{\numberline {b)}Diagramme DS-3b : Suivi temps réel via Socket.IO}{67}{paragraph.5.13.2.0.2}\protected@file@percent }
+\@writefile{lof}{\contentsline {figure}{\numberline {5.8}{\ignorespaces Diagramme de séquence DS-3b -- Suivi temps réel Socket.IO (scopé par scan\_id).}}{67}{figure.caption.66}\protected@file@percent }
+\newlabel{fig:sprint3-seq-socket}{{5.8}{67}{Diagramme de séquence DS-3b -- Suivi temps réel Socket.IO (scopé par scan\_id)}{figure.caption.66}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {5.14}Réalisation}{67}{section.5.14}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {5.14.1}Intégration SAST (Semgrep, Bandit)}{67}{subsection.5.14.1}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {5.15}Test et validation}{68}{section.5.15}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {5.15.1}Tests réalisés}{68}{subsection.5.15.1}\protected@file@percent }
+\@writefile{lot}{\contentsline {table}{\numberline {5.11}{\ignorespaces Tableau de test -- Lancer un scan SAST (Sprint 3)}}{68}{table.caption.67}\protected@file@percent }
+\newlabel{tab:test-sprint3}{{5.11}{68}{Tableau de test -- Lancer un scan SAST (Sprint 3)}{table.caption.67}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {5.15.2}Validation}{68}{subsection.5.15.2}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {5.15.3}Gestion des versions et commits}{68}{subsection.5.15.3}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {5.16}Conclusion}{68}{section.5.16}\protected@file@percent }
 \@setckpt{chapters/09-Chapitre5}{
-\setcounter{page}{41}
+\setcounter{page}{70}
 \setcounter{equation}{0}
 \setcounter{enumi}{7}
 \setcounter{enumii}{0}
@@ -39,13 +108,13 @@
 \setcounter{mpfootnote}{0}
 \setcounter{part}{0}
 \setcounter{chapter}{5}
-\setcounter{section}{7}
+\setcounter{section}{16}
 \setcounter{subsection}{0}
 \setcounter{subsubsection}{0}
 \setcounter{paragraph}{0}
 \setcounter{subparagraph}{0}
-\setcounter{figure}{3}
-\setcounter{table}{1}
+\setcounter{figure}{8}
+\setcounter{table}{11}
 \setcounter{vslineno}{0}
 \setcounter{poemline}{0}
 \setcounter{fvsline}{0}
@@ -59,7 +128,7 @@
 \setcounter{section@level}{0}
 \setcounter{Item}{7}
 \setcounter{Hfootnote}{0}
-\setcounter{bookmark@seq@number}{120}
+\setcounter{bookmark@seq@number}{149}
 \setcounter{AM@survey}{0}
 \setcounter{vrcnt}{0}
 \setcounter{tcbbreakpart}{0}
@@ -67,7 +136,7 @@
 \setcounter{tcolorbox@number}{0}
 \setcounter{FancyVerbLine}{0}
 \setcounter{linenumber}{1}
-\setcounter{LN@truepage}{51}
+\setcounter{LN@truepage}{84}
 \setcounter{FancyVerbWriteLine}{0}
 \setcounter{FancyVerbBufferLine}{0}
 \setcounter{FV@TrueTabGroupLevel}{0}

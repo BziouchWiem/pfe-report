@@ -119,8 +119,9 @@ explicite en termes de sécurité ou de gouvernance.
   Semgrep et Bandit, avec normalisation des sorties hétérogènes vers un modèle commun.
   La maîtrise des faux positifs constitue l'enjeu principal.
 
-  \item \textbf{Analyse des dépendances (SCA)} : identification des composants tiers
-  vulnérables par interrogation de la base OSV, alignée sur les identifiants CVE.
+  \item \textbf{Extensibilité des moteurs} : capacité à brancher de nouveaux
+  scanners et à normaliser leurs sorties vers le même modèle commun, sans modifier
+  le cœur métier.
 
   \item \textbf{Analyse dynamique DAST} : pilotage du moteur OWASP ZAP par API REST,
   avec gestion du contexte applicatif et de l'authentification. La durée d'exécution
@@ -256,7 +257,7 @@ attendue.
 Les epics regroupent le backlog par grands domaines fonctionnels. L'epic
 \textit{Authentification et gouvernance} couvre la sécurité des accès et la gestion
 des rôles. L'epic \textit{Gestion des projets} englobe la configuration des cibles
-et des dépôts. L'epic \textit{Scans SAST/DAST/SCA} porte sur l'orchestration
+et des dépôts. L'epic \textit{Scans SAST/DAST} porte sur l'orchestration
 technique des analyses, tandis que l'epic \textit{Résultats, workflow et IA} regroupe
 la normalisation, le scoring, la remédiation assistée et les exports. Cette
 structuration favorise la lisibilité du backlog et facilite la planification
@@ -353,7 +354,7 @@ MoSCoW.
 \textbf{ID} & \textbf{Feature} & \textbf{US} & \textbf{User Story} & \textbf{Priorité} \\
 \hline
 \rowcolor{gray!10}
-\multicolumn{5}{c}{\textbf{Module Scans SAST / SCA / DAST et Orchestration}} \\
+\multicolumn{5}{c}{\textbf{Module Scans SAST / DAST et Orchestration}} \\
 \hline
 9 & SAST Semgrep/Bandit & 9.1
   & En tant que développeur, je veux lancer une analyse statique afin de détecter
@@ -361,19 +362,16 @@ MoSCoW.
 10 & Règles internes & 10.1
   & En tant que Security Manager, je veux appliquer des règles regex personnalisées
     afin d'adapter la détection aux spécificités du code interne. & S \\
-11 & SCA OSV & 11.1
-  & En tant que développeur, je veux analyser les dépendances via OSV afin
-    d'identifier les composants tiers présentant des vulnérabilités connues. & M \\
-12 & CLI scanner & 12.1
+11 & CLI scanner & 11.1
   & En tant que système CI/CD, je veux déclencher une analyse via la ligne de commande
     afin de l'intégrer directement dans la chaîne de livraison. & S \\
-13 & Orchestration asynchrone & 13.1
+12 & Orchestration asynchrone & 12.1
   & En tant que système, je veux que les scans soient mis en file d'attente via
     Celery/Redis afin de garantir la stabilité sous charge élevée. & M \\
-14 & DAST OWASP ZAP & 14.1
+13 & DAST OWASP ZAP & 13.1
   & En tant que développeur, je veux lancer une analyse dynamique via OWASP ZAP
     afin de détecter les failles d'exposition réelles de l'application. & M \\
-15 & Normalisation & 15.1
+14 & Normalisation & 14.1
   & En tant que Security Manager, je veux consulter des alertes normalisées selon
     une sévérité unifiée afin de prioriser la remédiation efficacement. & M \\
 \hline
@@ -461,9 +459,9 @@ La répartition des responsabilités au sein de l'équipe est la suivante :
 \end{itemize}
 
 Le planning détaillé est présenté au tableau~\ref{tab:sprints}. La progression suit
-une logique de construction en couches : fondations techniques, puis gouvernance des
-accès, puis gestion des projets, puis analyses de sécurité, et enfin restitution
-enrichie et automatisation.
+une logique de construction en couches : fondations techniques (Sprint~0), gouvernance des
+accès (Sprint~1), gestion des projets (Sprint~2), analyses de sécurité SAST et DAST (Sprint~3),
+workflow collaboratif de remédiation (Sprint~4), puis restitution analytique et assistance IA (Sprint~5).
 
 \begin{table}[H]
 \centering
@@ -494,16 +492,25 @@ enrichie et automatisation.
   & Gestion de projets fonctionnelle, intégration GitHub et clés API opérationnelles.
   & 3~semaines \\
 \hline
-3 & \textbf{SAST et SCA}
-  & Intégration Semgrep et Bandit, règles regex internes, analyse OSV, CLI~scanner,
-    normalisation des alertes.
-  & Pipeline SAST/SCA opérationnel, CLI fonctionnel.
+3 & \textbf{SAST et DAST}
+  & Intégration Semgrep et Bandit, CLI~scanner, normalisation des alertes SAST~;
+    intégration OWASP~ZAP en mode daemon, workers Celery/Redis, suivi temps réel
+    Socket.IO, scoring de risque.
+  & Pipeline SAST opérationnel, pipeline DAST asynchrone, score de risque calculé.
   & 3~semaines \\
 \hline
-4 & \textbf{DAST, orchestration et IA}
-  & Intégration OWASP~ZAP, workers Celery/Redis, suivi temps réel, scoring de risque,
-    workflow de vulnérabilités, assistant LLM local.
-  & Pipeline DAST asynchrone, scoring de risque, workflow et recommandations IA.
+4 & \textbf{Workflow de vulnérabilités}
+  & Synchronisation des tâches de remédiation, assignation aux développeurs,
+    machine d'états (\texttt{open\,→\,in\_progress\,→\,fixed\,→\,verified}),
+    commentaires collaboratifs, notifications temps réel.
+  & Système de gestion des tâches opérationnel, notifications Socket.IO fonctionnelles.
+  & 3~semaines \\
+\hline
+5 & \textbf{Dashboard, Recommandation LLM et Rapport}
+  & Tableau de bord agrégé (métriques, tendances)~; assistant IA local
+    (\textit{Assist with AI}) via Ollama (Mistral/Qwen)~;
+    génération de rapports de sécurité PDF/JSON (ReportLab).
+  & Dashboard opérationnel, recommandations IA persistées, rapports exportables.
   & 3~semaines \\
 \hline
 \end{tabularx}
@@ -663,7 +670,7 @@ maintenabilité, et accompagné d'une mise en perspective par rapport aux altern
 \hline
 \placeholderlogo
   & \textbf{Celery} \newline \small{Orchestration async.}
-  & Exécute les analyses SAST, SCA et DAST dans des workers isolés sans bloquer
+  & Exécute les analyses SAST et DAST dans des workers isolés sans bloquer
     l'API principale. Fournit un mécanisme de file d'attente, de retries
     configurables et de suivi d'exécution adapté aux tâches longues. La
     supervision des workers et la gestion fine de la concurrence constituent
@@ -700,12 +707,11 @@ maintenabilité, et accompagné d'une mise en perspective par rapport aux altern
     des règles constituent les enjeux principaux. \\
 \hline
 \placeholderlogo
-  & \textbf{OSV} \newline \small{SCA}
-  & Base de données ouverte de vulnérabilités maintenue collaborativement,
-    permettant d'identifier les composants tiers présentant des failles connues
-    alignées sur les identifiants CVE. La fréquence d'actualisation des
-    métadonnées et la gestion des faux positifs sont les contraintes
-    principales. \\
+  & \textbf{Semgrep / Bandit} \newline \small{SAST}
+  & Moteurs d'analyse statique complémentaires : Semgrep pour la détection
+    polyglotte par règles configurables, Bandit pour l'inspection spécialisée
+    du code Python. La maîtrise du taux de faux positifs et la maintenance
+    des règles constituent les enjeux principaux. \\
 \hline
 \placeholderlogo
   & \textbf{Ollama (Mistral / Qwen)} \newline \small{Assistant IA local}
@@ -739,7 +745,7 @@ responsabilités en quatre couches fonctionnelles :
   déclenchement des scans et de l'exposition des résultats via des endpoints REST
   documentés.
   \item \textbf{Couche d'orchestration} : exécution asynchrone des analyses longues
-  (SAST, SCA, DAST) via des workers Celery, avec file d'attente Redis et suivi
+  (SAST, DAST) via des workers Celery, avec file d'attente Redis et suivi
   de progression.
   \item \textbf{Couche de persistance} : stockage normalisé des vulnérabilités,
   de l'historique des scans et des artefacts d'audit dans PostgreSQL.

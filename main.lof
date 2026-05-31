@@ -9,26 +9,40 @@
 \contentsline {figure}{\numberline {1.7}{\ignorespaces Cycle Scrum appliqué au projet InvisiThreat.}}{9}{figure.caption.17}%
 \addvspace {10\p@ }
 \contentsline {figure}{\numberline {2.1}{\ignorespaces Diagramme de cas d'utilisation global d'InvisiThreat.}}{15}{figure.caption.19}%
-\contentsline {figure}{\numberline {2.2}{\ignorespaces Architecture logicielle en couches d'InvisiThreat.}}{24}{figure.caption.27}%
-\contentsline {figure}{\numberline {2.3}{\ignorespaces Architecture physique -- déploiement Docker Compose d'InvisiThreat.}}{25}{figure.caption.28}%
-\contentsline {figure}{\numberline {2.4}{\ignorespaces Diagramme de déploiement Docker Compose d'InvisiThreat.}}{25}{figure.caption.29}%
+\contentsline {figure}{\numberline {2.2}{\ignorespaces Architecture logicielle en couches d'InvisiThreat.}}{25}{figure.caption.27}%
+\contentsline {figure}{\numberline {2.3}{\ignorespaces Architecture physique -- déploiement Docker Compose d'InvisiThreat.}}{26}{figure.caption.28}%
+\contentsline {figure}{\numberline {2.4}{\ignorespaces Diagramme de déploiement Docker Compose d'InvisiThreat.}}{26}{figure.caption.29}%
 \addvspace {10\p@ }
-\contentsline {figure}{\numberline {3.1}{\ignorespaces Diagramme de cas d'utilisation -- Sprint 1 (placeholder).}}{28}{figure.caption.31}%
-\contentsline {figure}{\numberline {3.2}{\ignorespaces Diagramme de classes -- Sprint 1 (placeholder).}}{29}{figure.caption.32}%
-\contentsline {figure}{\numberline {3.3}{\ignorespaces Diagrammes de séquence -- Sprint 1 (placeholder).}}{29}{figure.caption.33}%
-\contentsline {figure}{\numberline {3.4}{\ignorespaces Diagramme IA/LLM (placeholder).}}{31}{figure.caption.34}%
-\contentsline {figure}{\numberline {3.5}{\ignorespaces Diagramme d'activités (placeholder).}}{31}{figure.caption.35}%
+\contentsline {figure}{\numberline {3.1}{\ignorespaces Diagramme de cas d'utilisation -- Sprint 1.}}{31}{figure.caption.31}%
+\contentsline {figure}{\numberline {3.2}{\ignorespaces Diagramme de classes -- Sprint 1 (entités User, Role, AuthToken, AuditLog).}}{34}{figure.caption.34}%
+\contentsline {figure}{\numberline {3.3}{\ignorespaces Diagramme de séquence DS-1a -- S'authentifier (JWT + TOTP optionnel).}}{36}{figure.caption.36}%
+\contentsline {figure}{\numberline {3.4}{\ignorespaces Diagramme de séquence DS-1b -- Attribution de rôle (RBAC).}}{36}{figure.caption.37}%
 \addvspace {10\p@ }
-\contentsline {figure}{\numberline {4.1}{\ignorespaces Diagramme de cas d'utilisation -- Sprint 2 (placeholder).}}{34}{figure.caption.37}%
-\contentsline {figure}{\numberline {4.2}{\ignorespaces Diagramme de classes -- Sprint 2 (placeholder).}}{34}{figure.caption.38}%
-\contentsline {figure}{\numberline {4.3}{\ignorespaces Diagrammes de séquence -- Sprint 2 (placeholder).}}{35}{figure.caption.39}%
+\contentsline {figure}{\numberline {4.1}{\ignorespaces Diagramme de cas d'utilisation -- Sprint 2.}}{43}{figure.caption.41}%
+\contentsline {figure}{\numberline {4.2}{\ignorespaces Diagramme de classes -- Sprint 2 (entités Project, GitHubRepository, ProjectMember, UserAPIKey).}}{45}{figure.caption.44}%
+\contentsline {figure}{\numberline {4.3}{\ignorespaces Diagramme de séquence DS-2a -- Créer un projet.}}{47}{figure.caption.46}%
+\contentsline {figure}{\numberline {4.4}{\ignorespaces Diagramme de séquence DS-2b -- Connecter un dépôt GitHub (chiffrement Fernet du token).}}{47}{figure.caption.47}%
 \addvspace {10\p@ }
-\contentsline {figure}{\numberline {5.1}{\ignorespaces Diagramme de cas d'utilisation -- Sprint 3 (placeholder).}}{38}{figure.caption.41}%
-\contentsline {figure}{\numberline {5.2}{\ignorespaces Diagramme de classes -- Sprint 3 (placeholder).}}{38}{figure.caption.42}%
-\contentsline {figure}{\numberline {5.3}{\ignorespaces Diagrammes de séquence -- Sprint 3 (placeholder).}}{39}{figure.caption.43}%
+\contentsline {figure}{\numberline {5.1}{\ignorespaces Diagramme de cas d'utilisation -- Sprint 3 (SAST et DAST).}}{53}{figure.caption.50}%
+\contentsline {figure}{\numberline {5.2}{\ignorespaces Diagramme de classes -- Sprint 3 (Scan, Vulnerability, RiskScore avec enums).}}{56}{figure.caption.53}%
+\contentsline {figure}{\numberline {5.3}{\ignorespaces Diagramme de séquence DS-3a -- Lancement SAST (Celery worker · Semgrep · Bandit · Socket.IO).}}{58}{figure.caption.55}%
+\contentsline {figure}{\numberline {5.4}{\ignorespaces Diagramme de séquence DS-3b -- Lancement DAST (OWASP ZAP · normalisation · score de risque).}}{58}{figure.caption.56}%
+\contentsline {figure}{\numberline {5.5}{\ignorespaces Diagramme de cas d'utilisation -- Sprint 3.}}{64}{figure.caption.60}%
+\contentsline {figure}{\numberline {5.6}{\ignorespaces Diagramme de classes -- Sprint 3 (entités Scan, Vulnerability avec enums).}}{65}{figure.caption.63}%
+\contentsline {figure}{\numberline {5.7}{\ignorespaces Diagramme de séquence DS-3a -- Lancer un scan SAST (orchestration Celery/Redis).}}{67}{figure.caption.65}%
+\contentsline {figure}{\numberline {5.8}{\ignorespaces Diagramme de séquence DS-3b -- Suivi temps réel Socket.IO (scopé par scan\_id).}}{67}{figure.caption.66}%
 \addvspace {10\p@ }
-\contentsline {figure}{\numberline {6.1}{\ignorespaces Diagramme de cas d'utilisation -- Sprint 4 (placeholder).}}{42}{figure.caption.45}%
-\contentsline {figure}{\numberline {6.2}{\ignorespaces Diagramme de classes -- Sprint 4 (placeholder).}}{42}{figure.caption.46}%
-\contentsline {figure}{\numberline {6.3}{\ignorespaces Diagrammes de séquence -- Sprint 4 (placeholder).}}{43}{figure.caption.47}%
+\contentsline {figure}{\numberline {6.1}{\ignorespaces Diagramme de cas d'utilisation -- Sprint 4 (Workflow de vulnérabilités).}}{73}{figure.caption.69}%
+\contentsline {figure}{\numberline {6.2}{\ignorespaces Diagramme de classes -- Sprint 4 (VulnerabilityTask, VulnerabilityTaskComment, Notification).}}{75}{figure.caption.72}%
+\contentsline {figure}{\numberline {6.3}{\ignorespaces Diagramme de séquence DS-4 -- Sync tâches · Assignation · Statut · Notification.}}{77}{figure.caption.74}%
+\contentsline {figure}{\numberline {6.4}{\ignorespaces Diagramme de cas d'utilisation -- Sprint 4.}}{82}{figure.caption.77}%
+\contentsline {figure}{\numberline {6.5}{\ignorespaces Diagramme de classes -- Sprint 4 (entités RiskScore, VulnerabilityTask, VulnerabilityTaskComment, Recommendation, Notification, SecurityReport).}}{86}{figure.caption.81}%
+\contentsline {figure}{\numberline {6.6}{\ignorespaces Diagramme de séquence DS-4a -- Scan DAST via OWASP ZAP.}}{89}{figure.caption.83}%
+\contentsline {figure}{\numberline {6.7}{\ignorespaces Diagramme de séquence DS-4b -- Workflow de vulnérabilité (assignation, transition d'état).}}{89}{figure.caption.84}%
+\contentsline {figure}{\numberline {6.8}{\ignorespaces Diagramme de séquence DS-4c -- Recommandation IA via Ollama (action Assist with AI).}}{90}{figure.caption.85}%
+\addvspace {10\p@ }
+\contentsline {figure}{\numberline {7.1}{\ignorespaces Diagramme de cas d'utilisation -- Sprint 5 (Dashboard · Recommandation LLM · Rapport).}}{96}{figure.caption.89}%
+\contentsline {figure}{\numberline {7.2}{\ignorespaces Diagramme de classes -- Sprint 5 (Recommendation, SecurityReport, DashboardStats).}}{99}{figure.caption.93}%
+\contentsline {figure}{\numberline {7.3}{\ignorespaces Diagramme de séquence DS-5 -- Dashboard · Recommandation LLM (Ollama) · Génération de rapport (ReportLab).}}{101}{figure.caption.95}%
 \contentsfinish 
 \contentsfinish 

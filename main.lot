@@ -8,17 +8,55 @@
 \contentsline {table}{\numberline {2.2}{\ignorespaces Product Backlog -- Gouvernance et gestion des accès}}{17}{table.caption.20}%
 \contentsline {table}{\numberline {2.3}{\ignorespaces Product Backlog -- Scans et orchestration}}{18}{table.caption.21}%
 \contentsline {table}{\numberline {2.4}{\ignorespaces Product Backlog -- Workflow, IA, reporting et CI/CD}}{19}{table.caption.22}%
-\contentsline {table}{\numberline {2.5}{\ignorespaces Planification et livrables des sprints InvisiThreat}}{20}{table.caption.23}%
-\contentsline {table}{\numberline {2.6}{\ignorespaces Configuration matérielle des postes de travail}}{21}{table.caption.24}%
-\contentsline {table}{\numberline {2.7}{\ignorespaces Environnement logiciel utilisé pour le développement}}{22}{table.caption.25}%
-\contentsline {table}{\numberline {2.8}{\ignorespaces Stack technique d'InvisiThreat -- technologies et justifications}}{23}{table.caption.26}%
+\contentsline {table}{\numberline {2.5}{\ignorespaces Planification et livrables des sprints InvisiThreat}}{21}{table.caption.23}%
+\contentsline {table}{\numberline {2.6}{\ignorespaces Configuration matérielle des postes de travail}}{22}{table.caption.24}%
+\contentsline {table}{\numberline {2.7}{\ignorespaces Environnement logiciel utilisé pour le développement}}{23}{table.caption.25}%
+\contentsline {table}{\numberline {2.8}{\ignorespaces Stack technique d'InvisiThreat -- technologies et justifications}}{24}{table.caption.26}%
 \addvspace {10\p@ }
-\contentsline {table}{\numberline {3.1}{\ignorespaces Sprint Backlog -- Sprint 1}}{27}{table.caption.30}%
+\contentsline {table}{\numberline {3.1}{\ignorespaces Sprint Backlog -- Sprint 1}}{29}{table.caption.30}%
+\contentsline {table}{\numberline {3.2}{\ignorespaces Description du cas d'utilisation -- S'authentifier}}{32}{table.caption.32}%
+\contentsline {table}{\numberline {3.3}{\ignorespaces Description du cas d'utilisation -- Attribuer un rôle}}{33}{table.caption.33}%
+\contentsline {table}{\numberline {3.4}{\ignorespaces Dictionnaire de données -- Sprint 1}}{35}{table.caption.35}%
+\contentsline {table}{\numberline {3.5}{\ignorespaces Tableau de test -- S'authentifier (Sprint 1)}}{38}{table.caption.38}%
+\contentsline {table}{\numberline {3.6}{\ignorespaces Tableau de test -- Attribution de rôle (Sprint 1)}}{38}{table.caption.39}%
 \addvspace {10\p@ }
-\contentsline {table}{\numberline {4.1}{\ignorespaces Sprint Backlog -- Sprint 2}}{33}{table.caption.36}%
+\contentsline {table}{\numberline {4.1}{\ignorespaces Sprint Backlog -- Sprint 2}}{41}{table.caption.40}%
+\contentsline {table}{\numberline {4.2}{\ignorespaces Description du cas d'utilisation -- Créer un projet}}{43}{table.caption.42}%
+\contentsline {table}{\numberline {4.3}{\ignorespaces Description du cas d'utilisation -- Connecter un dépôt GitHub}}{44}{table.caption.43}%
+\contentsline {table}{\numberline {4.4}{\ignorespaces Dictionnaire de données -- Sprint 2}}{46}{table.caption.45}%
+\contentsline {table}{\numberline {4.5}{\ignorespaces Tableau de test -- Créer un projet (Sprint 2)}}{48}{table.caption.48}%
 \addvspace {10\p@ }
-\contentsline {table}{\numberline {5.1}{\ignorespaces Sprint Backlog -- Sprint 3}}{37}{table.caption.40}%
+\contentsline {table}{\numberline {5.1}{\ignorespaces Sprint Backlog -- Sprint 3}}{51}{table.caption.49}%
+\contentsline {table}{\numberline {5.2}{\ignorespaces Description du cas d'utilisation -- Lancer un scan SAST}}{54}{table.caption.51}%
+\contentsline {table}{\numberline {5.3}{\ignorespaces Description du cas d'utilisation -- Lancer un scan DAST}}{55}{table.caption.52}%
+\contentsline {table}{\numberline {5.4}{\ignorespaces Dictionnaire de données -- Sprint 3}}{57}{table.caption.54}%
+\contentsline {table}{\numberline {5.5}{\ignorespaces Tableau de test -- Scan SAST complet (Sprint 3)}}{59}{table.caption.57}%
+\contentsline {table}{\numberline {5.6}{\ignorespaces Tableau de test -- Scan DAST et score de risque (Sprint 3)}}{60}{table.caption.58}%
+\contentsline {table}{\numberline {5.7}{\ignorespaces Sprint Backlog -- Sprint 3}}{62}{table.caption.59}%
+\contentsline {table}{\numberline {5.8}{\ignorespaces Description du cas d'utilisation -- Lancer un scan SAST}}{64}{table.caption.61}%
+\contentsline {table}{\numberline {5.9}{\ignorespaces Description du cas d'utilisation -- Consulter le rapport SAST normalisé}}{65}{table.caption.62}%
+\contentsline {table}{\numberline {5.10}{\ignorespaces Dictionnaire de données -- Sprint 3}}{66}{table.caption.64}%
+\contentsline {table}{\numberline {5.11}{\ignorespaces Tableau de test -- Lancer un scan SAST (Sprint 3)}}{68}{table.caption.67}%
 \addvspace {10\p@ }
-\contentsline {table}{\numberline {6.1}{\ignorespaces Sprint Backlog -- Sprint 4}}{41}{table.caption.44}%
+\contentsline {table}{\numberline {6.1}{\ignorespaces Sprint Backlog -- Sprint 4}}{71}{table.caption.68}%
+\contentsline {table}{\numberline {6.2}{\ignorespaces Description du cas d'utilisation -- Créer et assigner une tâche}}{73}{table.caption.70}%
+\contentsline {table}{\numberline {6.3}{\ignorespaces Description du cas d'utilisation -- Transition d'état}}{74}{table.caption.71}%
+\contentsline {table}{\numberline {6.4}{\ignorespaces Dictionnaire de données -- Sprint 4}}{76}{table.caption.73}%
+\contentsline {table}{\numberline {6.5}{\ignorespaces Tableau de test -- Cycle complet de remédiation (Sprint 4)}}{78}{table.caption.75}%
+\contentsline {table}{\numberline {6.6}{\ignorespaces Sprint Backlog -- Sprint 4}}{80}{table.caption.76}%
+\contentsline {table}{\numberline {6.7}{\ignorespaces Description du cas d'utilisation -- Lancer un scan DAST}}{83}{table.caption.78}%
+\contentsline {table}{\numberline {6.8}{\ignorespaces Description du cas d'utilisation -- Workflow de vulnérabilité}}{84}{table.caption.79}%
+\contentsline {table}{\numberline {6.9}{\ignorespaces Description du cas d'utilisation -- Recommandation IA (Ollama)}}{85}{table.caption.80}%
+\contentsline {table}{\numberline {6.10}{\ignorespaces Dictionnaire de données -- Sprint 4}}{88}{table.caption.82}%
+\contentsline {table}{\numberline {6.11}{\ignorespaces Tableau de test -- Scan DAST et recommandation IA (Sprint 4)}}{91}{table.caption.86}%
+\contentsline {table}{\numberline {6.12}{\ignorespaces Tableau de test -- Workflow de vulnérabilité (Sprint 4)}}{91}{table.caption.87}%
+\addvspace {10\p@ }
+\contentsline {table}{\numberline {7.1}{\ignorespaces Sprint Backlog -- Sprint 5}}{94}{table.caption.88}%
+\contentsline {table}{\numberline {7.2}{\ignorespaces Description du cas d'utilisation -- Consulter le tableau de bord}}{96}{table.caption.90}%
+\contentsline {table}{\numberline {7.3}{\ignorespaces Description du cas d'utilisation -- Recommandation IA (Ollama)}}{97}{table.caption.91}%
+\contentsline {table}{\numberline {7.4}{\ignorespaces Description du cas d'utilisation -- Générer un rapport}}{98}{table.caption.92}%
+\contentsline {table}{\numberline {7.5}{\ignorespaces Dictionnaire de données -- Sprint 5}}{100}{table.caption.94}%
+\contentsline {table}{\numberline {7.6}{\ignorespaces Tableau de test -- Recommandation LLM (Sprint 5)}}{102}{table.caption.96}%
+\contentsline {table}{\numberline {7.7}{\ignorespaces Tableau de test -- Génération de rapport PDF (Sprint 5)}}{103}{table.caption.97}%
 \contentsfinish 
 \contentsfinish 
