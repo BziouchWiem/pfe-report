@@ -324,13 +324,13 @@ MoSCoW.
 \multicolumn{5}{c}{\textbf{Module Projets et Intégrations}} \\
 \hline
 5 & Gestion des projets & 5.1
-  & En tant qu'administrateur, je veux créer un projet et définir ses URLs cibles
+  & En tant que développeur, je veux créer un projet et définir ses URLs cibles
     afin de centraliser la configuration des analyses. & M \\
 5 & Gestion des projets & 5.2
-  & En tant qu'administrateur, je veux configurer les paramètres de scan par projet
+  & En tant que développeur, je veux configurer les paramètres de scan par projet
     afin d'adapter les analyses au contexte applicatif. & S \\
 6 & Gestion des membres & 6.1
-  & En tant qu'administrateur, je veux inviter des membres et leur attribuer des rôles
+  & En tant que développeur, je veux inviter des membres et leur attribuer des rôles
     afin de structurer la collaboration sur la plateforme. & S \\
 7 & GitHub OAuth & 7.1
   & En tant que développeur, je veux connecter un dépôt GitHub via OAuth afin
@@ -380,17 +380,11 @@ MoSCoW.
 
 \begin{table}[H]
 \centering
-\caption{Product Backlog -- Workflow, IA, reporting et CI/CD}
+\caption{Product Backlog -- Workflow, IA et reporting}
 \label{tab:backlog-ia-notifications}
 \small
 \renewcommand{\arraystretch}{1.2}
-\begin{tabularx}{\textwidth}{c X c X c}
-\hline
-\rowcolor{gray!15}
-\textbf{ID} & \textbf{Feature} & \textbf{US} & \textbf{User Story} & \textbf{Priorité} \\
-\hline
-\rowcolor{gray!10}
-\multicolumn{5}{c}{\textbf{Module Workflow, IA et Reporting}} \\
+\begin{tabularx}{\textwidth}{c X c X c} \\
 \hline
 16 & Assistant IA local & 16.1
   & En tant que développeur, je veux obtenir une explication et une recommandation
@@ -399,8 +393,10 @@ MoSCoW.
   & En tant que Security Manager, je veux consulter un score de risque par projet
     afin de prioriser les efforts de sécurité selon des critères objectifs. & M \\
 18 & Workflow vulnérabilités & 18.1
-  & En tant que développeur, je veux changer l'état d'une vulnérabilité et l'assigner
+  & En tant que Security Manager, je veux changer l'état d'une vulnérabilité et l'assigner
     à un responsable afin de structurer le processus de remédiation. & M \\
+18 & Workflow vulnérabilités & 18.2
+  & En tant que développeur, je veux changer l'état d'une vulnérabilité. & M \\
 19 & Dashboard global & 19.1
   & En tant que Security Manager, je veux visualiser un tableau de bord consolidé
     afin d'avoir une vue d'ensemble du niveau de risque sur l'ensemble des projets. & S \\
@@ -413,6 +409,20 @@ MoSCoW.
 22 & Historique comparatif & 22.1
   & En tant que Security Manager, je veux comparer les résultats de scan entre
     versions afin de mesurer la progression de la maturité sécurité. & S \\
+\hline
+\end{tabularx}
+\end{table}
+
+\begin{table}[H]
+\centering
+\caption{Product Backlog -- CI/CD et notifications}
+\label{tab:backlog-cicd-notif}
+\small
+\renewcommand{\arraystretch}{1.2}
+\begin{tabularx}{\textwidth}{c X c X c}
+\hline
+\rowcolor{gray!15}
+\textbf{ID} & \textbf{Feature} & \textbf{US} & \textbf{User Story} & \textbf{Priorité} \\
 \hline
 \rowcolor{gray!10}
 \multicolumn{5}{c}{\textbf{Module CI/CD et Notifications}} \\
@@ -443,7 +453,7 @@ MoSCoW.
 La planification de sprint répond à deux questions fondamentales : qu'est-ce qui peut
 être livré à l'issue de ce sprint ? Et de quelle façon le travail sélectionné
 sera-t-il conduit ? Pour InvisiThreat, la durée totale du projet a été estimée à
-\textbf{quatre mois}, découpée en cinq sprints de deux à trois semaines chacun,
+\textbf{quatre mois}, découpée en six sprints de deux à trois semaines chacun,
 conformément aux préconisations Scrum pour des projets de taille intermédiaire.
 
 La répartition des responsabilités au sein de l'équipe est la suivante :
@@ -585,23 +595,18 @@ stack technique déployée en production.
   & Exécution locale des conteneurs pour reproduire fidèlement l'environnement
     de production et éviter les conflits de dépendances. \\
 \hline
-\placeholderlogo
-  & \textbf{Postman}
-  & Test des endpoints REST, validation des payloads et reproduction des scénarios
-    de scan pour vérifier les contrats d'API. \\
-\hline
 \logocell{images/logos/Draw.png}
   & \textbf{Draw.io}
   & Modélisation des diagrammes UML : cas d'utilisation, déploiement et architecture
     logique. \\
 \hline
 \placeholderlogo
-  & \textbf{Trello / Jira / ClickUp}
+  & \textbf{Microsoft Teams}
   & Gestion du Product Backlog, suivi de l'avancement des sprints et tableaux Kanban
     partagés entre les membres de l'équipe. \\
 \hline
 \placeholderlogo
-  & \textbf{Chrome / Firefox DevTools}
+  & \textbf{Chrome / Brave DevTools}
   & Validation de l'interface React, inspection des requêtes réseau et analyse des
     performances côté client. \\
 \hline
@@ -818,7 +823,7 @@ Ce chapitre a posé les fondations méthodologiques et techniques du projet Invi
 L'identification des acteurs et la spécification exhaustive des besoins fonctionnels
 et non fonctionnels ont permis de délimiter précisément le périmètre de la plateforme.
 La structuration du Product Backlog selon une priorisation MoSCoW et la planification
-en cinq sprints garantissent une progression maîtrisée, alignée sur la valeur métier
+en six sprints garantissent une progression maîtrisée, alignée sur la valeur métier
 et la gestion du risque technique. Enfin, l'étude technique a confirmé la cohérence
 de la stack retenue avec les exigences DevSecOps : architecture modulaire,
 orchestration asynchrone, enrichissement par IA locale et déploiement intégralement

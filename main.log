@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.25 (MiKTeX 24.1) (preloaded format=pdflatex 2025.12.28)  31 MAY 2026 15:31
+This is pdfTeX, Version 3.141592653-2.6-1.40.25 (MiKTeX 24.1) (preloaded format=pdflatex 2025.12.28)  4 JUN 2026 13:40
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -1644,29 +1644,29 @@ nt or-ches-trer de ma-nière co-hé-rente
  []
 
 [4]
-<images/logos/sonarqube.png, id=1424, 1706.375pt x 565.11125pt>
+<images/logos/sonarqube.png, id=1426, 1706.375pt x 565.11125pt>
 File: images/logos/sonarqube.png Graphic file (type png)
 <use images/logos/sonarqube.png>
 Package pdftex.def Info: images/logos/sonarqube.png  used on input line 125.
 (pdftex.def)             Requested size: 113.81102pt x 37.69066pt.
-<images/logos/burpsuite.png, id=1426, 3011.25pt x 2147.02126pt>
+<images/logos/burpsuite.png, id=1428, 3011.25pt x 2147.02126pt>
 File: images/logos/burpsuite.png Graphic file (type png)
 <use images/logos/burpsuite.png>
 Package pdftex.def Info: images/logos/burpsuite.png  used on input line 133.
 (pdftex.def)             Requested size: 113.81102pt x 81.11589pt.
-<images/logos/checkmarx.png, id=1427, 57.816pt x 7.9497pt>
+<images/logos/checkmarx.png, id=1429, 57.816pt x 7.9497pt>
 File: images/logos/checkmarx.png Graphic file (type png)
 <use images/logos/checkmarx.png>
 Package pdftex.def Info: images/logos/checkmarx.png  used on input line 141.
 (pdftex.def)             Requested size: 113.81102pt x 15.64983pt.
-<images/logos/snyk.png, id=1428, 4494.7925pt x 3370.5925pt>
+<images/logos/snyk.png, id=1430, 4494.7925pt x 3370.5925pt>
 File: images/logos/snyk.png Graphic file (type png)
 <use images/logos/snyk.png>
 Package pdftex.def Info: images/logos/snyk.png  used on input line 149.
 (pdftex.def)             Requested size: 113.81102pt x 85.32408pt.
  [5 <./images/logos/sonarqube.png> <./images/logos/burpsuite.png> <./images/log
 os/checkmarx.png>]
-<images/logos/owaspzap.png, id=1436, 3011.25pt x 1822.81pt>
+<images/logos/owaspzap.png, id=1438, 3011.25pt x 1822.81pt>
 File: images/logos/owaspzap.png Graphic file (type png)
 <use images/logos/owaspzap.png>
 Package pdftex.def Info: images/logos/owaspzap.png  used on input line 157.
@@ -1693,7 +1693,7 @@ Underfull \hbox (badness 10000) in paragraph at lines 248--248
 []|\T1/ptm/m/n/12 Cycle en V /
  []
 
-<images/scrum.png, id=1452, 702.625pt x 501.875pt>
+<images/scrum.png, id=1454, 702.625pt x 501.875pt>
 File: images/scrum.png Graphic file (type png)
 <use images/scrum.png>
 Package pdftex.def Info: images/scrum.png  used on input line 265.
@@ -1815,28 +1815,13 @@ Underfull \hbox (badness 2073) in paragraph at lines 342--342
  []
 
 
-Underfull \hbox (badness 1997) in paragraph at lines 342--342
-[]|\T1/ptm/m/n/10.95 En tant qu'ad-mi-nis-tra-teur, je veux
+Underfull \hbox (badness 2245) in paragraph at lines 342--342
+[]|\T1/ptm/m/n/10.95 En tant que dé-ve-lop-peur, je veux
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 342--342
-\T1/ptm/m/n/10.95 créer un pro-jet et dé-fi-nir ses
- []
-
-
-Underfull \hbox (badness 1584) in paragraph at lines 342--342
-\T1/ptm/m/n/10.95 URLs cibles afin de cen-tra-li-ser la
- []
-
-
-Underfull \hbox (badness 1997) in paragraph at lines 342--342
-[]|\T1/ptm/m/n/10.95 En tant qu'ad-mi-nis-tra-teur, je veux
- []
-
-
-Underfull \hbox (badness 1997) in paragraph at lines 342--342
-[]|\T1/ptm/m/n/10.95 En tant qu'ad-mi-nis-tra-teur, je veux
+Underfull \hbox (badness 2245) in paragraph at lines 342--342
+[]|\T1/ptm/m/n/10.95 En tant que dé-ve-lop-peur, je veux
  []
 
 
@@ -1935,599 +1920,541 @@ Underfull \hbox (badness 1546) in paragraph at lines 378--378
  []
 
 [17]
-Underfull \hbox (badness 1577) in paragraph at lines 437--437
+Underfull \hbox (badness 1024) in paragraph at lines 413--413
+\T1/ptm/m/n/10.95 de cor-rec-tion via \T1/ptm/m/it/10.95 As-sist with AI \T1/pt
+m/m/n/10.95 afin
+ []
+
+
+Underfull \hbox (badness 3449) in paragraph at lines 413--413
+\T1/ptm/m/n/10.95 chan-ger l'état d'une vul-né-ra-bi-lité et
+ []
+
+
+Underfull \hbox (badness 3612) in paragraph at lines 413--413
+\T1/ptm/m/n/10.95 l'as-si-gner à un res-pon-sable afin de
+ []
+
+
+Underfull \hbox (badness 2293) in paragraph at lines 413--413
+\T1/ptm/m/n/10.95 afin d'avoir une vue d'en-semble du
+ []
+
+
+Underfull \hbox (badness 1953) in paragraph at lines 413--413
+\T1/ptm/m/n/10.95 ni-veau de risque sur l'en-semble des
+ []
+
+
+Underfull \hbox (badness 7451) in paragraph at lines 413--413
 []|\T1/ptm/m/n/10.95 En tant que dé-ve-lop-peur, je veux
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 437--437
-\T1/ptm/m/n/10.95 ob-te-nir une ex-pli-ca-tion et une
+Underfull \hbox (badness 2005) in paragraph at lines 413--413
+\T1/ptm/m/n/10.95 com-pa-rer les ré-sul-tats de scan entre
  []
 
-
-Underfull \hbox (badness 2189) in paragraph at lines 437--437
-\T1/ptm/m/n/10.95 re-com-man-da-tion de cor-rec-tion via
- []
-
-
-Underfull \hbox (badness 2027) in paragraph at lines 437--437
-\T1/ptm/m/it/10.95 As-sist with AI \T1/ptm/m/n/10.95 afin d'ac-cé-lé-rer la
- []
-
-
-Underfull \hbox (badness 1577) in paragraph at lines 437--437
-[]|\T1/ptm/m/n/10.95 En tant que dé-ve-lop-peur, je veux
- []
-
-
-Underfull \hbox (badness 4913) in paragraph at lines 437--437
-\T1/ptm/m/n/10.95 chan-ger l'état d'une vul-né-ra-bi-lité
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 437--437
-\T1/ptm/m/n/10.95 et l'as-si-gner à un res-pon-sable
- []
-
-
-Underfull \hbox (badness 1552) in paragraph at lines 437--437
-\T1/ptm/m/n/10.95 afin de struc-tu-rer le pro-ces-sus de
- []
-
-
-Underfull \hbox (badness 1442) in paragraph at lines 437--437
-[]|\T1/ptm/m/n/10.95 En tant que Se-cu-rity Ma-na-ger, je
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 437--437
-\T1/ptm/m/n/10.95 conso-lidé afin d'avoir une vue
- []
-
-
-Underfull \hbox (badness 1577) in paragraph at lines 437--437
-[]|\T1/ptm/m/n/10.95 En tant que dé-ve-lop-peur, je veux
- []
-
-
-Underfull \hbox (badness 1442) in paragraph at lines 437--437
-[]|\T1/ptm/m/n/10.95 En tant que Se-cu-rity Ma-na-ger, je
- []
-
-
-Underfull \hbox (badness 1881) in paragraph at lines 437--437
-\T1/ptm/m/n/10.95 entre ver-sions afin de me-su-rer la
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 437--437
+[18]
+Underfull \hbox (badness 10000) in paragraph at lines 447--447
 []|\T1/ptm/m/n/10.95 En tant que dé-ve-lop-peur, je
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 437--437
+Underfull \hbox (badness 10000) in paragraph at lines 447--447
 \T1/ptm/m/n/10.95 veux re-ce-voir des no-ti-fi-ca-tions
  []
 
 
-Underfull \hbox (badness 1442) in paragraph at lines 437--437
+Underfull \hbox (badness 1442) in paragraph at lines 447--447
 []|\T1/ptm/m/n/10.95 En tant que Se-cu-rity Ma-na-ger, je
  []
 
 
-Underfull \hbox (badness 2359) in paragraph at lines 437--437
+Underfull \hbox (badness 2359) in paragraph at lines 447--447
 \T1/ptm/m/n/10.95 re-ce-voir les alertes cri-tiques dans
  []
 
 
-Underfull \hbox (badness 1325) in paragraph at lines 437--437
+Underfull \hbox (badness 1325) in paragraph at lines 447--447
 \T1/ptm/m/n/10.95 un ca-nal Slack afin de cen-tra-li-ser
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 437--437
+Underfull \hbox (badness 10000) in paragraph at lines 447--447
 \T1/ptm/m/n/10.95 les no-ti-fi-ca-tions dans l'ou-til de
  []
 
 
-Underfull \hbox (badness 5681) in paragraph at lines 437--437
+Underfull \hbox (badness 5681) in paragraph at lines 447--447
 \T1/ptm/m/n/10.95 les plus ex-po-sés à l'échelle du
  []
 
-[18]
-Overfull \vbox (152.8161pt too high) has occurred while \output is active []
-
-
 [19] (C:\Users\Wiem\AppData\Local\Programs\MiKTeX\tex/latex/base\ts1cmtt.fd)
-Underfull \hbox (badness 10000) in paragraph at lines 516--516
+Underfull \hbox (badness 10000) in paragraph at lines 526--526
 []|\T1/ptm/b/n/10.95 Cadrage et
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 516--516
+Underfull \hbox (badness 10000) in paragraph at lines 526--526
 []|\T1/ptm/m/n/10.95 Initialisation du
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 516--516
+Underfull \hbox (badness 10000) in paragraph at lines 526--526
 \T1/ptm/m/n/10.95 dé-pôt, confi-gu-ra-tion
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 516--516
+Underfull \hbox (badness 10000) in paragraph at lines 526--526
 \T1/ptm/m/n/10.95 Do-cker Com-pose,
  []
 
 
-Underfull \hbox (badness 2689) in paragraph at lines 516--516
+Underfull \hbox (badness 2689) in paragraph at lines 526--526
 \T1/ptm/m/n/10.95 mo-dé-li-sa-tion de la base
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 516--516
+Underfull \hbox (badness 10000) in paragraph at lines 526--526
 []|\T1/ptm/m/n/10.95 Socle tech-nique
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 516--516
+Underfull \hbox (badness 10000) in paragraph at lines 526--526
 \T1/ptm/m/n/10.95 opé-ra-tion-nel, schéma
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 516--516
+Underfull \hbox (badness 10000) in paragraph at lines 526--526
 \T1/ptm/m/n/10.95 Post-greSQL va-lidé,
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 516--516
+Underfull \hbox (badness 10000) in paragraph at lines 526--526
 []|\T1/ptm/b/n/10.95 Sécurité et
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 516--516
+Underfull \hbox (badness 10000) in paragraph at lines 526--526
 []|\T1/ptm/m/n/10.95 Authentification JWT,
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 516--516
+Underfull \hbox (badness 10000) in paragraph at lines 526--526
 \T1/ptm/m/n/10.95 RBAC, 2FA TOTP,
  []
 
 
-Underfull \hbox (badness 1681) in paragraph at lines 516--516
+Underfull \hbox (badness 1681) in paragraph at lines 526--526
 \T1/ptm/m/n/10.95 au-dit logs, po-li-tiques de
  []
 
 
-Underfull \hbox (badness 1668) in paragraph at lines 516--516
+Underfull \hbox (badness 1668) in paragraph at lines 526--526
 \T1/ptm/m/n/10.95 sé-cu-risé et jour-na-li-sa-tion
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 516--516
+Underfull \hbox (badness 10000) in paragraph at lines 526--526
 []|\T1/ptm/b/n/10.95 Projets et
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 516--516
+Underfull \hbox (badness 10000) in paragraph at lines 526--526
 \T1/ptm/m/n/10.95 ges-tion des clés API,
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 516--516
+Underfull \hbox (badness 10000) in paragraph at lines 526--526
 []|\T1/ptm/m/n/10.95 Gestion de pro-jets
  []
 
 
-Underfull \hbox (badness 6364) in paragraph at lines 516--516
+Underfull \hbox (badness 6364) in paragraph at lines 526--526
 \T1/ptm/m/n/10.95 fonc-tion-nelle, in-té-gra-tion
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 516--516
+Underfull \hbox (badness 10000) in paragraph at lines 526--526
 \T1/ptm/m/n/10.95 Gi-tHub et clés API
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 516--516
+Underfull \hbox (badness 10000) in paragraph at lines 526--526
 []|\T1/ptm/m/n/10.95 Intégration Sem-grep et
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 516--516
+Underfull \hbox (badness 10000) in paragraph at lines 526--526
 \T1/ptm/m/n/10.95 Ban-dit, CLI scan-ner,
  []
 
 
-Underfull \hbox (badness 1668) in paragraph at lines 516--516
+Underfull \hbox (badness 1668) in paragraph at lines 526--526
 \T1/ptm/m/n/10.95 nor-ma-li-sa-tion des alertes
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 516--516
+Underfull \hbox (badness 10000) in paragraph at lines 526--526
 \T1/ptm/m/n/10.95 SAST ; in-té-gra-tion
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 516--516
+Underfull \hbox (badness 10000) in paragraph at lines 526--526
 \T1/ptm/m/n/10.95 OWASP ZAP en
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 516--516
+Underfull \hbox (badness 10000) in paragraph at lines 526--526
 \T1/ptm/m/n/10.95 mode dae-mon, wor-kers
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 516--516
+Underfull \hbox (badness 10000) in paragraph at lines 526--526
 []|\T1/ptm/m/n/10.95 Pipeline SAST
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 516--516
+Underfull \hbox (badness 10000) in paragraph at lines 526--526
 \T1/ptm/m/n/10.95 opé-ra-tion-nel, pi-pe-line
  []
 
 
-Underfull \hbox (badness 1406) in paragraph at lines 516--516
+Underfull \hbox (badness 1406) in paragraph at lines 526--526
 \T1/ptm/m/n/10.95 DAST asyn-chrone, score
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 516--516
+Underfull \hbox (badness 10000) in paragraph at lines 526--526
 []|\T1/ptm/b/n/10.95 Workflow de
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 516--516
+Underfull \hbox (badness 10000) in paragraph at lines 526--526
 []|\T1/ptm/m/n/10.95 Synchronisation
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 516--516
+Underfull \hbox (badness 10000) in paragraph at lines 526--526
 \T1/ptm/m/n/10.95 des tâches de
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 516--516
+Underfull \hbox (badness 10000) in paragraph at lines 526--526
 \T1/ptm/m/n/10.95 re-mé-dia-tion, as-si-gna-tion
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 516--516
+Underfull \hbox (badness 10000) in paragraph at lines 526--526
 \T1/ptm/m/n/10.95 aux dé-ve-lop-peurs,
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 516--516
+Underfull \hbox (badness 10000) in paragraph at lines 526--526
 \T1/ptm/m/n/10.95 ma-chine d'états
  []
 
 
-Overfull \hbox (77.75618pt too wide) in paragraph at lines 516--516
+Overfull \hbox (77.75618pt too wide) in paragraph at lines 526--526
 \T1/ptm/m/n/10.95 (\T1/cmtt/m/n/10.95 open\TS1/cmtt/m/n/10.95 ^^Y\T1/cmtt/m/n/1
 0.95 in_progress\TS1/cmtt/m/n/10.95 ^^Y\T1/cmtt/m/n/10.95 fixed\TS1/cmtt/m/n/10
 .95 ^^Y\T1/cmtt/m/n/10.95 verified\T1/ptm/m/n/10.95 ),
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 516--516
+Underfull \hbox (badness 10000) in paragraph at lines 526--526
 \T1/ptm/m/n/10.95 com-men-taires
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 516--516
+Underfull \hbox (badness 10000) in paragraph at lines 526--526
 []|\T1/ptm/m/n/10.95 Système de ges-tion
  []
 
 
-Underfull \hbox (badness 7291) in paragraph at lines 516--516
+Underfull \hbox (badness 7291) in paragraph at lines 526--526
 \T1/ptm/m/n/10.95 des tâches opé-ra-tion-nel,
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 516--516
+Underfull \hbox (badness 10000) in paragraph at lines 526--526
 \T1/ptm/m/n/10.95 no-ti-fi-ca-tions So-cket.IO
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 516--516
+Underfull \hbox (badness 10000) in paragraph at lines 526--526
 []|\T1/ptm/b/n/10.95 Dashboard,
  []
 
 
-Overfull \hbox (3.05873pt too wide) in paragraph at lines 516--516
+Overfull \hbox (3.05873pt too wide) in paragraph at lines 526--526
 \T1/ptm/b/n/10.95 Re-com-man-da-tion
  []
 
 
-Underfull \hbox (badness 2856) in paragraph at lines 516--516
+Underfull \hbox (badness 2856) in paragraph at lines 526--526
 []|\T1/ptm/m/n/10.95 Tableau de bord agrégé
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 516--516
+Underfull \hbox (badness 10000) in paragraph at lines 526--526
 \T1/ptm/m/n/10.95 (mé-triques, ten-dances) ;
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 516--516
+Underfull \hbox (badness 10000) in paragraph at lines 526--526
 \T1/ptm/m/n/10.95 as-sis-tant IA lo-cal
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 516--516
+Underfull \hbox (badness 10000) in paragraph at lines 526--526
 \T1/ptm/m/n/10.95 (\T1/ptm/m/it/10.95 As-sist with AI\T1/ptm/m/n/10.95 ) via
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 516--516
+Underfull \hbox (badness 10000) in paragraph at lines 526--526
 \T1/ptm/m/n/10.95 Ol-lama (Mis-tral/Qwen) ;
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 516--516
+Underfull \hbox (badness 10000) in paragraph at lines 526--526
 \T1/ptm/m/n/10.95 gé-né-ra-tion de rap-ports
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 516--516
+Underfull \hbox (badness 10000) in paragraph at lines 526--526
 \T1/ptm/m/n/10.95 de sé-cu-rité PDF/JSON
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 516--516
+Underfull \hbox (badness 10000) in paragraph at lines 526--526
 []|\T1/ptm/m/n/10.95 Dashboard opé-ra-tion-nel,
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 516--516
+Underfull \hbox (badness 10000) in paragraph at lines 526--526
 \T1/ptm/m/n/10.95 re-com-man-da-tions IA
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 516--516
+Underfull \hbox (badness 10000) in paragraph at lines 526--526
 \T1/ptm/m/n/10.95 per-sis-tées, rap-ports
  []
 
 [20] [21]
 File: images/logos/VSCode.png Graphic file (type png)
 <use images/logos/VSCode.png>
-Package pdftex.def Info: images/logos/VSCode.png  used on input line 618.
+Package pdftex.def Info: images/logos/VSCode.png  used on input line 623.
 (pdftex.def)             Requested size: 32.5223pt x 32.5223pt.
 File: images/logos/Git.png Graphic file (type png)
 <use images/logos/Git.png>
-Package pdftex.def Info: images/logos/Git.png  used on input line 618.
+Package pdftex.def Info: images/logos/Git.png  used on input line 623.
 (pdftex.def)             Requested size: 33.18658pt x 32.52286pt.
 File: images/logos/Docker.png Graphic file (type png)
 <use images/logos/Docker.png>
-Package pdftex.def Info: images/logos/Docker.png  used on input line 618.
+Package pdftex.def Info: images/logos/Docker.png  used on input line 623.
 (pdftex.def)             Requested size: 54.20499pt x 13.95778pt.
 
-Underfull \hbox (badness 10000) in paragraph at lines 618--618
+Underfull \hbox (badness 10000) in paragraph at lines 623--623
 []|\T1/ptm/m/n/12 Exécution lo-cale des conte-neurs pour re-pro-duire
  []
 
 
-Underfull \hbox (badness 5417) in paragraph at lines 618--618
+Underfull \hbox (badness 5417) in paragraph at lines 623--623
 \T1/ptm/m/n/12 fi-dè-le-ment l'en-vi-ron-ne-ment de pro-duc-tion et évi-ter
- []
-
-
-Underfull \hbox (badness 1062) in paragraph at lines 618--618
-[]|\T1/ptm/m/n/12 Test des end-points REST, va-li-da-tion des pay-loads et
- []
-
-
-Underfull \hbox (badness 1648) in paragraph at lines 618--618
-\T1/ptm/m/n/12 re-pro-duc-tion des scé-na-rios de scan pour vé-ri-fier les
  []
 
 File: images/logos/Draw.png Graphic file (type png)
 <use images/logos/Draw.png>
-Package pdftex.def Info: images/logos/Draw.png  used on input line 618.
+Package pdftex.def Info: images/logos/Draw.png  used on input line 623.
 (pdftex.def)             Requested size: 54.20554pt x 13.61748pt.
 
-Underfull \hbox (badness 4673) in paragraph at lines 618--618
-[]|\T1/ptm/b/n/12 Trello / Jira /
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 618--618
-[]|\T1/ptm/b/n/12 Chrome
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 618--618
-\T1/ptm/b/n/12 / Fi-re-fox
- []
-
-
-Underfull \hbox (badness 1565) in paragraph at lines 618--618
+Underfull \hbox (badness 1565) in paragraph at lines 623--623
 []|\T1/ptm/m/n/12 Isolation des dé-pen-dances Py-thon par en-vi-ron-ne-ment
  []
 
 File: images/logos/node.png Graphic file (type png)
 <use images/logos/node.png>
-Package pdftex.def Info: images/logos/node.png  used on input line 618.
+Package pdftex.def Info: images/logos/node.png  used on input line 623.
 (pdftex.def)             Requested size: 53.06984pt x 32.48935pt.
 [22]
-Underfull \hbox (badness 1721) in paragraph at lines 624--628
-[]\T1/ptm/m/n/12 Le ta-bleau []2.8[] pré-sente la stack tech-nique dé-ployée po
+Underfull \hbox (badness 1721) in paragraph at lines 629--633
+[]\T1/ptm/m/n/12 Le ta-bleau []2.9[] pré-sente la stack tech-nique dé-ployée po
 ur as-su-rer la dé-tec-tion, la
  []
 
 File: images/logos/python.png Graphic file (type png)
 <use images/logos/python.png>
-Package pdftex.def Info: images/logos/python.png  used on input line 732.
+Package pdftex.def Info: images/logos/python.png  used on input line 737.
 (pdftex.def)             Requested size: 54.14195pt x 15.71199pt.
 
-Underfull \hbox (badness 10000) in paragraph at lines 732--732
+Underfull \hbox (badness 10000) in paragraph at lines 737--737
 []|\T1/ptm/b/n/12 Python /
  []
 
 File: images/logos/react.png Graphic file (type png)
 <use images/logos/react.png>
-Package pdftex.def Info: images/logos/react.png  used on input line 732.
+Package pdftex.def Info: images/logos/react.png  used on input line 737.
 (pdftex.def)             Requested size: 36.29884pt x 32.48021pt.
 
-Underfull \hbox (badness 6493) in paragraph at lines 732--732
+Underfull \hbox (badness 6493) in paragraph at lines 737--737
 []|\T1/ptm/m/n/12 Bibliothèque de construc-tion d'in-ter-faces riches et
  []
 
 
-Underfull \hbox (badness 1584) in paragraph at lines 732--732
+Underfull \hbox (badness 1584) in paragraph at lines 737--737
 \T1/ptm/m/n/12 de scan. Son éco-sys-tème étendu et sa flexi-bi-lité de
  []
 
 File: images/logos/postgreSQL.png Graphic file (type png)
 <use images/logos/postgreSQL.png>
-Package pdftex.def Info: images/logos/postgreSQL.png  used on input line 732.
+Package pdftex.def Info: images/logos/postgreSQL.png  used on input line 737.
 (pdftex.def)             Requested size: 54.17719pt x 8.33495pt.
 
-Underfull \hbox (badness 2050) in paragraph at lines 732--732
+Underfull \hbox (badness 2050) in paragraph at lines 737--737
 []|\T1/ptm/m/n/12 Assure la per-sis-tance tran-sac-tion-nelle (ACID) et les
  []
 
 
-Underfull \hbox (badness 1596) in paragraph at lines 732--732
+Underfull \hbox (badness 1596) in paragraph at lines 737--737
 \T1/ptm/m/n/12 agré-ga-tions avan-cées né-ces-saires à l'his-to-ri-sa-tion des
  []
 
 
-Underfull \hbox (badness 1087) in paragraph at lines 732--732
+Underfull \hbox (badness 1087) in paragraph at lines 737--737
 \T1/ptm/m/n/12 une ri-chesse fonc-tion-nelle su-pé-rieure à MySQL pour
  []
 
 
-Underfull \hbox (badness 1509) in paragraph at lines 732--732
+Underfull \hbox (badness 1509) in paragraph at lines 737--737
 \T1/ptm/m/n/12 les re-quêtes ana-ly-tiques. La contrainte prin-ci-pale est
  []
 
 File: images/logos/redis.png Graphic file (type png)
 <use images/logos/redis.png>
-Package pdftex.def Info: images/logos/redis.png  used on input line 732.
+Package pdftex.def Info: images/logos/redis.png  used on input line 737.
 (pdftex.def)             Requested size: 54.19948pt x 17.2788pt.
 
-Underfull \hbox (badness 2922) in paragraph at lines 732--732
+Underfull \hbox (badness 2922) in paragraph at lines 737--737
 []|\T1/ptm/m/n/12 Utilisé comme bro-ker de mes-sages pour Ce-lery et
  []
 
 
-Underfull \hbox (badness 2027) in paragraph at lines 732--732
+Underfull \hbox (badness 2027) in paragraph at lines 737--737
 \T1/ptm/m/n/12 d'at-tente, ver-rous dis-tri-bués). Sa na-ture en mé-moire
  []
 
 
-Underfull \hbox (badness 2846) in paragraph at lines 732--732
+Underfull \hbox (badness 2846) in paragraph at lines 737--737
 \T1/ptm/m/n/12 ga-ran-tit des temps d'ac-cès très faibles et dé-charge
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 732--732
+Underfull \hbox (badness 10000) in paragraph at lines 737--737
 \T1/ptm/m/n/10.95 Orchestration
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 732--732
+Underfull \hbox (badness 10000) in paragraph at lines 737--737
 \T1/ptm/m/n/12 iso-lés sans blo-quer l'API prin-ci-pale. Four-nit un
  []
 
 
-Underfull \hbox (badness 1748) in paragraph at lines 732--732
+Underfull \hbox (badness 1748) in paragraph at lines 737--737
 \T1/ptm/m/n/12 mé-ca-nisme de file d'at-tente, de re-tries confi-gu-rables
  []
 
 
-Underfull \hbox (badness 3271) in paragraph at lines 732--732
+Underfull \hbox (badness 3271) in paragraph at lines 737--737
 \T1/ptm/m/n/12 et de suivi d'exé-cu-tion adapté aux tâches longues.
  []
 
 
-Underfull \hbox (badness 1320) in paragraph at lines 732--732
+Underfull \hbox (badness 1320) in paragraph at lines 737--737
 \T1/ptm/m/n/12 La su-per-vi-sion des wor-kers et la ges-tion fine de la
  []
 
 File: images/logos/Socket.IO.png Graphic file (type png)
 <use images/logos/Socket.IO.png>
-Package pdftex.def Info: images/logos/Socket.IO.png  used on input line 732.
+Package pdftex.def Info: images/logos/Socket.IO.png  used on input line 737.
 (pdftex.def)             Requested size: 32.52242pt x 32.52242pt.
 
-Underfull \hbox (badness 1194) in paragraph at lines 732--732
+Underfull \hbox (badness 1194) in paragraph at lines 737--737
 []|\T1/ptm/m/n/12 Assure la dif-fu-sion en temps réel des états de scan
  []
 
 File: images/logos/Docker.png Graphic file (type png)
 <use images/logos/Docker.png>
-Package pdftex.def Info: images/logos/Docker.png  used on input line 732.
+Package pdftex.def Info: images/logos/Docker.png  used on input line 737.
 (pdftex.def)             Requested size: 54.20499pt x 13.95778pt.
 
-Underfull \hbox (badness 7576) in paragraph at lines 732--732
+Underfull \hbox (badness 7576) in paragraph at lines 737--737
 []|\T1/ptm/m/n/12 Constitue le socle de dé-ploie-ment de l'en-semble
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 732--732
+Underfull \hbox (badness 10000) in paragraph at lines 737--737
 \T1/ptm/m/n/12 des ser-vices, ga-ran-tis-sant la re-pro-duc-ti-bi-lité des
  []
 
 File: images/logos/owaspzap.png Graphic file (type png)
 <use images/logos/owaspzap.png>
-Package pdftex.def Info: images/logos/owaspzap.png  used on input line 732.
+Package pdftex.def Info: images/logos/owaspzap.png  used on input line 737.
 (pdftex.def)             Requested size: 53.7131pt x 32.51433pt.
 
-Underfull \hbox (badness 4819) in paragraph at lines 732--732
+Underfull \hbox (badness 4819) in paragraph at lines 737--737
 \T1/ptm/m/n/12 com-plet. Plus ac-ces-sible et au-to-ma-ti-sable dans un
  []
 
 
-Underfull \hbox (badness 1019) in paragraph at lines 732--732
+Underfull \hbox (badness 1019) in paragraph at lines 737--737
 \T1/ptm/m/n/12 pi-pe-line CI/CD que Burp Suite Pro-fes-sio-nal, au prix
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 732--732
+Underfull \hbox (badness 10000) in paragraph at lines 737--737
 []|\T1/ptm/b/n/12 Semgrep /
  []
 
 
-Underfull \hbox (badness 1430) in paragraph at lines 732--732
+Underfull \hbox (badness 1430) in paragraph at lines 737--737
 \T1/ptm/m/n/12 pour la dé-tec-tion po-ly-glotte par règles confi-gu-rables,
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 732--732
+Underfull \hbox (badness 10000) in paragraph at lines 737--737
 []|\T1/ptm/b/n/12 Semgrep /
  []
 
 
-Underfull \hbox (badness 1430) in paragraph at lines 732--732
+Underfull \hbox (badness 1430) in paragraph at lines 737--737
 \T1/ptm/m/n/12 pour la dé-tec-tion po-ly-glotte par règles confi-gu-rables,
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 732--732
+Underfull \hbox (badness 10000) in paragraph at lines 737--737
 \T1/ptm/m/n/12 les alertes et pro-po-ser des re-com-man-da-tions de
  []
 
 
-Underfull \hbox (badness 2302) in paragraph at lines 732--732
+Underfull \hbox (badness 2302) in paragraph at lines 737--737
 \T1/ptm/m/n/12 re-mé-dia-tion via l'ac-tion \T1/ptm/m/it/12 As-sist with AI\T1/
 ptm/m/n/12 , ga-ran-tis-sant
  []
 
 
-Underfull \hbox (badness 1859) in paragraph at lines 732--732
+Underfull \hbox (badness 1859) in paragraph at lines 737--737
 \T1/ptm/m/n/12 des ré-ponses se-lon le mo-dèle re-tenu consti-tuent les
  []
 
 
-Underfull \hbox (badness 3780) in paragraph at lines 732--732
+Underfull \hbox (badness 3780) in paragraph at lines 737--737
 \T1/ptm/m/n/12 ba-ckend, of-frant un mo-dèle de fix-tures flexible et
  []
 
 
-Underfull \hbox (badness 1509) in paragraph at lines 732--732
+Underfull \hbox (badness 1509) in paragraph at lines 737--737
 \T1/ptm/m/n/12 des as-ser-tions li-sibles, su-pé-rieur au mo-dule stan-dard
  []
 
@@ -2538,12 +2465,18 @@ Overfull \vbox (654.0233pt too high) has occurred while \output is active []
 
 [24 <./images/logos/python.png> <./images/logos/react.png> <./images/logos/post
 greSQL.png> <./images/logos/redis.png> <./images/logos/Socket.IO.png>]
-Underfull \hbox (badness 1231) in paragraph at lines 752--754
+Underfull \hbox (badness 1231) in paragraph at lines 757--759
 []\T1/ptm/b/n/12 Couche de pré-sen-ta-tion \T1/ptm/m/n/12 : in-ter-face React p
 our la vi-sua-li-sa-tion, le work-flow de
  []
 
-[25] [26]) [27]
+[25]
+Underfull \hbox (badness 1137) in paragraph at lines 822--831
+\T1/ptm/m/n/12 du Pro-duct Ba-ck-log se-lon une prio-ri-sa-tion MoS-CoW et la p
+la-ni-fi-ca-tion en six sprints
+ []
+
+[26]) [27]
 \openout2 = `chapters/07-chapitre3.aux'.
 
  (chapters/07-chapitre3.tex
@@ -4876,7 +4809,7 @@ Underfull \hbox (badness 10000) in paragraph at lines 1--1
 ]) [107
 
 ]
-runsystem(latexminted cleantemp  --timestamp 20260531153144 FAD58DE7366495DB465
+runsystem(latexminted cleantemp  --timestamp 20260604134034 FAD58DE7366495DB465
 0CFEFAC2FCD61)...disabled (restricted).
 
  (main.aux
@@ -4889,13 +4822,13 @@ LaTeX2e <2023-11-01> patch level 1
 L3 programming layer <2024-01-04>
  ***********
 Package rerunfilecheck Info: File `main.out' has not changed.
-(rerunfilecheck)             Checksum: ADBD335B3EFC3F0C6B701E77B8F84148;43901.
+(rerunfilecheck)             Checksum: F9C9EF6B9ABF9FC45BDE71EACA6D7EA2;43902.
  ) 
 Here is how much of TeX's memory you used:
- 39391 strings out of 474486
- 798993 string characters out of 5744226
+ 39393 strings out of 474486
+ 799035 string characters out of 5744226
  1963542 words of memory out of 5000000
- 60404 multiletter control sequences out of 15000+600000
+ 60405 multiletter control sequences out of 15000+600000
  652993 words of font info for 129 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
  100i,15n,108p,1121b,962s stack positions out of 10000i,1000n,20000p,200000b,200000s
@@ -4914,9 +4847,9 @@ l/Programs/MiKTeX/fonts/type1/urw/times/utmb8a.pfb><C:/Users/Wiem/AppData/Local
 /Programs/MiKTeX/fonts/type1/urw/times/utmr8a.pfb><C:/Users/Wiem/AppData/Local/
 Programs/MiKTeX/fonts/type1/urw/times/utmri8a.pfb><C:/Users/Wiem/AppData/Local/
 Programs/MiKTeX/fonts/type1/urw/zapfding/uzdr.pfb>
-Output written on main.pdf (122 pages, 2537270 bytes).
+Output written on main.pdf (122 pages, 2537668 bytes).
 PDF statistics:
- 2298 PDF objects out of 2487 (max. 8388607)
- 506 named destinations out of 1000 (max. 500000)
+ 2300 PDF objects out of 2487 (max. 8388607)
+ 507 named destinations out of 1000 (max. 500000)
  26455 words of extra memory for PDF output out of 29859 (max. 10000000)
 
